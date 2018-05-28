@@ -19,13 +19,17 @@
 		font-weight: bold !important;         
 	}  
 	header{   
-		width: 40%;   
+		width: 40%;
+		min-width:930px;            
 		height: 130px;
 		margin: 0 auto;   
 	}
+	#headerimg{
+		margin-left: 100px;  
+	}
 	#headernavbar_form{
 		margin-top: 50px !important;
-		margin-right: 200px !important;   
+		margin-right: 150px !important;          
 	}
 	#headerInput{
 		width: 350px !important;   
@@ -55,21 +59,74 @@
 	#brand_div{
 		width:100%;
 		background-color: white;   
-		display: none;	
+		display: none;	  
 	}
 	#brand_div_div{
 		width: 50%;
-		margin: 0 auto;   
+		margin: 0 auto;     
 		overflow: auto;   
-		height: 140px; 
-		
+		height: 140px; 	
+	}   
+	.brand_div_img{
+		width: 150px;     
+		height: 80px;       
+		float: left;
+		margin-top: 10px;
+		margin-right: 36px;     
+	}      
+	.brand_div_img img{   
+		float: left;
+	}  
+	.brand_div_img1{
+		width: 100%;
+		height: 50px;   
+	}
+	.brand_div_p{
+		text-align: center;
+		margin-top: 8px;
+		font-weight: bold;  
+		color:#021C51;    
 	}
 </style>    
 <script type="text/javascript">
 	$(function() {
+		
+		/* category */
+		$.ajax({
+			type:"get",
+			url:"${pageContext.request.contextPath}/header",   
+			dataType:"json",
+			headers:{"Content-Type":"application/json"},
+			success:function(result){			
+               for(var i = 0; i<result.length; i++){
+            	   $li="<li><a href='#' class='nav_nav_a'>"+result[i].cName+"</a></li>";        
+                   $("#nav_nav").append($li);   
+               }
+			}
+		})
+		
+		/* brand */
 		$("#navbrand").click(function(){
-			$("#brand_div").slideToggle(500);
-		})    
+			$.ajax({
+				type:"get",
+				url:"${pageContext.request.contextPath}/header/brand",   
+				dataType:"json",
+				headers:{"Content-Type":"application/json"},
+				success:function(result){	
+					$("#brand_div_div").empty();  
+	                for(var i = 0; i<result.length; i++){                	
+	                   $div= $("<div class='brand_div_img'>");   
+	            	   $img="<img src='${pageContext.request.contextPath}/resources/logo/"+result[i].bNameEng+"_logo.PNG' class='brand_div_img1'>";        
+	                   $p="<p class='brand_div_p'>"+result[i].bNameKor+"</p>"; 	                        
+	                   $div.append($img).append($p);  
+	                   $("#brand_div_div").append($div);                      
+	               }   
+				}
+			})
+		$("#brand_div").slideToggle(500);
+		})   
+		
+	
 	})  
 </script>
 </head>
@@ -97,7 +154,7 @@
   </div>
 </nav>
 	<header>
-		<a href="#"><img src="resources/images/1.PNG"></a>    
+		<a href="#"><img src="${pageContext.request.contextPath}/resources/images/1.PNG" id="headerimg"></a>    
 		   <form class="navbar-form navbar-right" action="/action_page.php" id="headernavbar_form">
 			  <div class="input-group">
 			    <input type="text" class="form-control" placeholder="Search" id="headerInput">
@@ -112,24 +169,41 @@
 	<nav class="navbar navbar-inverse" id="navbar_navbar">
 		  <ul class="nav navbar-nav" id="nav_nav">    
 		  <!-- db foreach -->
-		    <li><a href="#" class="nav_nav_a">운동화</a></li>
+		   <!--  <li><a href="#" class="nav_nav_a">운동화</a></li>
 		    <li><a href="#" class="nav_nav_a">스포츠/레저</a></li>
 		    <li><a href="#" class="nav_nav_a">구두</a></li>  
 		    <li><a href="#" class="nav_nav_a">샌들</a></li>
-		    <li><a href="#" class="nav_nav_a">부츠</a></li>
+		    <li><a href="#" class="nav_nav_a">부츠</a></li> -->
+	
 		  </ul>
 		  <button type="button" class="btn navbar-btn" id="navbrand">브랜드</button>
 		  <div id="brand_div">
 		  	<div id="brand_div_div">
-			브랜드 내용<br>
-			브랜드 내용<br>  
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
+			  	<!-- <div class="brand_div_img">  
+			  	<img src="resources/logo/Adidas_logo.PNG" class="brand_div_img1">
+			  	<p class="brand_div_p">아디다스</p>
+			  	</div>
+			  	<div class="brand_div_img">
+			  	<img src="resources/logo/Adidas_logo.PNG" class="brand_div_img1">
+			  	<p class="brand_div_p"> 아디다스</p>
+			  	</div>
+			  	<div class="brand_div_img">
+			  	<img src="resources/logo/Adidas_logo.PNG" class="brand_div_img1">
+			  	<p class="brand_div_p">아디다스</p>
+			  	</div>
+			  	<div class="brand_div_img">
+			  	<img src="resources/logo/Adidas_logo.PNG" class="brand_div_img1">
+			  	<p class="brand_div_p">아디다스</p>
+			  	</div>
+			  	<div class="brand_div_img">
+			  	<img src="resources/logo/Adidas_logo.PNG" class="brand_div_img1">
+			  	<p class="brand_div_p">아디다스</p>
+			  	</div>
+			  	<div class="brand_div_img">
+			  	<img src="resources/logo/Adidas_logo.PNG" class="brand_div_img1">
+			  	<p class="brand_div_p">아디다스</p>
+			  	</div> -->
+		
 			</div>
 		</div>
 		</nav>
