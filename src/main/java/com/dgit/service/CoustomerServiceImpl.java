@@ -25,6 +25,6 @@ public class CoustomerServiceImpl implements CoustomerService {
 	public void insertCoustomer(CoustomerVO vo) {
 		
 		dao.insertCoustomer(vo);
-	}
+	}	
 
 }

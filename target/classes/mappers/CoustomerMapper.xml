@@ -16,6 +16,7 @@
 		<result property="cTf" column="c_tf"/>
 	</resultMap>
 
+	
 	<select id="selectAllId" resultType="String">
 		select c_id from coustomer
 	</select>
@@ -24,5 +25,10 @@
 		insert into coustomer(c_id,c_name,c_password,c_birth,c_join,c_phone,c_mail,c_address,c_point,c_tf)values
 		(#{cId},#{cName},#{cPassword},#{cBirth},now(),#{cPhone},#{cMail},#{cAddress},#{cPoint},#{cTf})
 	</insert>
+	
+	<select id="login" resultType="String"> 
+		select c_id, c_name from coustomer
+		where c_id = #{cId} and c_password = #{cPassword}
+	</select>
 	
 </mapper>

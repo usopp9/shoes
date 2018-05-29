@@ -28,4 +28,6 @@ public class CoustomerDAOImpl implements CoustomerDAO {
 		session.insert(namespace+".insertCoustomer",vo);
 	}
 
+
+
 }

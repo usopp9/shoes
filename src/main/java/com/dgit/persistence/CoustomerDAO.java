@@ -8,4 +8,5 @@ public interface CoustomerDAO {
 	public List<String> selectAllId();
 	
 	public void insertCoustomer(CoustomerVO vo);
+	
 }

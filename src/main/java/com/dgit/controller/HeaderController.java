@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dgit.domain.BrandVO;
 import com.dgit.domain.CategoryVO;
+import com.dgit.domain.CoustomerVO;
 import com.dgit.service.BrandService;
 import com.dgit.service.CategoryService;
+import com.dgit.service.CoustomerService;
 
 @RestController
 @RequestMapping("/header")
@@ -27,6 +29,9 @@ public class HeaderController {
 
 	@Autowired
 	BrandService brandService;
+	
+	@Autowired
+	CoustomerService coustomerService;
 	
 	@ResponseBody
 	@RequestMapping(value = "")
@@ -57,4 +62,21 @@ public class HeaderController {
 		}
 		return entity;
 	}
+	
+	/*@ResponseBody
+	@RequestMapping(value = "login")
+	public ResponseEntity<String> login(CoustomerVO vo) { 
+		ResponseEntity<String> entity = null;
+		try {
+			logger.info("login 정보 : "+vo.toString());
+			List<String> login =coustomerService.login(vo);
+			logger.info("받은정보 :  " + login.toString()); 
+			
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);// 200
+		} catch (Exception e) { 
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);// 400
+		}
+		return entity;
+	}*/
 }
