@@ -19,13 +19,17 @@
 		font-weight: bold !important;         
 	}  
 	header{   
-		width: 40%;   
+		width: 40%;
+		min-width:930px;            
 		height: 130px;
 		margin: 0 auto;   
 	}
+	#headerimg{
+		margin-left: 100px;  
+	}
 	#headernavbar_form{
 		margin-top: 50px !important;
-		margin-right: 200px !important;   
+		margin-right: 150px !important;          
 	}
 	#headerInput{
 		width: 350px !important;   
@@ -55,49 +59,114 @@
 	#brand_div{
 		width:100%;
 		background-color: white;   
-		display: none;	
+		display: none;	  
 	}
 	#brand_div_div{
 		width: 50%;
-		margin: 0 auto;   
+		margin: 0 auto;     
 		overflow: auto;   
-		height: 140px; 
-		
+		height: 140px; 	
+	}   
+	.brand_div_img{
+		width: 150px;     
+		height: 80px;       
+		float: left;
+		margin-top: 10px;
+		margin-right: 36px;     
+	}      
+	.brand_div_img img{   
+		float: left;
+	}  
+	.brand_div_img1{
+		width: 100%;
+		height: 50px;   
+	}
+	.brand_div_p{
+		text-align: center;
+		margin-top: 8px;
+		font-weight: bold;  
+		color:#021C51;    
 	}
 </style>    
 <script type="text/javascript">
 	$(function() {
+		
+		/* category */
+		$.ajax({
+			type:"get",
+			url:"${pageContext.request.contextPath}/header",   
+			dataType:"json",
+			headers:{"Content-Type":"application/json"},
+			success:function(result){			
+               for(var i = 0; i<result.length; i++){
+            	   $li="<li><a href='#' class='nav_nav_a'>"+result[i].cName+"</a></li>";        
+                   $("#nav_nav").append($li);   
+               }
+			}
+		})
+		
+		/* brand */
 		$("#navbrand").click(function(){
-			$("#brand_div").slideToggle(500);
-		})    
+			$.ajax({
+				type:"get",
+				url:"${pageContext.request.contextPath}/header/brand",   
+				dataType:"json",
+				headers:{"Content-Type":"application/json"},
+				success:function(result){	
+					$("#brand_div_div").empty();  
+	                for(var i = 0; i<result.length; i++){                	
+	                   $div= $("<div class='brand_div_img'>");   
+	            	   $img="<img src='${pageContext.request.contextPath}/resources/logo/"+result[i].bNameEng+"_logo.PNG' class='brand_div_img1'>";        
+	                   $p="<p class='brand_div_p'>"+result[i].bNameKor+"</p>"; 	                        
+	                   $div.append($img).append($p);  
+	                   $("#brand_div_div").append($div);                      
+	               }   
+				}
+			})
+		$("#brand_div").slideToggle(500);
+		})   
+		/* 회원가입이동 */	
+		$("#joingo").click(function(){
+			location.href="${pageContext.request.contextPath}/member/join";   
+		})   
+		
+		/* 로그인 */	
+		$("#main_login").click(function(){
+			var id = $("#usr").val();
+			var pw = $("#pwd").val();
+			
+			if(id.length==0 ||pw.length==0){
+				alert("아이디와 비밀번호를 입력해주세요.");   
+				return;
+			}else{
+				$.ajax({
+					type:"get",
+					url:"${pageContext.request.contextPath}/header/login",     
+					data:{"cId":id,
+						"cPassword":pw},   
+					dataType:"json",
+					headers:{"Content-Type":"application/json"},
+					success:function(data){
+						consloe.log(data); 
+					}
+				})
+			}
+		})
 	})  
 </script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse" id="headernavbar">
   <div class="container-fluid">
-   <!--  <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
-    </div> -->
-   <!--  <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Page 1-1</a></li>
-          <li><a href="#">Page 1-2</a></li>
-          <li><a href="#">Page 1-3</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Page 2</a></li>
-    </ul> -->
+   
     <ul class="nav navbar-nav navbar-right" id="headernavbar_nav">
    		<li><a href="#"><span class="glyphicon glyphicon-log-in nav_img"></span> <span class="nav_modal" data-toggle="modal" data-target="#myModal">  로그인</span></a></li>
-     	<li><a href="#"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">  회원가입</span></a></li>
-    </ul>
-  </div>
+     	<li><a href="#" id="joingo"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">회원가입</span></a></li>
+    </ul>  
+  </div>     
 </nav>
 	<header>
-		<a href="#"><img src="resources/images/1.PNG"></a>    
+		<a href="#"><img src="${pageContext.request.contextPath}/resources/images/1.PNG" id="headerimg"></a>    
 		   <form class="navbar-form navbar-right" action="/action_page.php" id="headernavbar_form">
 			  <div class="input-group">
 			    <input type="text" class="form-control" placeholder="Search" id="headerInput">
@@ -111,25 +180,12 @@
 	</header>
 	<nav class="navbar navbar-inverse" id="navbar_navbar">
 		  <ul class="nav navbar-nav" id="nav_nav">    
-		  <!-- db foreach -->
-		    <li><a href="#" class="nav_nav_a">운동화</a></li>
-		    <li><a href="#" class="nav_nav_a">스포츠/레저</a></li>
-		    <li><a href="#" class="nav_nav_a">구두</a></li>  
-		    <li><a href="#" class="nav_nav_a">샌들</a></li>
-		    <li><a href="#" class="nav_nav_a">부츠</a></li>
+		
 		  </ul>
 		  <button type="button" class="btn navbar-btn" id="navbrand">브랜드</button>
 		  <div id="brand_div">
 		  	<div id="brand_div_div">
-			브랜드 내용<br>
-			브랜드 내용<br>  
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
-			브랜드 내용<br>
+			  		
 			</div>
 		</div>
 		</nav>
@@ -146,20 +202,19 @@
         <div class="modal-body">
           <div class="form-group">
 			  <label for="usr">아이디</label>
-			  <input type="text" class="form-control" id="usr">
+			  <input type="text" class="form-control" id="usr" name="id">
 			</div>
 			<div class="form-group">
 			  <label for="pwd">비밀번호</label>
-			  <input type="password" class="form-control" id="pwd">
+			  <input type="password" class="form-control" id="pwd" name="password">
 			</div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">로그인</button>
+          <button type="submit" class="btn btn-primary" id="main_login">로그인</button>
           <button type="button" class="btn btn-success">네이버 로그인</button><br><br>
           <span><a href="#">아이디 찾기</a></span> / <span><a href="#">비밀번호 찾기</a></span>
         </div>
       </div>
-      
     </div>
   </div>
 	

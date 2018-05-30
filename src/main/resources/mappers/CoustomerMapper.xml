@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.CoustomerMapper">	
+	<resultMap type="CoustomerVO" id="CoustomerResult">
+		<id property="cId" column="c_id"/>
+		<result property="cName" column="c_name"/>
+		<result property="cPassword" column="c_password"/>
+		<result property="cBirth" column="c_birth"/>
+		<result property="cJoin" column="c_join"/>
+		<result property="cPhone" column="c_phone"/>
+		<result property="cMail" column="c_mail"/>
+		<result property="cAddress" column="c_address"/>
+		<result property="cPoint" column="c_point"/>
+		<result property="cTf" column="c_tf"/>
+	</resultMap>
+
+	
+	<select id="selectAllId" resultType="String">
+		select c_id from coustomer
+	</select>
+
+	<insert id="insertCoustomer">
+		insert into coustomer(c_id,c_name,c_password,c_birth,c_join,c_phone,c_mail,c_address,c_point,c_tf)values
+		(#{cId},#{cName},#{cPassword},#{cBirth},now(),#{cPhone},#{cMail},#{cAddress},#{cPoint},#{cTf})
+	</insert>
+	
+	<select id="login" resultType="String"> 
+		select c_id, c_name from coustomer
+		where c_id = #{cId} and c_password = #{cPassword}
+	</select>
+	
+</mapper>
