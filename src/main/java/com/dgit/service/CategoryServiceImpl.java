@@ -13,11 +13,11 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	CategoryDAO dao;
+	
 	@Override
 	public List<CategoryVO> selectAllCategory() {
 		
 		return dao.selectAllCategory();
 	}
-
 	
 }

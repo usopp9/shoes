@@ -134,20 +134,24 @@
 		$("#main_login").click(function(){
 			var id = $("#usr").val();
 			var pw = $("#pwd").val();
-			
+					
 			if(id.length==0 ||pw.length==0){
 				alert("아이디와 비밀번호를 입력해주세요.");   
 				return;
 			}else{
-				$.ajax({
-					type:"get",
-					url:"${pageContext.request.contextPath}/header/login",     
-					data:{"cId":id,
-						"cPassword":pw},   
-					dataType:"json",
+				var sendData = {id:id, password:pw}; 
+				$.ajax({ 
+					type:"post",
+					url:"${pageContext.request.contextPath}/header/login",
+					data: JSON.stringify(sendData), //json 형태로 바꿔줌
+					dataType:"text",//xml,text,json
 					headers:{"Content-Type":"application/json"},
-					success:function(data){
-						consloe.log(data); 
+					success:function(result){
+						console.log(result);     
+						if(result=="fail"){
+							alert("아이디 또는 비밀번호를 다시 확인하세요.");
+							return;  
+						}	
 					}
 				})
 			}
@@ -202,11 +206,11 @@
         <div class="modal-body">
           <div class="form-group">
 			  <label for="usr">아이디</label>
-			  <input type="text" class="form-control" id="usr" name="id">
+			  <input type="text" class="form-control" id="usr">
 			</div>
 			<div class="form-group">
 			  <label for="pwd">비밀번호</label>
-			  <input type="password" class="form-control" id="pwd" name="password">
+			  <input type="password" class="form-control" id="pwd">
 			</div>
         </div>
         <div class="modal-footer">

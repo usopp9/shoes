@@ -1,6 +1,8 @@
 package com.dgit.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,12 @@ public class CoustomerDAOImpl implements CoustomerDAO {
 	public void insertCoustomer(CoustomerVO vo) {
 		
 		session.insert(namespace+".insertCoustomer",vo);
+	}
+
+	@Override
+	public String login(Map<String, Object> map) {
+		
+		return session.selectOne(namespace+".login",map);
 	}
 
 

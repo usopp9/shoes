@@ -1,6 +1,7 @@
 package com.dgit.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,12 @@ public class CoustomerServiceImpl implements CoustomerService {
 	public void insertCoustomer(CoustomerVO vo) {
 		
 		dao.insertCoustomer(vo);
+	}
+
+	@Override
+	public String login(Map<String, Object> map) {
+		
+		return dao.login(map);
 	}	
 
 }

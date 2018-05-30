@@ -6,4 +6,5 @@ import com.dgit.domain.CategoryVO;
 
 public interface CategoryService {
 	public List<CategoryVO> selectAllCategory();
+	
 }
