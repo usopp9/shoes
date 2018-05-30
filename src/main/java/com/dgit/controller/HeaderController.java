@@ -66,7 +66,7 @@ public class HeaderController {
 		return entity;
 	}
 
-	/*loginInterceptor*/
+	
 	@RequestMapping(value ="login", method = RequestMethod.POST)
 	public ResponseEntity<String> login(@RequestBody Map<String, Object> param) {
 		ResponseEntity<String> entity = null;
