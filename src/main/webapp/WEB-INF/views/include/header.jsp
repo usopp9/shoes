@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE>
 <html>
 <head>
@@ -113,12 +114,16 @@
 				dataType:"json",
 				headers:{"Content-Type":"application/json"},
 				success:function(result){	
+					console.log(result);  
 					$("#brand_div_div").empty();  
-	                for(var i = 0; i<result.length; i++){                	
+	                for(var i = 0; i<result.length; i++){      
+	                	
 	                   $div= $("<div class='brand_div_img'>");   
+	                   $a = $("<a href='${pageContext.request.contextPath}/search/brand?brand="+result[i].bNameKor+"'>");                    
 	            	   $img="<img src='${pageContext.request.contextPath}/resources/logo/"+result[i].bNameEng+"_logo.PNG' class='brand_div_img1'>";        
-	                   $p="<p class='brand_div_p'>"+result[i].bNameKor+"</p>"; 	                        
-	                   $div.append($img).append($p);  
+	                   $p="<p class='brand_div_p'>"+result[i].bNameKor+"</p>"; 	
+	                   $a.append($img).append($p);
+	                   $div.append($a);  
 	                   $("#brand_div_div").append($div);                      
 	               }   
 				}
@@ -151,11 +156,20 @@
 						if(result=="fail"){
 							alert("아이디 또는 비밀번호를 다시 확인하세요.");
 							return;  
-						}	
+						}else if(result="success"){
+							/*  $(".close").trigger("click");  */
+							location.href="${pageContext.request.contextPath}/"; 
+						}	 
 					}
 				})
 			}
 		})
+		
+		/* 로그아웃 */
+		$("#logout").click(function(){
+			location.href="${pageContext.request.contextPath}/logout";
+		})
+		
 	})  
 </script>
 </head>
@@ -164,8 +178,19 @@
   <div class="container-fluid">
    
     <ul class="nav navbar-nav navbar-right" id="headernavbar_nav">
-   		<li><a href="#"><span class="glyphicon glyphicon-log-in nav_img"></span> <span class="nav_modal" data-toggle="modal" data-target="#myModal">  로그인</span></a></li>
-     	<li><a href="#" id="joingo"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">회원가입</span></a></li>
+ 
+    	 <c:choose>
+    		<c:when test="${name != null }">
+    			<li><a href="#" id="logout"><span class="glyphicon glyphicon-heart nav_img"></span><span class="nav_modal">[${name }님] 로그아웃</span></a></li>
+     			<li><a href="#"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
+    			<li><a href="#"><span class="glyphicon glyphicon-shopping-cart nav_img"></span> <span class="nav_modal">장바구니</span></a></li>
+    		</c:when> 
+    		<c:otherwise>
+    			<li><a href="#"><span class="glyphicon glyphicon-log-in nav_img"></span> <span class="nav_modal" data-toggle="modal" data-target="#myModal">  로그인</span></a></li>
+     			<li><a href="#" id="joingo"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">회원가입</span></a></li>
+    		</c:otherwise>
+    	</c:choose> 
+   		
     </ul>  
   </div>     
 </nav>

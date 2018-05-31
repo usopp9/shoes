@@ -9,6 +9,11 @@
 		<result property="bNameEng" column="b_name_eng"/>
 	</resultMap>
 
+	<resultMap type="BrandVO" id="BrandNameResult">
+		<result property="bNameEng" column="b_name_eng"/>
+	</resultMap>
+
+
 	<select id="selectAllBrand" resultMap="BrandResult">
 		select b_no,b_name_kor,b_name_eng from brand
 	</select>

@@ -2,6 +2,7 @@ package com.dgit.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +24,17 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		
-		logger.info("post Handler.........................................................");
-		
-		/*LoginDTO loginDTO = (LoginDTO)modelAndView.getModel().get("loginDTO");
-		if(loginDTO != null){
+		/*logger.info("post Handler.........................................................");
+		logger.info(modelAndView.getModel()+"");
+		logger.info((String) modelAndView.getModel().get("id"));
+		Object id = modelAndView.getModel().get("id");
+	
+		Object name = modelAndView.getModel().get("name");
+		if(id != null && name !=null ){
 			logger.info("new Login Success");
 			HttpSession session = request.getSession();
-			session.setAttribute("login", loginDTO);
-			
+			session.setAttribute("id", id);
+			session.setAttribute("name", name);
 			Object dest = session.getAttribute("dest");
 			String path = "";
 			if(dest != null){

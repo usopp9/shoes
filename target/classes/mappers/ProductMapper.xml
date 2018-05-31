@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.ProductMapper">	
+	<resultMap type="ProductVO" id="ProductResult">
+		<id property="pNo" column="p_no"/>
+		<result property="pCode" column="p_code"/>
+		<result property="pQr" column="p_qr"/>
+		<result property="pNameKor" column="p_name_kor"/>
+		<result property="pNameEng" column="p_name_eng"/>
+		<result property="pPrice" column="p_price"/>
+		<result property="pRate" column="p_rate"/>
+		<result property="pTotalPrice" column="p_total_price"/>
+		<result property="pCnt" column="p_cnt"/>
+		<result property="pCount" column="p_count"/>
+		<result property="pTf" column="p_tf"/>
+		<result property="pDate" column="p_date"/>		
+	</resultMap>
+	
+	<resultMap type="ProductVO" id="ProductMainResult">
+		<id property="pNo" column="p_no"/>
+		<result property="pNameKor" column="p_name_kor"/>
+		<result property="pNameEng" column="p_name_eng"/>
+		<result property="pPrice" column="p_price"/>
+		<result property="pRate" column="p_rate"/>
+		<result property="pTotalPrice" column="p_total_price"/>	
+	</resultMap>
+	
+
+	<resultMap type="ProductVO" id="ProductSearchResult">
+		<id property="pNo" column="p_no"/>
+		<result property="pNameKor" column="p_name_kor"/>
+		<result property="pNameEng" column="p_name_eng"/>
+		<result property="pPrice" column="p_price"/>
+		<result property="pRate" column="p_rate"/>
+		<result property="pTotalPrice" column="p_total_price"/>
+		<result property="pTf" column="p_tf"/>	
+	</resultMap>
+
+	<resultMap type="ProductVO" id="ProductResultAddBrandName" extends="ProductMainResult">
+		<association property="brand" resultMap="com.dgit.mapper.BrandMapper.BrandNameResult"></association>
+	</resultMap>
+	
+	
+	<select id="selectBestItem" resultMap="ProductResultAddBrandName">
+		select b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price from product p 
+		join brand b on p.b_no = b.b_no
+		where p_tf=1
+		order by p_count desc limit 0,5
+	</select>
+	
+	
+	<select id="selectWeekItem" resultMap="ProductResultAddBrandName">
+		select b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price from product p 
+		join brand b on p.b_no = b.b_no
+		where p.p_tf=1 and p.p_date between #{start} and #{end}
+		order by p.p_date desc
+	</select>
+	
+	<!-- searchBrand -->
+	<resultMap type="ProductVO" id="ProductSearchAddBrandName" extends="ProductSearchResult">
+		<association property="brand" resultMap="com.dgit.mapper.BrandMapper.BrandResult"></association>
+	</resultMap>
+	
+	<select id="searchBrand" resultMap="ProductSearchAddBrandName">
+		select b.b_name_kor,b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,p_date, p.p_tf from product p 
+		join brand b on p.b_no = b.b_no
+		where  b.b_name_kor=#{bNameKor}
+	</select>
+	
+</mapper>
