@@ -100,7 +100,7 @@
 			headers:{"Content-Type":"application/json"},
 			success:function(result){			
                for(var i = 0; i<result.length; i++){
-            	   $li="<li><a href='#' class='nav_nav_a'>"+result[i].cName+"</a></li>";        
+            	   $li="<li><a href='${pageContext.request.contextPath}/search/brand?search="+result[i].cName+"&type=category'' class='nav_nav_a'>"+result[i].cName+"</a></li>";        
                    $("#nav_nav").append($li);   
                }
 			}
@@ -119,7 +119,7 @@
 	                for(var i = 0; i<result.length; i++){      
 	                	
 	                   $div= $("<div class='brand_div_img'>");   
-	                   $a = $("<a href='${pageContext.request.contextPath}/search/brand?brand="+result[i].bNameKor+"'>");                    
+	                   $a = $("<a href='${pageContext.request.contextPath}/search/brand?search="+result[i].bNameKor+"&type=brand'>");                    
 	            	   $img="<img src='${pageContext.request.contextPath}/resources/logo/"+result[i].bNameEng+"_logo.PNG' class='brand_div_img1'>";        
 	                   $p="<p class='brand_div_p'>"+result[i].bNameKor+"</p>"; 	
 	                   $a.append($img).append($p);
@@ -195,10 +195,10 @@
   </div>     
 </nav>
 	<header>
-		<a href="#"><img src="${pageContext.request.contextPath}/resources/images/1.PNG" id="headerimg"></a>    
-		   <form class="navbar-form navbar-right" action="/action_page.php" id="headernavbar_form">
+		<a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/images/1.PNG" id="headerimg"></a>    
+		   <form class="navbar-form navbar-right" action="${pageContext.request.contextPath}/search/brand" method="post" id="headernavbar_form">
 			  <div class="input-group">
-			    <input type="text" class="form-control" placeholder="Search" id="headerInput">
+			    <input type="text" class="form-control" placeholder="Search" id="headerInput" name="search"> 
 			    <div class="input-group-btn">
 			      <button class="btn btn-default" type="submit" id="headerButton">
 			        <i class="glyphicon glyphicon-search"></i>

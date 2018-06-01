@@ -35,4 +35,28 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.selectList(namespace+".searchBrand",brand);
 	}
 
+	@Override
+	public List<ProductVO> searchCategory(String cName) {
+		
+		return session.selectList(namespace+".searchCategory",cName);
+	}
+
+	@Override
+	public List<ProductVO> searchProductKor(String korName) {
+		
+		return session.selectList(namespace+".searchProductKor",korName);
+	}
+
+	@Override
+	public List<ProductVO> searchProductEng(String engName) {
+		
+		return session.selectList(namespace+".searchProductEng",engName);
+	}
+
+	@Override
+	public ProductVO selectDetailProduct(int pNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".selectDetailProduct",pNo); 
+	}
+
 }

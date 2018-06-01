@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NekoShoes</title>
 <style>
 	section{
 		width: 60%;
 		margin: 0 auto;  
 		min-height:700px;
-		border: 1px solid red;  
 	}
 	.div_position{
 		width: 210px;  
@@ -89,17 +89,22 @@
 		border-bottom: 2px solid #C2B7F1;  
 		padding: 5px;  
 	}
+	#brand_name_srach{
+		font-size: 15px;
+	}
+	#brand_name_size{
+		font-size: 15px;
+		color: red;
+	}
 </style>
 </head>
 <body>
 	<%@ include file="../include/header.jsp"%>
 	<section>
 		<div id="brand_name">
-			<h1 id="brand_name_h1">${brand}</h1>
+			<h1 id="brand_name_h1">${brand}<span id="brand_name_srach">${search }</span><span id="brand_name_size">${size }</span></h1>
 		</div>
-	   
-	 
-		
+	  	
 		<c:if test="${list==null}"> 
 			<p>검색 결과가 없습니다.</p>
 		</c:if>
@@ -108,20 +113,21 @@
 			 <div class="div_position">
 			 
 			 	<c:if test="${item.pTf == true }"> 
-			 	<a href="#" class="best_a">
+			 	<a href="${pageContext.request.contextPath}/product/detail?no=${item.pNo }" class="best_a"> 
 			 	</c:if>
 					<div class="best_img">			    
 					<img src="${pageContext.request.contextPath}/resources/main/${item.brand.bNameEng}_${item.pNameEng }.PNG" class="best_img_img">
 					<p class="best_model_kor">${item.pNameKor }</p>
 					<p class="best_model_eng">${item.pNameEng }</p> 
-				
+				<fmt:formatNumber value="${item.pTotalPrice }" type="number" var="pTotalPrice"/>
+				<fmt:formatNumber value="${item.pPrice }" type="number" var="pPrice"/>
 					<c:choose>
 						<c:when test="${item.pRate > 0 }">
-							<p class="best_model_discount"><span class="best_price">${item.pPrice }</span>&nbsp;&nbsp;${item.pTotalPrice }<p>  
+							<p class="best_model_discount"><span class="best_price">${pPrice}</span>&nbsp;&nbsp;${pTotalPrice}<p>  
 						</c:when>  
 						<c:otherwise>
-							<p class="best_model_discount">${item.pTotalPrice }<p>
-						</c:otherwise>
+							<p class="best_model_discount">${pTotalPrice}<p>
+						</c:otherwise> 
 					</c:choose>
  
 					<c:if test="${item.pTf == false }"> 
@@ -135,19 +141,7 @@
 				</c:if>  
 				</div>
 			 </c:forEach>	
-		</c:if>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-		
-	
+		</c:if>	
 		
 	</section>
 	<%@ include file="../include/footer.jsp"%>

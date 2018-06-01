@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
 	<title>NekoShoes</title>
@@ -103,27 +105,31 @@
 	          slideWidth: 200   
 	         });  
 	    });
-
-
-
 	</script> 
 	<section>
 		<div id="section_best">
 			<h1 class="setion_h1">베스트 상품</h1>
 			
 			 <c:forEach var="item" items="${bestItem}">
-			 	<a href="#" class="best_a">
+			 	<a href="product/detail?no=${item.pNo }" class="best_a">
 					<div class="best_img">			    
 					<img src="${pageContext.request.contextPath}/resources/main/${item.brand.bNameEng}_${item.pNameEng }.PNG" class="best_img_img">
 					<p class="best_model_kor">${item.pNameKor }</p>
 					<p class="best_model_eng">${item.pNameEng }</p> 
-				
+				<fmt:formatNumber value="${item.pTotalPrice }" type="number" var="pTotalPrice"/>
+				<fmt:formatNumber value="${item.pPrice }" type="number" var="pPrice"/>
 					<c:choose>
 						<c:when test="${item.pRate > 0 }">
-							<p class="best_model_discount"><span class="best_price">${item.pPrice }</span>&nbsp;&nbsp;${item.pTotalPrice }<p>  
+							<p class="best_model_discount">
+							
+							<span class="best_price">${pPrice }</span>
+							&nbsp;&nbsp;${pTotalPrice }<p>  
 						</c:when>  
 						<c:otherwise>
-							<p class="best_model_discount">${item.pTotalPrice }<p>
+							<p class="best_model_discount">
+							
+							${pTotalPrice }
+							<p>
 						</c:otherwise>
 					</c:choose>
 					</div>
@@ -137,18 +143,19 @@
 				 <div class="slider">
 				
 					<c:forEach var="item" items="${weekItem}">
-			 	<a href="#" class="best_a">
+			 	<a href="product/detail?no=${item.pNo }" class="best_a">
 					<div class="best_img">			    
 					<img src="${pageContext.request.contextPath}/resources/main/${item.brand.bNameEng}_${item.pNameEng }.PNG" class="best_img_img">
 					<p class="best_model_kor">${item.pNameKor }</p>
 					<p class="best_model_eng">${item.pNameEng }</p> 
-				
+					<fmt:formatNumber value="${item.pTotalPrice }" type="number" var="pTotalPrice"/>
+					<fmt:formatNumber value="${item.pPrice }" type="number" var="pPrice"/>
 					<c:choose>
 						<c:when test="${item.pRate > 0 }">
-							<p class="best_model_discount"><span class="best_price">${item.pPrice }</span>&nbsp;&nbsp;${item.pTotalPrice }<p>  
-						</c:when>  
-						<c:otherwise>
-							<p class="best_model_discount">${item.pTotalPrice }<p>
+							<p class="best_model_discount"><span class="best_price">${pPrice}</span>&nbsp;&nbsp;${pTotalPrice}<p>  
+						</c:when>    
+						<c:otherwise> 
+							<p class="best_model_discount">${pTotalPrice }<p>
 						</c:otherwise>
 					</c:choose>
 					</div>

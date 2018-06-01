@@ -18,6 +18,17 @@
 		<result property="pDate" column="p_date"/>		
 	</resultMap>
 	
+	<resultMap type="ProductVO" id="ProductDetailResult">
+		<id property="pNo" column="p_no"/>
+		<result property="pCode" column="p_code"/>
+		<result property="pNameKor" column="p_name_kor"/>
+		<result property="pNameEng" column="p_name_eng"/>
+		<result property="pPrice" column="p_price"/>
+		<result property="pRate" column="p_rate"/>
+		<result property="pTotalPrice" column="p_total_price"/>	
+		<result property="pCnt" column="p_cnt"/>
+	</resultMap>
+	
 	<resultMap type="ProductVO" id="ProductMainResult">
 		<id property="pNo" column="p_no"/>
 		<result property="pNameKor" column="p_name_kor"/>
@@ -26,6 +37,7 @@
 		<result property="pRate" column="p_rate"/>
 		<result property="pTotalPrice" column="p_total_price"/>	
 	</resultMap>
+	
 	
 
 	<resultMap type="ProductVO" id="ProductSearchResult">
@@ -38,9 +50,17 @@
 		<result property="pTf" column="p_tf"/>	
 	</resultMap>
 
+	
+
+
 	<resultMap type="ProductVO" id="ProductResultAddBrandName" extends="ProductMainResult">
 		<association property="brand" resultMap="com.dgit.mapper.BrandMapper.BrandNameResult"></association>
 	</resultMap>
+	
+	<resultMap type="ProductVO" id="ProductDetailResultAddBrandName" extends="ProductDetailResult">
+		<association property="brand" resultMap="com.dgit.mapper.BrandMapper.BrandNameResult"></association>
+	</resultMap>
+	
 	
 	
 	<select id="selectBestItem" resultMap="ProductResultAddBrandName">
@@ -66,7 +86,41 @@
 	<select id="searchBrand" resultMap="ProductSearchAddBrandName">
 		select b.b_name_kor,b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,p_date, p.p_tf from product p 
 		join brand b on p.b_no = b.b_no
-		where  b.b_name_kor=#{bNameKor}
+		where  b.b_name_kor like #{bNameKor}
 	</select>
+	
+	
+	<!-- searchCategory -->
+	<select id="searchCategory" resultMap="ProductSearchAddBrandName">
+		select b.b_name_kor,b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,p_date, p.p_tf from product p 
+		join brand b on p.b_no = b.b_no
+		join category c on c.c_no=p.c_no
+		where  c.c_name like #{cName}
+	</select>
+	
+	
+	<!-- searchProductKor -->
+	<select id="searchProductKor" resultMap="ProductSearchAddBrandName">
+		select b.b_name_kor,b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,p_date, p.p_tf from product p 
+		join brand b on p.b_no = b.b_no
+		where  p.p_name_kor like #{pNameKor}
+	</select>
+	
+	<!-- searchProductEng -->
+	<select id="searchProductEng" resultMap="ProductSearchAddBrandName">
+		select b.b_name_kor,b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,p_date, p.p_tf from product p 
+		join brand b on p.b_no = b.b_no
+		where  p.p_name_eng like #{pNameEng}
+	</select>
+	
+	
+	<!-- detail_page -->
+	<select id="selectDetailProduct" resultMap="ProductDetailResultAddBrandName">
+		select b.b_name_eng,p.p_no,p.p_name_kor,p.p_name_eng,p.p_code,p.p_price,p_rate,p.p_total_price,p.p_cnt from product p
+		join brand b on p.b_no=b.b_no
+		where p.p_no=#{pNo}
+	</select>
+	
+	
 	
 </mapper>

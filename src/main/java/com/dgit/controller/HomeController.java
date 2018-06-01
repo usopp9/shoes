@@ -44,23 +44,29 @@ public class HomeController {
 		int day = c.get(Calendar.DATE);
 		int d = c.get(Calendar.DAY_OF_WEEK);
 		int start = 0;
-/*		System.out.println("원래day : " +c.get(Calendar.DATE));*/
+		/*System.out.println("원래day : " +c.get(Calendar.DATE));
+		System.out.println("요일 d: " +c.get(Calendar.DAY_OF_WEEK));*/
+		
 		if(d==2){
 			start = 0;
 		}else if(d==1){
-			start = 0;
+			start = d+1;
 		}else if(d>2){
 			start = d-2; 
 			
 		}
-		c.set(Calendar.DATE, day-start);
+		/*System.out.println("start : "+start);*/
+		c.set(Calendar.DATE, c.get(Calendar.DATE)-start);
+		
+		/*System.out.println(String.valueOf(c.get(Calendar.DATE)));*/
 		int year =c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);
 		String dd =  Integer.toString(year)+"-"+Integer.toString(month+1)+"-"+String.valueOf(c.get(Calendar.DATE));
 		System.out.println(dd);
 		map.put("start",dd);
-	/*	System.out.println(String.valueOf(c.get(Calendar.DATE)));*/
-		c.set(Calendar.DATE, (day-start)+6);
+		/*System.out.println("day :" +c.get(Calendar.DATE));*/
+		/*c.set(Calendar.DATE, +6);   */
+		c.add(Calendar.DATE, +6);
 		year =c.get(Calendar.YEAR);
 		month = c.get(Calendar.MONTH);
 		 dd =  Integer.toString(year)+"-"+Integer.toString(month+1)+"-"+String.valueOf(c.get(Calendar.DATE));

@@ -11,4 +11,12 @@ public interface ProductService {
 	
 	/*searchBrand*/
 	public List<ProductVO>searchBrand(String brand);
+	
+	/*searchCategory*/
+	public List<ProductVO>searchCategory(String cName);
+	
+	public List<ProductVO>serachAll(String search);
+	
+	/*detail_page*/
+	public ProductVO selectDetailProduct(int pNo);
 }
