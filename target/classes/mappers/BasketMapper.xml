@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.BasketMapper">	
+	<!-- <resultMap type="BasketVO" id="BasketResult">
+		<id property="bNo" column="b_no"/>
+		<result property="bId" column="b_id"/>
+		<result property="bCount" column="b_count"/>	
+	</resultMap> -->
+
+
+	<resultMap type="BasketVO" id="BasketAllResult">
+		<id property="bNo" column="b_no"/>
+		<result property="bId" column="b_id"/>
+		<result property="bCount" column="b_count"/>	
+		<association property="detailProduct" resultMap="com.dgit.mapper.DetailProductMapper.DetailProductAddProduct"></association>
+	</resultMap>
+
+	<insert id="insertBasket">
+		insert into basket(b_id,d_no,b_count) values
+		(#{bId},#{detailProduct.dNo},#{bCount})  
+	</insert> 
+
+	
+	<select id="selectBasket" resultMap="BasketAllResult"> 
+		select b.b_no,b.b_id,b.b_count,d.d_color,d.d_size,d.d_stock,p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,br.b_name_eng from basket b
+		join detail_product d on b.d_no=d.d_no
+		join product p on p.p_no=d.p_no 
+		join brand br on br.b_no=p.b_no
+		where b.b_id=#{bId}
+	</select>
+	
+</mapper>

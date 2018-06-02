@@ -77,7 +77,7 @@ public class HeaderController {
 		ResponseEntity<String> entity = null;
 		logger.info("login.............................................................");
 		logger.info("id : " + param.get("id"));
-
+		logger.info("password : " + param.get("password"));
 		try {
 			Map<String, Object> map = new HashMap<>();
 			map.put("id", param.get("id"));

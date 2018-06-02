@@ -6,6 +6,16 @@ public class DetailProductVO {
 	private String dColor;
 	private int dSize;
 	private int dStock;
+	
+	public DetailProductVO() {
+		super();
+		
+	}
+	
+	public DetailProductVO(int dNo) {
+		this.dNo = dNo;
+	}
+
 	public int getdNo() {
 		return dNo;
 	}

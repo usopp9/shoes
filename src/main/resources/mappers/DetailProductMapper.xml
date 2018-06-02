@@ -25,4 +25,9 @@
 		select d_no,d_size,d_stock from detail_product
 		where p_no=#{pNo} and d_color=#{dColor} 
 	</select>
+	
+	 <resultMap type="DetailProductVO" id="DetailProductAddProduct" extends="DetailProductResult">
+		<association property="product" resultMap="com.dgit.mapper.ProductMapper.ProductResultAddBrandName"></association>
+	</resultMap>  
+	
 </mapper>

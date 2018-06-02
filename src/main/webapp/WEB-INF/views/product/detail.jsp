@@ -397,9 +397,9 @@
 			/* 수량마이너스 */
 			$(document).on("click",".btnMinus",function(){
 				var cnt = $(this).parent().find(".cntSize").html();
-				if(Number(cnt)<= 0){ 
-					alert("삭제버튼을 눌러주세요");
-					return;    
+				if(Number(cnt)== 1){   
+				/* 	alert("삭제버튼을 눌러주세요"); */
+				  	return;    
  				}        
 				
 				var sizeTotal = $(this).parent().find(".size_total").html(); 
@@ -414,15 +414,41 @@
 			
 			/* 장바구니 */
 			$("#btnBasket").click(function(){
-				$("#f1").append();
+				
 				var classLength= $(".section_datail_right_oder_span1").length; 
+					if(classLength==0){
+						alert("주문 수량이 없습니다.");
+						return; 
+					}
 					for(var i =0;i<classLength;i++){  
 						
 						var cnt =  $(".section_datail_right_oder_div1").eq(i).find(".cntSize").html(); 	
 						var dNo =  $(".section_datail_right_oder_div1").eq(i).find(".dNo").val(); 	
 					         /*  form태그안에 넣어야함 */  
-					}   
-				   
+											         
+					    /* var hiddendNo ="<input type='hidden' value='"+dNo+"' name='dNo'>"; 
+					    var hiddencnt ="<input type='hidden' value='"+cnt+"' name='cnt'>";  */
+					 /*    $("#f1").append(hiddendNo).append(hiddencnt);   
+					    $("#f1").attr("action","basket"); 
+						$("#f1").submit();   */ 
+						/* var sendData = {dNo:hiddendNo, cnt:hiddencnt}; */ 
+						$.ajax({ 
+							type:"get",
+							url:"${pageContext.request.contextPath}/product/basketOder?dNo="+dNo+"&cnt="+cnt,  
+							dataType:"text",     
+							success:function(result){			 
+				               console.log(result);  
+				               
+							}
+						})					
+					}
+					
+					var con = confirm("장바구니로 이동하시겠습니까?");
+						if(con==false){
+							return;
+						}else if(con==true){
+							location.href="basket";
+						}
 			})
 		})    
 	</script>
@@ -537,7 +563,7 @@
  				</div>
  				<!-- 구매 -->
  				<div id="section_datail_right_button">
- 					<form id="f1">
+ 					<form id="f1" method="post">
  						
  					<button type="button" class="btn btn-default" id="btnBasket">장바구니</button>
  					<button type="button" class="btn btn-danger" id="btnOrder">바로구매</button>  

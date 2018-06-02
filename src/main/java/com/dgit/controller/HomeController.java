@@ -50,10 +50,9 @@ public class HomeController {
 		if(d==2){
 			start = 0;
 		}else if(d==1){
-			start = d+1;
+			start = 6;
 		}else if(d>2){
-			start = d-2; 
-			
+			start = d-2; 		
 		}
 		/*System.out.println("start : "+start);*/
 		c.set(Calendar.DATE, c.get(Calendar.DATE)-start);
