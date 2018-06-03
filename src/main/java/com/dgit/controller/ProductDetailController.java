@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dgit.domain.BasketVO;
+import com.dgit.domain.CoustomerVO;
 import com.dgit.domain.DetailProductVO;
 import com.dgit.domain.ProductVO;
 import com.dgit.service.BasketService;
+import com.dgit.service.CoustomerService;
 import com.dgit.service.DetailProductService;
 import com.dgit.service.ProductService;
 
@@ -41,6 +43,9 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 	
 	@Autowired
 	BasketService basketService;
+	
+	@Autowired
+	CoustomerService coustomerService;
 	
 	@RequestMapping(value="detail", method=RequestMethod.GET)
 	public void detailGet(int no,Model model){
@@ -119,18 +124,63 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		logger.info("basket....................................");	
 		
 		HttpSession session = request.getSession();
-		String id =(String) session.getAttribute("id");
-		System.out.println(id); 
+		String id =(String) session.getAttribute("id"); 
 		if(id==null){
 			String serverId = request.getRemoteAddr();
-			System.out.println(serverId);
 			id = serverId;
 		}
 		List<BasketVO> vo = basketService.selectBasket(id);
-		System.out.println(vo);
-		/*model.addAttribute("id",id);*/
 		model.addAttribute("vo",vo);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="deleleBasket", method=RequestMethod.GET)
+	public ResponseEntity<String> deleleBasket(int bNo){
+		logger.info("deleleBasket....................................");	
+		logger.info("bNo : " + bNo);
+		ResponseEntity<String> entity = null;
+		try{
+			basketService.deleteBasket(bNo);
+			entity = new ResponseEntity<String>("success",HttpStatus.CREATED);
+		}catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+		
+	@RequestMapping(value="updateBasket", method=RequestMethod.POST)
+	public ResponseEntity<String> updateBasket(@RequestBody BasketVO vo){
+		logger.info("updateBasket....................................");	
+		logger.info("vo : " + vo.toString());
+		ResponseEntity<String> entity = null; 
+		try{ 
+			basketService.updateBasket(vo);
+			entity = new ResponseEntity<String>("success",HttpStatus.CREATED);
+		}catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	
+	@RequestMapping(value="orderNow", method=RequestMethod.GET)
+	public void orderNow(int bNo,HttpServletRequest request,Model model){
+		logger.info("orderNow get..................................");
+		logger.info("bNo : "+bNo);
+		
+		HttpSession session = request.getSession();
+		String id =(String) session.getAttribute("id");
+		
+		CoustomerVO coustomer = new CoustomerVO();
+		if(id!=null){
+			coustomer = coustomerService.selectOrderCoustomer(id);
+		}
+		System.out.println(coustomer);      
+		BasketVO basket = basketService.selectOneOrder(bNo);
+		model.addAttribute("coustomer", coustomer);
+		model.addAttribute("basket",basket);			  
+	}
 }
  

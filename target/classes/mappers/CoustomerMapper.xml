@@ -16,6 +16,15 @@
 		<result property="cTf" column="c_tf"/>
 	</resultMap>
 
+	<resultMap type="CoustomerVO" id="CoustomerOrderResult">
+		<result property="cName" column="c_name"/>
+		<result property="cPhone" column="c_phone"/>
+		<result property="cMail" column="c_mail"/>
+		<result property="cAddress" column="c_address"/>
+		<result property="cPoint" column="c_point"/>
+	</resultMap>
+
+
 	
 	<select id="selectAllId" resultType="String">
 		select c_id from coustomer
@@ -32,4 +41,8 @@
 		where c_id = #{id} and c_password = #{password} and c_tf=1
 	</select>
 	
+	<!-- 주문고객정보 -->
+	<select id="selectOrderCoustomer" resultMap="CoustomerOrderResult">
+		select  c_name,c_address,c_phone,c_mail,c_point from coustomer where c_id=#{cId}
+	</select>
 </mapper>

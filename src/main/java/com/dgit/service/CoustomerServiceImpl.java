@@ -32,6 +32,12 @@ public class CoustomerServiceImpl implements CoustomerService {
 	public String login(Map<String, Object> map) {
 		
 		return dao.login(map);
+	}
+
+	@Override
+	public CoustomerVO selectOrderCoustomer(String cId) {
+		
+		return dao.selectOrderCoustomer(cId);
 	}	
 
 }

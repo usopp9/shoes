@@ -489,7 +489,9 @@
 					<fmt:formatNumber value="${product.pTotalPrice*0.01 }" type="number" var="pPoint"/>
  						<span id="section_datail_right_price_div2_total_price">
  						<span id="span_total">${pTotalPrice}</span>원</span>&nbsp;&nbsp;
+ 						<c:if test="${product.pRate > 0 }">
  						<span id="section_datail_right_price_div2_price">${pPrice}원</span> 
+ 						</c:if>
  						<br><span id="section_datail_right_price_div2_point">상품구매시 <span id="point">${pPoint}</span>p</span>  
  					</div> 
  				</div>

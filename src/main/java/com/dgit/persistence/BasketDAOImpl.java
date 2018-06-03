@@ -28,5 +28,23 @@ public class BasketDAOImpl implements BasketDAO {
 		return session.selectList(namespace+".selectBasket",bId);
 	}
 
+	@Override
+	public void deleteBasket(int bNo) {
+		
+		session.delete(namespace+".deleteBasket",bNo); 
+	}
+
+	@Override
+	public void updateBasket(BasketVO vo) {
+		
+		session.update(namespace+".updateBasket",vo);
+	}
+
+	@Override
+	public BasketVO selectOneOrder(int bNo) {
+		
+		return session.selectOne(namespace+".selectOneOrder",bNo); 
+	} 
+
 
 }

@@ -12,4 +12,7 @@ public interface CoustomerDAO {
 	
 	/*로그인*/
 	public String login(Map<String,Object> map);
+	
+	/*주문*/
+	public CoustomerVO selectOrderCoustomer(String cId);
 }

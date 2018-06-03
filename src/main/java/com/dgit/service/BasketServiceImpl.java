@@ -26,6 +26,24 @@ public class BasketServiceImpl implements BasketService{
 		return dao.selectBasket(bId);
 	}
 
+	@Override
+	public void deleteBasket(int bNo) {
+		
+		dao.deleteBasket(bNo);
+	}
+
+	@Override
+	public void updateBasket(BasketVO vo) {
+		
+		dao.updateBasket(vo);
+	}
+
+	@Override
+	public BasketVO selectOneOrder(int bNo) {
+		
+		return dao.selectOneOrder(bNo);
+	}
+
 	
 
 }

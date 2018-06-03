@@ -35,6 +35,12 @@ public class CoustomerDAOImpl implements CoustomerDAO {
 		return session.selectOne(namespace+".login",map);
 	}
 
+	@Override
+	public CoustomerVO selectOrderCoustomer(String cId) {
+		
+		return session.selectOne(namespace+".selectOrderCoustomer",cId); 
+	}
+
 
 
 }

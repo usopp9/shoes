@@ -180,7 +180,7 @@
     <ul class="nav navbar-nav navbar-right" id="headernavbar_nav">
  
     	 <c:choose>
-    		<c:when test="${name != null }">
+    		<c:when test="${id != null }">
     			<li><a href="#" id="logout"><span class="glyphicon glyphicon-heart nav_img"></span><span class="nav_modal">[${name }님] 로그아웃</span></a></li>
      			<li><a href="#"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
     			<li><a href="${pageContext.request.contextPath}/product/basket"><span class="glyphicon glyphicon-shopping-cart nav_img"></span> <span class="nav_modal">장바구니</span></a></li>
