@@ -40,9 +40,9 @@
 	</update>
 	
 	<select id="selectOneOrder" resultMap="BasketAllResult"> 
-		select b.b_no,b.b_id,b.b_count,d.d_color,d.d_size,d.d_stock,p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,br.b_name_eng from basket b
+		select b.b_no,b.b_id,b.b_count,d.d_color,d.d_no,d.d_size,d.d_stock,p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,br.b_name_eng from basket b
 		join detail_product d on b.d_no=d.d_no
-		join product p on p.p_no=d.p_no 
+		join product p on p.p_no=d.p_no  
 		join brand br on br.b_no=p.b_no
 		where b.b_no=#{bNo}
 	</select>

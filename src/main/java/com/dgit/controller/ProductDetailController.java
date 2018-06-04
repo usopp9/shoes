@@ -1,5 +1,7 @@
 package com.dgit.controller;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dgit.domain.BasketVO;
 import com.dgit.domain.CoustomerVO;
 import com.dgit.domain.DetailProductVO;
+import com.dgit.domain.OrderProductVO;
 import com.dgit.domain.ProductVO;
 import com.dgit.service.BasketService;
 import com.dgit.service.CoustomerService;
 import com.dgit.service.DetailProductService;
+import com.dgit.service.OrderProductService;
 import com.dgit.service.ProductService;
 
 @RequestMapping("/product/*")
@@ -47,6 +51,8 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 	@Autowired
 	CoustomerService coustomerService;
 	
+	@Autowired
+	OrderProductService orderProductService;
 	@RequestMapping(value="detail", method=RequestMethod.GET)
 	public void detailGet(int no,Model model){
 		logger.info("detail get..................................");
@@ -164,12 +170,16 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		return entity;
 	}
 	
-	
-	@RequestMapping(value="orderNow", method=RequestMethod.GET)
-	public void orderNow(int bNo,HttpServletRequest request,Model model){
-		logger.info("orderNow get..................................");
-		logger.info("bNo : "+bNo);
+	@RequestMapping(value="orderNow", method=RequestMethod.POST)
+	public void orderNow(int[] bNo,HttpServletRequest request,Model model){
+		logger.info("orderNow POST..................................");
 		
+		List<BasketVO> basket = new ArrayList<BasketVO>();
+		for(int i =0;i<bNo.length;i++){
+			logger.info("bNo : "+bNo[i]);
+			BasketVO vo = basketService.selectOneOrder(bNo[i]);
+			basket.add(vo); 
+		}    
 		HttpSession session = request.getSession();
 		String id =(String) session.getAttribute("id");
 		
@@ -177,10 +187,41 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		if(id!=null){
 			coustomer = coustomerService.selectOrderCoustomer(id);
 		}
-		System.out.println(coustomer);      
-		BasketVO basket = basketService.selectOneOrder(bNo);
+		   
+		/*BasketVO basket = basketService.selectOneOrder(bNo);*/
+		System.out.println(coustomer);     
+		System.out.println(basket.size());  
+		System.out.println(basket);    
 		model.addAttribute("coustomer", coustomer);
-		model.addAttribute("basket",basket);			  
+		model.addAttribute("basket",basket);	
+	}
+	
+	
+	@RequestMapping(value="orderProduct", method=RequestMethod.POST)
+	public void orderProduct(int[] dNo,int[] detailNo,int[] count,OrderProductVO vo,HttpServletRequest request,Model model){
+		logger.info("orderProduct POST..................................");
+		
+		
+		
+		logger.info("vo : " + vo.toString());  
+		HttpSession session = request.getSession();
+		String id =(String) session.getAttribute("id");
+		long nowTime = System.currentTimeMillis();
+		vo.setoNum(-(int)nowTime); 
+		if(id !=null){
+			vo.setoId(id);
+		}else if(id ==null){
+			String serverId = request.getRemoteAddr();
+			vo.setoId(serverId);
+			vo.setoPoint(0);
+		}
+		for(int i = 0; i<dNo.length;i++){
+			logger.info("dNo : "+dNo[i]);
+			vo.setDetail(new DetailProductVO(detailNo[i]));
+			vo.setoCount(count[i]);
+			logger.info("vo : " + vo.toString());   
+			orderProductService.insertOrder(vo);
+		}
 	}
 }
  

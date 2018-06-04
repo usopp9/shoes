@@ -15,4 +15,7 @@ public interface CoustomerDAO {
 	
 	/*주문*/
 	public CoustomerVO selectOrderCoustomer(String cId);
+	
+	/*포인트삭제*/
+	public void updateCoustomerPoint(String cId);
 }

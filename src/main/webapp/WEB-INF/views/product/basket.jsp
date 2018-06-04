@@ -225,9 +225,49 @@
 		
 		/* 바로구매 */
 		$(".btnNow").click(function(){
-			var bNo = $(this).parent().parent().find(".hiddenBno").val();
-			location.href="${pageContext.request.contextPath}/product/orderNow?bNo="+bNo;
+					      
+			$("input[type='checkbox']").prop("checked", false);    	           
+			$(this).parent().parent().find(".selectChk").prop("checked",true);    
 			
+			/* var length = $(".selectChk").length;       
+			
+			for(var i = 0; i<length;i++){
+				 var bNo = $(".selectChk:checked").eq(i).parent().parent().find(".hiddenBno").val();    
+				var input = "<input type='hidden' name='bNo' value='"+phone+"'>";  
+			  
+			}    */
+			var bNo = $(this).parent().parent().find(".hiddenBno").val();  
+			var input = "<input type='hidden' name='bNo' value='"+bNo+"'>";  
+			$("#f1").append(input);
+			$("#f1").attr("action","orderNow"); 
+			$("#f1").submit();
+			/* var bNo = $(this).parent().parent().find(".hiddenBno").val();  
+			location.href="${pageContext.request.contextPath}/product/orderNow?bNo="+bNo; */		
+		})
+		/* 전체상품구매 */
+		$("#allBtnOrder").click(function(){
+			var length = $(".selectChk").length;       
+			
+			for(var i = 0; i<length;i++){
+				 var bNo = $(".selectChk").eq(i).parent().parent().find(".hiddenBno").val();    
+				var input = "<input type='hidden' name='bNo' value='"+bNo+"'>";  	  
+				$("#f1").append(input);
+			}    
+			$("#f1").attr("action","orderNow"); 
+			$("#f1").submit();  
+		})   
+		
+		/* 선택상품구매 */
+		$("#slectbtnO").click(function(){
+			var length = $(".selectChk:checked").length;       
+			
+			for(var i = 0; i<length;i++){
+				 var bNo = $(".selectChk:checked").eq(i).parent().parent().find(".hiddenBno").val();    
+				var input = "<input type='hidden' name='bNo' value='"+bNo+"'>";  	  
+				$("#f1").append(input);  
+			}     
+			$("#f1").attr("action","orderNow"); 
+			$("#f1").submit();  
 		})
 	})   
 	</script>
@@ -290,10 +330,11 @@
 				<div id="selectOrder">
 					<button type="button" class="btn btn-default btnselOrder">계속 쇼핑</button>
 					<button type="button" class="btn btn-default btnselOrder" id="slectbtnO">선택상품 주문하기</button>
-					<button type="button" class="btn btn-danger btnselOrder">전체상품 주문하기</button>
+					<button type="button" class="btn btn-danger btnselOrder" id="allBtnOrder">전체상품 주문하기</button>
 				</div>
 			</div>
-			
+			<form id="f1" method="post">
+			</form>
 		</div>
 	</section>
 	<%@ include file="../include/footer.jsp"%>

@@ -14,8 +14,7 @@
 	}
 	#section_orderNow{
 		width: 55%;
-		margin: 0 auto;
-		height: 1000px;                        
+		margin: 0 auto;                     
 	}         
 	#section_orderNow_h1{
 		width: 100%;
@@ -48,9 +47,9 @@
 		text-align: left !important;   
 		padding-left: 10px;        
 	}            
-	#input_text{
+	.input_text{
 		width: 20px;  
-		text-align: center; 
+		text-align: center;      
 	}
 	#basketPrice{
 		text-decoration: line-through; 
@@ -83,16 +82,16 @@
 		height: 15px; 
 		font-weight: bold;
 	}
-	#cId, #cName,#phone1,#phone2,#phone3,#point{
+	#cId, #cName,#phone1,#phone2,#phone3,#point_input{
 		width: 150px !important;   
 	}
 	#cPassword, #checkcPassword, #cBirth,#mail1,#mail2,#mail3,#add1{
 		width: 200px !important;     
 	}  
-	#phone1,#phone2,#phone3,#cId,#mail1,#mail2,#mail3,#add1,#cPassword,#checkcPassword,#point{  
+	#phone1,#phone2,#phone3,#cId,#mail1,#mail2,#mail3,#add1,#cPassword,#checkcPassword,#point_input{  
 		display: inline-block;      
 	}
-	#add2,#add3{
+	#add2,#add3{ 
 		width: 600px !important;     
 		margin-top: 10px !important;      
 	} 
@@ -112,6 +111,18 @@
 	#btnGroup{
 		margin-top: 50px;
 		text-align: center;
+	}
+	#pointchk{
+		font-size: 10px;
+		color: red; 
+		visibility: hidden; 
+	}
+	#chepw2{
+		color: red;
+		font-weight: bold;
+		font-size: 8px; 
+		margin-left: 10px;
+		visibility: hidden;
 	}
 </style>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -137,15 +148,168 @@
 			}
 			
 			var delivery =$(".delivery").html(); 
-			var price = $(".sumPrice").html()
-			var sum = Number(delivery) + Number(price.replace(",",""));
-			$("#total_div_span_total").html(nc(sum));
+			
+			var sum =0;
+			var sumlength = $(".sumPrice").length;
+			for(var i= 0;i<sumlength;i++){
+				var price = $(".sumPrice").eq(i).html(); 
+				sum+= Number(price.replace(",",""));
+			}   
+			
+			$("#price").html(nc(sum)); 
+			$("#total_div_span_total").html(nc(sum+Number(delivery)));
+			
+			/* 휴대폰 */
+			var p = "${coustomer.cPhone}"; 
+			var phone = p.split("-");
+			$("#phone1").val(phone[0]);
+			$("#phone2").val(phone[1]);  
+			$("#phone3").val(phone[2]);    
+			         
+			/* 메일 */
+			var m = "${coustomer.cMail}";
+			var mail = m.split("@");
+			$("#mail1").val(mail[0]);        
+			$("#mail2").val(mail[1]);        
+
+			/* 주소 */  
+			var a = "${coustomer.cAddress}";
+			var address = a.split(",");
+			$("#add1").val(address[0]);     
+			$("#add2").val(address[1]);
+			$("#add3").val(address[2]); 
+			
+			/* 포인트사용 */
+			
+	
+			$("#allPoint").click(function(){
+				var pointSpan = $("#point_span").html(); 
+				var total = $("#total_div_span_total").html(); 
+				if($("#allPoint").prop("checked")==true){				
+					if(Number(pointSpan.replace(",","")) > 1000){ 
+						                   
+						$("#point_input").val(pointSpan);      
+			   			$("#total_div_span_total").html(nc(Number(total.replace(",",""))-Number(pointSpan.replace(",",""))));   
+					}   
+				}else if($("#allPoint").prop("checked")==false){          
+					$("#total_div_span_total").html(nc(Number(total.replace(",",""))+Number(pointSpan.replace(",",""))));  
+					$("#point_input").val("");      
+				}         			
+			})
+			
+			/* 포인트입력 */
+			/* var price = $("#total_div_span_total").html();
+			$("#point_input").on("keyup", function() { 
+			
+				var tf = false;
+				var point = $("#point_input").val();
+				var pointSpan = $("#point_span").html();
+				 var total = price; 
+				if(Number(point) < 1000 || Number(point) >  Number(pointSpan.replace(",",""))){  
+					$("#pointchk").css("visibility","visible");	
+
+					tf=false;
+				}else if(Number(point) > 1000 || Number(point) <  Number(pointSpan.replace(",",""))){  
+					$("#pointchk").css("visibility","hidden");	  
+					     
+					tf=true;    
+					point = $("#point_input").val();
+					total = $("#total_div_span_total").html(); 
+				}
+				 
+				if(tf){
+					$("#total_div_span_total").html(nc(Number(total.replace(",",""))-Number(point.replace(",",""))));   				
+				} 	  
+				 
+			})	 */
 			
 			
+			/* 비회원 비밀번호 */
 			
+			var tfpw=false;  
+				 $("#checkcPassword").on("keyup", function() { 
+					 
+						var pass = $("#cPassword").val();	
+						var ch = $("#checkcPassword").val();    
+						if(pass!=ch){    
+							$("#chepw2").css("visibility","visible");	
+							tfpw=false;
+						}else{     
+							$("#chepw2").css("visibility","hidden");	
+							tfpw=true;
+						}    
+						
+					})	   
+		
 			
+			$(".btnOrder").click(function(){
 			
-		})
+				var name =$("#cName").val();
+				
+				var ph1 = $("#phone1").val();
+				var ph2 = $("#phone2").val();
+				var ph3 = $("#phone3").val();			
+						
+				var m1= $("#mail1").val();    
+				var m2= $("#mail2").val();    			
+				
+				var add1 = $("#add1").val();
+				var add2 = $("#add2").val();
+				var add3 = $("#add3").val();
+							
+				/* 공백체크 */
+				if(name.length==0 ||ph2.length==0 ||m2.length==0 ||add1.length==0){
+					alert("정보를 입력해주세요.");
+					return;       
+				}     
+			 
+				var phone = ph1+"-"+ph2+"-"+ph3; 
+				var mail = m1+"@"+m2;
+				var add = add1+","+add2+","+add3;
+				
+				/* 비회원 비밀번호 */
+				var password = $("#cPassword").val();
+				if(typeof(password)!="undefined"){
+					if(password.length==0){
+						alert("비밀번호를 입력해주세요."); 
+						return; 
+					}
+					if(tfpw==false){
+						return;  
+					}
+				}
+			    
+				var length = $(".point").length;
+				var point = 0;
+				
+				for(var i =0;i<length;i++){
+					
+					var dNo = $(".point").eq(i).parent().parent().find(".hiddendNo").val();  		
+					var detailNo = $(".point").eq(i).parent().parent().find(".hiddendDetailNo").val();  
+					var count = $(".point").eq(i).parent().parent().find(".input_text").val();  
+					point += Number($(".point").eq(i).html().replace(",",""));    
+					var input = "<input type='hidden' name='dNo' value='"+dNo+"'>"; 
+					var inputNo = "<input type='hidden' name='detailNo' value='"+detailNo+"'>"; 
+					var inputCount = "<input type='hidden' name='count' value='"+count+"'>"; 
+					$("#f1").append(input).append(inputNo).append(inputCount);   
+				}   
+				var price =	Number($("#total_div_span_total").html().replace(",",""));
+				var $input1 ="<input type='hidden' name='oPhone' value='"+phone+"'>"; 
+				var $input2 ="<input type='hidden' name='oMail' value='"+mail+"'>";
+				var $input3 ="<input type='hidden' name='oAddress' value='"+add+"'>";
+				var $input4 ="<input type='hidden' name='oName' value='"+name+"'>"; 
+				var $input5 ="<input type='hidden' name='oPassword' value='"+password+"'>"; 
+				var $input6 ="<input type='hidden' name='oPoint' value='"+point+"'>"; 
+				var $input7 ="<input type='hidden' name='oPrice' value='"+price+"'>"; 
+
+				 $("#f1").append($input1).append($input2).append($input3).append($input4).append($input5).append($input6).append($input7); 
+				$("#f1").attr("action","orderProduct"); 
+				$("#f1").submit();      
+				 
+			})
+			   
+			  
+		})   
 	</script>
 	<section>
 		<div id="section_orderNow">   
@@ -158,48 +322,52 @@
 						<th>주문금액/<br>
 							적립예정 포인트</th>
 					</tr>
-				
+				<c:forEach var="list" items="${basket}">
 							<tr>        							      
-							<td><img src="${pageContext.request.contextPath }/resources/main/${basket.detailProduct.product.brand.bNameEng }_${basket.detailProduct.product.pNameEng}.PNG"> </td>
-								<td>${basket.detailProduct.product.pNameKor }<br>
-									${basket.detailProduct.product.pNameEng}<br>
-									옵션:${basket.detailProduct.dColor}/${basket.detailProduct.dSize}</td>
-								<fmt:formatNumber value="${basket.detailProduct.product.pTotalPrice }" type="number" var="pTotalPrice"/>
-								<fmt:formatNumber value="${basket.detailProduct.product.pPrice }" type="number" var="pPrice"/>
-								<fmt:formatNumber value="${(basket.detailProduct.product.pTotalPrice*basket.bCount)*0.01 }" type="number" var="pPoint"/>	
+							<td><img src="${pageContext.request.contextPath }/resources/main/${list.detailProduct.product.brand.bNameEng }_${list.detailProduct.product.pNameEng}.PNG"> </td>
+								<td>${list.detailProduct.product.pNameKor }<br>
+									${list.detailProduct.product.pNameEng}<br>
+									옵션:${list.detailProduct.dColor}/${list.detailProduct.dSize}
+									<input type="hidden" class="hiddendNo" value="${list.bNo}">
+									<input type="hidden" class="hiddendDetailNo" value="${list.detailProduct.dNo}"></td>
+									
+								<fmt:formatNumber value="${list.detailProduct.product.pTotalPrice }" type="number" var="pTotalPrice"/>
+								<fmt:formatNumber value="${list.detailProduct.product.pPrice }" type="number" var="pPrice"/>
+								<fmt:formatNumber value="${(list.detailProduct.product.pTotalPrice*list.bCount)*0.01 }" type="number" var="pPoint"/>	
 								<td><span class="totalPrice">${pTotalPrice}</span><br>
-								<c:if test="${basket.detailProduct.product.pRate > 0 }">
+								<c:if test="${list.detailProduct.product.pRate > 0 }">
 									<span id="basketPrice">${pPrice}</span>
 								</c:if>
 								</td>
-								<td><input type="text"  value="${basket.bCount }" readonly="readonly" id="input_text"></td>
-								<fmt:formatNumber value="${basket.detailProduct.product.pTotalPrice * basket.bCount }" type="number" var="pSum"/>
+								<td><input type="text"  value="${list.bCount }" readonly="readonly" class="input_text"></td>
+								<fmt:formatNumber value="${list.detailProduct.product.pTotalPrice * list.bCount }" type="number" var="pSum"/>
 								
 								<td><span class="sumPrice">${pSum}</span><br>  
 									<span class="point">${pPoint }</span><br>
 									<span>비회원 구매시 적립X</span></td>
-							</tr>						
+							</tr>	
+				</c:forEach>					
 				</table>  
 				<div id="total_div">
-					<span>주문금액&nbsp;&nbsp; <span class="total_div_span" id="price">${pSum}</span>원</span>&nbsp;&nbsp;+&nbsp;&nbsp;
+					<span>주문금액&nbsp;&nbsp; <span class="total_div_span" id="price">0</span>원</span>&nbsp;&nbsp;+&nbsp;&nbsp;
 					<span>배송비&nbsp;&nbsp;     
 					<span class="total_div_span" id="deliveryPr">
-					<c:if test="${(basket.detailProduct.product.pTotalPrice * basket.bCount) < 20000 }">
+					<span class="delivery">0</span>
+					<%-- <c:if test="${(list.detailProduct.product.pTotalPrice * list.bCount) < 20000 }">
 						<span class="delivery">2000</span>
 					</c:if>
-					<c:if test="${(basket.detailProduct.product.pTotalPrice * basket.bCount) > 20000 }">
-						<span class="delivery">0</span>
-					</c:if>
+					<c:if test="${(list.detailProduct.product.pTotalPrice * list.bCount) > 20000 }">
+						
+					</c:if> --%>
 					</span>원</span> 
 					&nbsp;&nbsp;=&nbsp;&nbsp;<span>총 결제금액&nbsp;&nbsp; <span id="total_div_span_total">0</span>원</span>	
 				</div>
 				<!-- 주문정보 -->
 				<div id="member">
 					<h4 id="member_h4">주문 정보</h4> 
-						<form action="">
 							<div class="form-group">
 							  <span class="st">★ </span><label for="cName"> 이름</label>
-							  <input type="text" class="form-control" id="cName" name="cName">
+							  <input type="text" class="form-control" id="cName" name="cName" value="${coustomer.cName}">
 							</div>
 							<div class="form-group">
 							   <span class="st">★ </span><label for="phone2"> 전화번호</label><br> 
@@ -210,7 +378,7 @@
 								  </select>
 								  -
 							  <input type="text" class="form-control" id="phone2"> -
-							  <input type="text" class="form-control" id="phone3">
+							  <input type="text" class="form-control" id="phone3">  
 							</div>
 							<div class="form-group">
 								<span class="st">★ </span><label for="mail1"> 메일</label><br>
@@ -234,12 +402,12 @@
 									<option>nate.com</option>
 									<option>netian.com</option>
 									<option>paran.com</option>
-								  </select>
-							</div>
-							<c:if test="${coustomer.cId == null}">   
+								  </select>  
+							</div>   
+							<c:if test="${coustomer.cName == null}">   
 								<div class="form-group">
 								  <span class="st">★ </span><label for="cPassword">주문비밀번호 </label><br>
-								  <input type="password" class="form-control" id="cPassword" name="cPassword"><span id="chepw">사용할수 없는 비밀번호입니다.</span>
+								  <input type="password" class="form-control" id="cPassword" name="cPassword">
 								</div>
 								<div class="form-group">       
 								  <span class="st">★ </span><label for="checkcPassword">주문비밀번호 확인</label><br> 
@@ -248,21 +416,24 @@
 							</c:if>
 							 <div class="form-group">
 								  <span class="st">★ </span><label for="add1"> 주소</label><br>
-								  <input type="text" class="form-control" id="add1" readonly="readonly">
+								  <input type="text" class="form-control" id="add1">
 								  <button type="button" class="btn btn-success" onclick="PostCode();">주소찾기</button>
-								  <input type="text" class="form-control" id="add2" readonly="readonly" >
+								  <input type="text" class="form-control" id="add2">
 								  <input type="text" class="form-control" id="add3" > 
 							</div>  
 							
-							<c:if test="${coustomer.cId != null}">     
-							<div class="form-group">
+							<c:if test="${coustomer.cName != null}">       
+							<div class="form-group">   
 								<label for="point">포인트사용</label>
-							  <input type="text" class="form-control" id="point" name="cName" placeholder="1,000이상 사용">
-							    사용가능포인트:24214p &nbsp &nbsp &nbsp <input type="checkbox"> &nbsp 모두사용
+								<fmt:formatNumber value="${coustomer.cPoint}" type="number" var="pPoint"/>
+							  <input type="text" class="form-control" id="point_input" name="cName" placeholder="1,000이상 사용" readonly="readonly">
+							    사용가능포인트:<span id="point_span">${pPoint}</span>p &nbsp &nbsp &nbsp <input type="checkbox" id="allPoint"> &nbsp 모두사용
+								<br><span id="pointchk">사용 할 수 없습니다.</span>   
 							</div> 
 							</c:if>
+						<form id="f1" method="post">
 							<div class="form-group" id="btnGroup">
-								 <button type="button" class="btn btn-primary">결제하기</button>
+								 <button type="button" class="btn btn-primary btnOrder">결제하기</button>
 								 <button type="button" class="btn btn-default">취소</button>
 							</div>  
 						</form>

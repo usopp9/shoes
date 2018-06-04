@@ -45,4 +45,9 @@
 	<select id="selectOrderCoustomer" resultMap="CoustomerOrderResult">
 		select  c_name,c_address,c_phone,c_mail,c_point from coustomer where c_id=#{cId}
 	</select>
+	
+	<!-- 주문된고객 포인트삭제 -->
+	<update id="updateCoustomerPoint">
+		update coustomer set c_point=#{cPoint} where c_id=#{id} 
+	</update>
 </mapper>
