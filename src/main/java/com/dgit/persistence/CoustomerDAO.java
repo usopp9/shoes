@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dgit.domain.CoustomerVO;
+import com.dgit.domain.OrderProductVO;
 
 public interface CoustomerDAO {
 	public List<String> selectAllId();
@@ -17,5 +18,8 @@ public interface CoustomerDAO {
 	public CoustomerVO selectOrderCoustomer(String cId);
 	
 	/*포인트삭제*/
-	public void updateCoustomerPoint(String cId);
+	public void updateCoustomerPoint(OrderProductVO vo);
+	
+	/*포인트추가*/
+	public void updateCoustomerPointAdd(OrderProductVO vo);
 }

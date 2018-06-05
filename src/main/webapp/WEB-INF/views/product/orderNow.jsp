@@ -293,6 +293,16 @@
 					var inputCount = "<input type='hidden' name='count' value='"+count+"'>"; 
 					$("#f1").append(input).append(inputNo).append(inputCount);   
 				}   
+				/* 사용포인트 */
+				var usePoint = $("#point_input").val();
+					if(typeof(usePoint)=="undefined"){
+						usePoint = 0;
+					}else{
+						usePoint = Number(usePoint.replace(",",""));   	
+					}
+				    
+				
+				
 				var price =	Number($("#total_div_span_total").html().replace(",",""));
 				var $input1 ="<input type='hidden' name='oPhone' value='"+phone+"'>"; 
 				var $input2 ="<input type='hidden' name='oMail' value='"+mail+"'>";
@@ -301,9 +311,9 @@
 				var $input5 ="<input type='hidden' name='oPassword' value='"+password+"'>"; 
 				var $input6 ="<input type='hidden' name='oPoint' value='"+point+"'>"; 
 				var $input7 ="<input type='hidden' name='oPrice' value='"+price+"'>"; 
-
-				 $("#f1").append($input1).append($input2).append($input3).append($input4).append($input5).append($input6).append($input7); 
-				$("#f1").attr("action","orderProduct"); 
+				var $input8 ="<input type='hidden' name='oUpoint' value='"+usePoint+"'>"; 	
+				 $("#f1").append($input1).append($input2).append($input3).append($input4).append($input5).append($input6).append($input7).append($input8); 
+				$("#f1").attr("action","orderProduct");  
 				$("#f1").submit();      
 				 
 			})

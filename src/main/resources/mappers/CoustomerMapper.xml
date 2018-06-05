@@ -48,6 +48,10 @@
 	
 	<!-- 주문된고객 포인트삭제 -->
 	<update id="updateCoustomerPoint">
-		update coustomer set c_point=#{cPoint} where c_id=#{id} 
+		update coustomer set c_point=(c_point)-#{oUpoint} where c_id=#{oId} 
+	</update>
+	<!-- 적립포인트 -->
+	<update id="updateCoustomerPointAdd">
+		update coustomer set c_point=(c_point)+#{oPoint} where c_id=#{oId} 
 	</update>
 </mapper>

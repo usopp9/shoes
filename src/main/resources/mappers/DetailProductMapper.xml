@@ -30,4 +30,8 @@
 		<association property="product" resultMap="com.dgit.mapper.ProductMapper.ProductResultAddBrandName"></association>
 	</resultMap>  
 	
+	<update id="discountDstock">
+		update detail_product set d_stock = (d_stock)-#{count} where d_no=#{dNo}
+	</update>
+	
 </mapper>

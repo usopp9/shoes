@@ -100,5 +100,21 @@ public class HeaderController {
 		}
 		return entity;
 	}
-
+	
+	@RequestMapping(value = "noneOrder",method=RequestMethod.POST)
+	public ResponseEntity<String> noneOrder(@RequestBody Map<String, Object> param) {
+		logger.info("noneOrder.............................................................");
+		logger.info("no : " + param.get("no"));
+		logger.info("password : " + param.get("pw")); 
+		ResponseEntity<String> entity = null;
+		/*try {
+			List<BrandVO> list = brandService.selectAllBrand();
+			logger.info(list.toString());
+			entity = new ResponseEntity<String>(list, HttpStatus.OK);// 200
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);// 400
+		}*/
+		return entity;
+	}
 }

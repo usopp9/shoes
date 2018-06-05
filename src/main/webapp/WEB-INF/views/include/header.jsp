@@ -182,16 +182,17 @@
     	 <c:choose>
     		<c:when test="${id != null }">
     			<li><a href="#" id="logout"><span class="glyphicon glyphicon-heart nav_img"></span><span class="nav_modal">[${name }님] 로그아웃</span></a></li>
-     			<li><a href="#"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
+     			<li><a href="${pageContext.request.contextPath}/product/mypage"><span class="glyphicon glyphicon-briefcase nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
     			<li><a href="${pageContext.request.contextPath}/product/basket"><span class="glyphicon glyphicon-shopping-cart nav_img"></span> <span class="nav_modal">장바구니</span></a></li>
     		</c:when>  
     		<c:otherwise> 
     			<li><a href="#"><span class="glyphicon glyphicon-log-in nav_img"></span> <span class="nav_modal" data-toggle="modal" data-target="#myModal">  로그인</span></a></li>
      			<li><a href="#" id="joingo"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">회원가입</span></a></li>
+     			<li><a href="${pageContext.request.contextPath}/product/nonmember"><span class="glyphicon glyphicon-briefcase nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
      			<li><a href="${pageContext.request.contextPath}/product/basket"><span class="glyphicon glyphicon-shopping-cart nav_img"></span> <span class="nav_modal">장바구니</span></a></li>
     		</c:otherwise>
     	</c:choose>            
-   		
+   		   
     </ul>   
   </div>     
 </nav>

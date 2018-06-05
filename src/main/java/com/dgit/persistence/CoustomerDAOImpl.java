@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dgit.domain.CoustomerVO;
+import com.dgit.domain.OrderProductVO;
 
 
 @Repository
@@ -42,10 +43,16 @@ public class CoustomerDAOImpl implements CoustomerDAO {
 	}
 
 	@Override
-	public void updateCoustomerPoint(String cId) {
+	public void updateCoustomerPoint(OrderProductVO vo) {
 		
-		session.update(namespace+".updateCoustomerPoint",cId);
+		session.update(namespace+".updateCoustomerPoint",vo);
 	}
+
+	@Override
+	public void updateCoustomerPointAdd(OrderProductVO vo) {
+		
+		session.update(namespace+".updateCoustomerPointAdd",vo);
+	} 
 
 
 

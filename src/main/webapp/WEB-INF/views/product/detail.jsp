@@ -312,7 +312,6 @@
 					url:"${pageContext.request.contextPath}/product/size?pNo="+${product.pNo}+"&color="+color,       
 					dataType:"json",     
 					success:function(result){			 
-		               console.log(result);  
 		               $("#section_datail_right_size_div2").empty(); 
 		               if(result.length>0){       
 		            	  $(result).each(function(i,obj){
@@ -450,6 +449,30 @@
 							location.href="basket";
 						}
 			})
+			/* 바로구매 */
+			/* $("#btnOrder").click(function(){
+				
+				var classLength= $(".section_datail_right_oder_span1").length; 
+				if(classLength==0){
+					alert("주문 수량이 없습니다.");
+					return; 
+				}
+				for(var i =0;i<classLength;i++){  
+					
+					var cnt =  $(".section_datail_right_oder_div1").eq(i).find(".cntSize").html(); 	
+					var dNo =  $(".section_datail_right_oder_div1").eq(i).find(".dNo").val(); 	
+					var input1 = "<input type='hidden' name='dNo' value='"+dNo+"'>";  	  
+					var input2 = "<input type='hidden' name='cnt' value='"+cnt+"'>";  
+					$("#f1").append(input1).append(input2); 
+				}
+				
+				 
+				
+				$("#f1").attr("action","orderNow"); 
+				$("#f1").submit();  
+				  
+				
+			})*/
 		})    
 	</script>
 	<section>

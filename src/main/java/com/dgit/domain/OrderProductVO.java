@@ -1,11 +1,12 @@
 package com.dgit.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderProductVO {
 	private int oNo;
 	private int oNum;
-	private DetailProductVO detail;
+	private List<DetailProductVO> detail;
 	private String oId;
 	private String oName;
 	private String oPhone;
@@ -14,6 +15,7 @@ public class OrderProductVO {
 	private String oAddress;
 	private int oPrice;
 	private int oPoint;
+	private int oUpoint;
 	private Date oDate;
 	private int oCount;
 	public int getoNo() {
@@ -28,10 +30,10 @@ public class OrderProductVO {
 	public void setoNum(int oNum) {
 		this.oNum = oNum;
 	}
-	public DetailProductVO getDetail() {
+	public List<DetailProductVO> getDetail() {
 		return detail;
 	}
-	public void setDetail(DetailProductVO detail) {
+	public void setDetail(List<DetailProductVO> detail) {
 		this.detail = detail;
 	}
 	public String getoId() {
@@ -82,6 +84,12 @@ public class OrderProductVO {
 	public void setoPoint(int oPoint) {
 		this.oPoint = oPoint;
 	}
+	public int getoUpoint() {
+		return oUpoint;
+	}
+	public void setoUpoint(int oUpoint) {
+		this.oUpoint = oUpoint;
+	}
 	public Date getoDate() {
 		return oDate;
 	}
@@ -94,14 +102,14 @@ public class OrderProductVO {
 	public void setoCount(int oCount) {
 		this.oCount = oCount;
 	}
-	
 	@Override
 	public String toString() {
 		return "OrderProductVO [oNo=" + oNo + ", oNum=" + oNum + ", detail=" + detail + ", oId=" + oId + ", oName="
 				+ oName + ", oPhone=" + oPhone + ", oMail=" + oMail + ", oPassword=" + oPassword + ", oAddress="
-				+ oAddress + ", oPrice=" + oPrice + ", oPoint=" + oPoint + ", oDate=" + oDate + ", oCount=" + oCount
-				+ "]";
+				+ oAddress + ", oPrice=" + oPrice + ", oPoint=" + oPoint + ", oUpoint=" + oUpoint + ", oDate=" + oDate
+				+ ", oCount=" + oCount + "]";
 	}
+	
 	
 	
 	

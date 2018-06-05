@@ -1,5 +1,7 @@
 package com.dgit.persistence;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,29 @@ public class OrderProductDAOImpl implements OrderProductDAO {
 	
 	@Override
 	public void insertOrder(OrderProductVO vo) {
+		
 		session.insert(namespace+".insertOrder",vo);
+	}
+
+
+	@Override
+	public List<OrderProductVO> selectOnum(String oId) {
+		
+		return session.selectList(namespace+".selectOnum",oId);
+	}
+
+
+	/*@Override
+	public List<OrderProductVO> selectOnumList(int oNum) {
+		
+		return session.selectList(namespace+".selectOnumList",oNum); 
+	}
+*/
+
+	@Override
+	public List<OrderProductVO> selectMypageDetail(int oNum) {
+		
+		return session.selectList(namespace+".selectMypageDetail",oNum); 
 	}
 
 }

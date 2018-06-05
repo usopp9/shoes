@@ -2,6 +2,8 @@ package com.dgit.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -135,7 +138,7 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 			String serverId = request.getRemoteAddr();
 			id = serverId;
 		}
-		List<BasketVO> vo = basketService.selectBasket(id);
+		List<BasketVO> vo = basketService.selectBasket(id);	
 		model.addAttribute("vo",vo);
 	}
 	
@@ -200,16 +203,16 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 	@RequestMapping(value="orderProduct", method=RequestMethod.POST)
 	public void orderProduct(int[] dNo,int[] detailNo,int[] count,OrderProductVO vo,HttpServletRequest request,Model model){
 		logger.info("orderProduct POST..................................");
-		
-		
-		
 		logger.info("vo : " + vo.toString());  
 		HttpSession session = request.getSession();
 		String id =(String) session.getAttribute("id");
 		long nowTime = System.currentTimeMillis();
 		vo.setoNum(-(int)nowTime); 
+		
 		if(id !=null){
 			vo.setoId(id);
+			coustomerService.updateCoustomerPoint(vo);
+			 
 		}else if(id ==null){
 			String serverId = request.getRemoteAddr();
 			vo.setoId(serverId);
@@ -217,11 +220,66 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		}
 		for(int i = 0; i<dNo.length;i++){
 			logger.info("dNo : "+dNo[i]);
-			vo.setDetail(new DetailProductVO(detailNo[i]));
+			List<DetailProductVO> d = new ArrayList<>();
+			d.add(new DetailProductVO(detailNo[i]));
+			vo.setDetail(d);
 			vo.setoCount(count[i]);
 			logger.info("vo : " + vo.toString());   
 			orderProductService.insertOrder(vo);
-		}
+			basketService.deleteBasket(dNo[i]);
+			Map<String, Object> map = new HashMap<>();
+			map.put("count", count[i]);
+			map.put("dNo", detailNo[i]);
+			detailProductService.discountDstock(map);			
+		}		
+		model.addAttribute("orderNum", vo.getoNum());
 	}
+	
+	@RequestMapping(value="mypage",method=RequestMethod.GET)
+	public void mypage(HttpServletRequest request,Model model){
+		logger.info("mypage GET ..................................");	 
+		
+		HttpSession session = request.getSession();
+		String id =(String) session.getAttribute("id");
+		
+		List<OrderProductVO> mypageList = orderProductService.selectOnum(id);
+
+		logger.info("mypageList : "+mypageList);	 
+		logger.info("mypageListSize : "+mypageList.size());	
+		model.addAttribute("mypageList",mypageList);		
+	} 
+	
+	@RequestMapping(value="nonmember",method=RequestMethod.GET)
+	public void myPage(HttpServletRequest request){
+		logger.info("mypagenonmember GET ..................................");	 
+		
+	
+		/*String serverId = request.getRemoteAddr();
+		
+		logger.info("serverId : "+ serverId);	 */
+	 
+	} 
+	
+	
+	@RequestMapping(value="mypageDetail",method=RequestMethod.GET)
+	public void mypageDetail(int no,Model model){
+		logger.info("mypageDetail GET ..................................");	 
+		
+		logger.info("no : "+ no);	
+		List<OrderProductVO> detailList = orderProductService.selectMypageDetail(no);
+
+		for(OrderProductVO orderVo : detailList){
+			
+			for(DetailProductVO vo : orderVo.getDetail()){
+				logger.info("vo : "+vo);
+			}
+		}  
+		
+		logger.info("detailListSize : "+ detailList.get(0).getDetail().size());	
+		logger.info("detailListSize : "+ detailList.size());	
+		model.addAttribute("detailList",detailList);
+		model.addAttribute("size",detailList.get(0).getDetail());
+		
+	}  
 }
  

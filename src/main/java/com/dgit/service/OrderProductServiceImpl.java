@@ -1,5 +1,7 @@
 package com.dgit.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,24 @@ public class OrderProductServiceImpl implements OrderProductService {
 	public void insertOrder(OrderProductVO vo) {
 		
 		dao.insertOrder(vo);
+	}
+
+	@Override
+	public List<OrderProductVO> selectOnum(String oId) {
+		
+		return dao.selectOnum(oId);
+	}
+
+	/*@Override
+	public List<OrderProductVO> selectOnumList(int oNum) {
+		
+		return dao.selectOnumList(oNum);
+	}
+*/
+	@Override
+	public List<OrderProductVO> selectMypageDetail(int oNum) {
+		
+		return dao.selectMypageDetail(oNum);
 	}
 
 }

@@ -26,4 +26,10 @@ public class DetailProductServiceImpl implements DetailProductService {
 		return dao.selectDPNoneColor(map);
 	}
 
+	@Override
+	public void discountDstock(Map<String, Object> map) {
+		
+		dao.discountDstock(map);
+	}
+
 }

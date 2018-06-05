@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dgit.domain.CoustomerVO;
+import com.dgit.domain.OrderProductVO;
 import com.dgit.persistence.CoustomerDAO;
 
 @Service
@@ -38,6 +39,13 @@ public class CoustomerServiceImpl implements CoustomerService {
 	public CoustomerVO selectOrderCoustomer(String cId) {
 		
 		return dao.selectOrderCoustomer(cId);
+	}
+
+	@Override
+	public void updateCoustomerPoint(OrderProductVO vo) {
+		
+		dao.updateCoustomerPoint(vo);
+		dao.updateCoustomerPointAdd(vo);
 	}	
 
 }
