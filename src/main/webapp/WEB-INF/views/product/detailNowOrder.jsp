@@ -303,23 +303,20 @@
 				    
 				
 				
-				var price =	Number($("#total_div_span_total").html().replace(",","").replace(",","").replace(",","")); 
+				var price =	Number($("#total_div_span_total").html().replace(",","").replace(",","").replace(",",""));
 				var $input1 ="<input type='hidden' name='oPhone' value='"+phone+"'>"; 
 				var $input2 ="<input type='hidden' name='oMail' value='"+mail+"'>";
-				var $input3 ="<input type='hidden' name='oAddress' value='"+add+"'>";   
+				var $input3 ="<input type='hidden' name='oAddress' value='"+add+"'>";  
 				var $input4 ="<input type='hidden' name='oName' value='"+name+"'>"; 
 				var $input5 ="<input type='hidden' name='oPassword' value='"+password+"'>"; 
 				var $input6 ="<input type='hidden' name='oPoint' value='"+point+"'>"; 
 				var $input7 ="<input type='hidden' name='oPrice' value='"+price+"'>"; 
 				var $input8 ="<input type='hidden' name='oUpoint' value='"+usePoint+"'>"; 	
-				   
-        
 				 $("#f1").append($input1).append($input2).append($input3).append($input4).append($input5).append($input6).append($input7).append($input8); 
 				$("#f1").attr("action","orderProduct");  
 				$("#f1").submit();      
 				 
 			})
-			
 			$("#cancelOrder").click(function(){
 				location.href="${pageContext.request.contextPath}/";
 			})     
@@ -337,29 +334,29 @@
 						<th>주문금액/<br>
 							적립예정 포인트</th>
 					</tr>
-				<c:forEach var="list" items="${basket}">
+				<c:forEach var="list" items="${detail}" varStatus="s">
 							<tr>        							      
-							<td><img src="${pageContext.request.contextPath }/resources/main/${list.detailProduct.product.brand.bNameEng }_${list.detailProduct.product.pNameEng}.PNG"> </td>
-								<td>${list.detailProduct.product.pNameKor }<br>
-									${list.detailProduct.product.pNameEng}<br>
-									옵션:${list.detailProduct.dColor}/${list.detailProduct.dSize}
-									<input type="hidden" class="hiddendNo" value="${list.bNo}">
-									<input type="hidden" class="hiddendDetailNo" value="${list.detailProduct.dNo}"></td>
+							<td><img src="${pageContext.request.contextPath }/resources/main/${list.product.brand.bNameEng }_${list.product.pNameEng}.PNG"> </td>
+							 	<td>${list.product.pNameKor }<br>
+									${list.product.pNameEng}<br>
+									옵션:${list.dColor}/${list.dSize}
+									<input type="hidden" class="hiddendNo" value="0">   
+									<input type="hidden" class="hiddendDetailNo" value="${list.dNo}"></td>
 									
-								<fmt:formatNumber value="${list.detailProduct.product.pTotalPrice }" type="number" var="pTotalPrice"/>
-								<fmt:formatNumber value="${list.detailProduct.product.pPrice }" type="number" var="pPrice"/>
-								<fmt:formatNumber value="${(list.detailProduct.product.pTotalPrice*list.bCount)*0.01 }" type="number" var="pPoint"/>	
+								<fmt:formatNumber value="${list.product.pTotalPrice }" type="number" var="pTotalPrice"/>
+								<fmt:formatNumber value="${list.product.pPrice }" type="number" var="pPrice"/>
+								<fmt:formatNumber value="${(list.product.pTotalPrice * count[s.index] *0.01) }" type="number" var="pPoint"/>	
 								<td><span class="totalPrice">${pTotalPrice}</span><br>
-								<c:if test="${list.detailProduct.product.pRate > 0 }">
+								<c:if test="${list.product.pRate > 0 }"> 
 									<span id="basketPrice">${pPrice}</span>
 								</c:if>
-								</td>
-								<td><input type="text"  value="${list.bCount }" readonly="readonly" class="input_text"></td>
-								<fmt:formatNumber value="${list.detailProduct.product.pTotalPrice * list.bCount }" type="number" var="pSum"/>
+								</td>  
+								<td><input type="text"  value="${count[s.index]}" readonly="readonly" class="input_text"></td>
+								<fmt:formatNumber value="${list.product.pTotalPrice * count[s.index]}" type="number" var="pSum"/>
 								
 								<td><span class="sumPrice">${pSum}</span><br>  
-									<span class="point">${pPoint }</span><br>
-									<span>비회원 구매시 적립X</span></td>
+									<span class="point">${pPoint }</span><br>  
+									<span>비회원 구매시 적립X</span></td> 
 							</tr>	
 				</c:forEach>					
 				</table>  
@@ -449,7 +446,7 @@
 						<form id="f1" method="post">
 							<div class="form-group" id="btnGroup">
 								 <button type="button" class="btn btn-primary btnOrder">결제하기</button>
-								 <button type="button" class="btn btn-default"  id="cancelOrder">취소</button>
+								 <button type="button" class="btn btn-default" id="cancelOrder">취소</button>
 							</div>  
 						</form>
 					</div>

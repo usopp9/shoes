@@ -1,6 +1,7 @@
 package com.dgit.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,12 @@ public class OrderProductServiceImpl implements OrderProductService {
 	public List<OrderProductVO> selectMypageDetail(int oNum) {
 		
 		return dao.selectMypageDetail(oNum);
+	}
+
+	@Override
+	public List<Integer> selectNoneMemberMypage(Map<String, Object> map) {
+		
+		return dao.selectNoneMemberMypage(map);
 	}
 
 }

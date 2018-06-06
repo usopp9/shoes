@@ -34,4 +34,10 @@ public class DetailProductImpl implements DetailProductDAO {
 		session.update(namespace+".discountDstock",map);
 	}
 
+	@Override
+	public DetailProductVO selectDetailOrderNow(int dNo) {
+		
+		return session.selectOne(namespace+".selectDetailOrderNow",dNo);
+	}
+
 }

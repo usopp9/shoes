@@ -19,11 +19,11 @@
 		<result property="oCount" column="o_count"/>		
 	</resultMap>
 	
-	<insert id="insertOrder">
+	<insert id="insertOrder" parameterType="OrderProductVO"> 
 		insert into order_product(o_num,d_no,o_id,o_name,o_phone,o_mail,o_password,o_address,o_price,o_point,o_upoint,o_date,o_count)
-		values(#{oNum},#{detail.dNo},#{oId},#{oName},#{oPhone},#{oMail},#{oPassword},#{oAddress},#{oPrice},#{oPoint},#{oUpoint},now(),#{oCount})
-	</insert>
-	 
+		values(#{oNum},#{detailProductNo},#{oId},#{oName},#{oPhone},#{oMail},#{oPassword},#{oAddress},#{oPrice},#{oPoint},#{oUpoint},now(),#{oCount})
+	</insert>    
+	    
 	  <resultMap type="OrderProductVO" id="OrderProductMypageListResult">
 		<result property="oNum" column="o_num"/>
 		<result property="oPrice" column="o_price"/>
@@ -65,4 +65,9 @@
 		where o_num = #{oNum}
 	</select>	      
 	 
+	 
+	 <select id="selectNoneMemberMypage" resultType="int">
+	 	select o_no from order_product
+		where o_num = #{num} and o_password=#{pw}
+	 </select>
 </mapper> 

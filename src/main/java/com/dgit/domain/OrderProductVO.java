@@ -7,6 +7,7 @@ public class OrderProductVO {
 	private int oNo;
 	private int oNum;
 	private List<DetailProductVO> detail;
+	private int detailProductNo;
 	private String oId;
 	private String oName;
 	private String oPhone;
@@ -18,6 +19,13 @@ public class OrderProductVO {
 	private int oUpoint;
 	private Date oDate;
 	private int oCount;
+	
+	public int getDetailProduct() {
+		return detailProductNo;
+	}
+	public void setDetailProduct(int detailProduct) {
+		this.detailProductNo = detailProduct;
+	}
 	public int getoNo() {
 		return oNo;
 	}

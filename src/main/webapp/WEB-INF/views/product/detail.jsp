@@ -15,11 +15,10 @@
 	#section_detail{
 		width:60%;
 		margin: 0 auto;  	
-		border: 1px solid red; 
-		overflow: hidden;   
-		min-height: 500px;   
-	}  
-	#section_detail_left{
+		overflow: hidden;       
+		min-height: 500px;      
+	}    
+	#section_detail_left{   
 		width: 48%;
 		height: 450px;
 		float: left;
@@ -324,10 +323,10 @@
 		                  })	
 		           		}
 					}
-				})		
-
+				})			
 				$("#section_datail_right_size").show();        
 			})
+				$(".btnColor").eq(0).trigger("click");       
 			/* 가격 */
 				var price = 0; 
 			/* 사이즈클릭 */
@@ -383,7 +382,9 @@
 			$(document).on("click",".btnPlus",function(){
 				var cnt = $(this).parent().find(".cntSize").html();
 				var sizeTotal = $(this).parent().find(".size_total").html(); 
-			
+					if(Number(cnt)== 10){     
+						  	return;    
+		 				}         
 				var sum = Number(sizeTotal.replace(",",""));    
 					sum += Number(price);    
 					
@@ -450,7 +451,7 @@
 						}
 			})
 			/* 바로구매 */
-			/* $("#btnOrder").click(function(){
+			$("#btnOrder").click(function(){
 				
 				var classLength= $(".section_datail_right_oder_span1").length; 
 				if(classLength==0){
@@ -461,18 +462,17 @@
 					
 					var cnt =  $(".section_datail_right_oder_div1").eq(i).find(".cntSize").html(); 	
 					var dNo =  $(".section_datail_right_oder_div1").eq(i).find(".dNo").val(); 	
-					var input1 = "<input type='hidden' name='dNo' value='"+dNo+"'>";  	  
+					var input1 = "<input type='hidden' name='bNo' value='"+dNo+"'>";  	  
 					var input2 = "<input type='hidden' name='cnt' value='"+cnt+"'>";  
 					$("#f1").append(input1).append(input2); 
 				}
-				
+				    
 				 
 				
-				$("#f1").attr("action","orderNow"); 
-				$("#f1").submit();  
-				  
-				
-			})*/
+				$("#f1").attr("action","detailNowOrder"); 
+				$("#f1").submit();  		
+			})
+		   
 		})    
 	</script>
 	<section>

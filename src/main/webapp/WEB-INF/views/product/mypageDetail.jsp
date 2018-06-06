@@ -14,9 +14,8 @@
 	}    
 	#detailList{
 		width: 60%;
-		margin: 0 auto;
-		height: 700px;
-	}
+		margin: 0 auto;       
+	}   
 	#detailList_h2{
 		border-bottom: 1px solid #C2B7F1; 
 		padding-bottom: 10px; 
@@ -82,6 +81,9 @@
 			$("#goMypage").click(function(){
 				location.href="mypage";    
 			})
+			$("#goNoneMypage").click(function(){
+				location.href="nonmember";      
+			})
 		})
 	</script>
 	<section>
@@ -141,7 +143,12 @@
 					<span id="add2"></span></p>				
 				</div>
 				<div id="div_btn">
+					<c:if test="${id !=null }">
 					<button type="button" class="btn btn-warning" id="goMypage">마이페이지</button>
+					</c:if>
+					<c:if test="${id ==null }">
+					<button type="button" class="btn btn-danger" id="goNoneMypage">마이페이지</button>
+					</c:if>
 				</div>
 		</div>
 	</section>

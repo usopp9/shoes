@@ -32,4 +32,10 @@ public class DetailProductServiceImpl implements DetailProductService {
 		dao.discountDstock(map);
 	}
 
+	@Override
+	public DetailProductVO selectDetailOrderNow(int dNo) {
+		
+		return dao.selectDetailOrderNow(dNo);
+	}
+
 }

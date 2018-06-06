@@ -50,6 +50,14 @@
 					headers:{"Content-Type":"application/json"},
 					success:function(result){			
 		              	console.log(result); 
+		              	if(result=="fail"){
+		              		alert("해당하는 주문이 존재하지 않습니다.");
+		              		$("#no").val("");
+		              		$("#pw").val("");
+		              		return;
+		              	}else{
+		              		location.href="mypageDetail?no="+result;   
+		              	}
 					}
 				})
 			}) 

@@ -1,6 +1,7 @@
 package com.dgit.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,13 @@ public class OrderProductDAOImpl implements OrderProductDAO {
 	public List<OrderProductVO> selectMypageDetail(int oNum) {
 		
 		return session.selectList(namespace+".selectMypageDetail",oNum); 
+	}
+
+
+	@Override
+	public List<Integer> selectNoneMemberMypage(Map<String, Object> map) {
+		
+		return session.selectList(namespace+".selectNoneMemberMypage",map); 
 	}
 
 }

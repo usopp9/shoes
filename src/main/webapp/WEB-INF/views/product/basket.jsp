@@ -269,6 +269,9 @@
 			$("#f1").attr("action","orderNow"); 
 			$("#f1").submit();  
 		})
+		$("#shopping").click(function(){
+			location.href="${pageContext.request.contextPath}/";  
+		})
 	})   
 	</script>
 	<section>
@@ -328,7 +331,7 @@
 					<span>주문금액&nbsp;&nbsp; <span class="total_div_span" id="tPrice">100000</span>원</span>&nbsp;&nbsp;+&nbsp;&nbsp;<span>배송비&nbsp;&nbsp; <span class="total_div_span" id="deliveryPr">0</span>원</span>&nbsp;&nbsp;=&nbsp;&nbsp;<span>총 결제금액&nbsp;&nbsp; <span id="total_div_span_total">402414</span>원</span>	
 				</div>
 				<div id="selectOrder">
-					<button type="button" class="btn btn-default btnselOrder">계속 쇼핑</button>
+					<button type="button" class="btn btn-default btnselOrder" id="shopping">계속 쇼핑</button>
 					<button type="button" class="btn btn-default btnselOrder" id="slectbtnO">선택상품 주문하기</button>
 					<button type="button" class="btn btn-danger btnselOrder" id="allBtnOrder">전체상품 주문하기</button>
 				</div>

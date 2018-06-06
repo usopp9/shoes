@@ -1,6 +1,7 @@
 package com.dgit.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,6 +57,7 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 	
 	@Autowired
 	OrderProductService orderProductService;
+	
 	@RequestMapping(value="detail", method=RequestMethod.GET)
 	public void detailGet(int no,Model model){
 		logger.info("detail get..................................");
@@ -199,11 +201,42 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		model.addAttribute("basket",basket);	
 	}
 	
+	@RequestMapping(value="detailNowOrder", method=RequestMethod.POST)
+	public void detailNowOrder(int[] bNo,int[] cnt, HttpServletRequest request,Model model){
+		logger.info("detailNowOrder POST..................................");
+		
+		List<DetailProductVO> detail = new ArrayList<DetailProductVO>();
+		List<Integer> count = new ArrayList<>();
+		for(int i =0;i<bNo.length;i++){
+			logger.info("bNo : "+bNo[i]);
+			DetailProductVO vo = detailProductService.selectDetailOrderNow(bNo[i]);
+			count.add(cnt[i]);
+			detail.add(vo); 
+		}    
+		HttpSession session = request.getSession();
+		String id =(String) session.getAttribute("id");
+		
+		CoustomerVO coustomer = new CoustomerVO();
+		if(id!=null){
+			coustomer = coustomerService.selectOrderCoustomer(id);
+		}
+		   
+		/*BasketVO basket = basketService.selectOneOrder(bNo);*/
+		System.out.println(coustomer);     
+		System.out.println(detail.size());  
+		System.out.println(detail);    
+		model.addAttribute("coustomer", coustomer);
+		model.addAttribute("detail",detail);	
+		model.addAttribute("count",count);	
+	}
+	
+	
+	
 	
 	@RequestMapping(value="orderProduct", method=RequestMethod.POST)
 	public void orderProduct(int[] dNo,int[] detailNo,int[] count,OrderProductVO vo,HttpServletRequest request,Model model){
 		logger.info("orderProduct POST..................................");
-		logger.info("vo : " + vo.toString());  
+		logger.info("detailNo : " + detailNo[0]);  
 		HttpSession session = request.getSession();
 		String id =(String) session.getAttribute("id");
 		long nowTime = System.currentTimeMillis();
@@ -218,19 +251,27 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 			vo.setoId(serverId);
 			vo.setoPoint(0);
 		}
+		
+
 		for(int i = 0; i<dNo.length;i++){
-			logger.info("dNo : "+dNo[i]);
-			List<DetailProductVO> d = new ArrayList<>();
-			d.add(new DetailProductVO(detailNo[i]));
-			vo.setDetail(d);
-			vo.setoCount(count[i]);
+			logger.info("detailNo : "+detailNo[i]); 
+
+			/*d.addAll(Arrays.asList(new DetailProductVO(detailNo[i])));*/
+
+ 
+			/*List<DetailProductVO> d = new ArrayList<>();
+			d.add(new DetailProductVO(detailNo[i]));*/  
+			vo.setDetailProduct(detailNo[i]);  
+			vo.setoCount(count[i]);  
 			logger.info("vo : " + vo.toString());   
-			orderProductService.insertOrder(vo);
-			basketService.deleteBasket(dNo[i]);
+			orderProductService.insertOrder(vo); 
+			
+				basketService.deleteBasket(dNo[i]); 
+		
 			Map<String, Object> map = new HashMap<>();
 			map.put("count", count[i]);
 			map.put("dNo", detailNo[i]);
-			detailProductService.discountDstock(map);			
+			detailProductService.discountDstock(map);		
 		}		
 		model.addAttribute("orderNum", vo.getoNum());
 	}

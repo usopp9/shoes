@@ -10,4 +10,6 @@ public interface DetailProductService {
 	
 	public List<DetailProductVO>selectDPNoneColor(Map<String, Object> map); 
 	public void discountDstock(Map<String, Object> map);
+	
+	public DetailProductVO selectDetailOrderNow(int dNo);
 }
