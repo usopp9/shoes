@@ -147,6 +147,14 @@
 				return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");   
 			}
 			
+			
+			$("#mail3").change(function(){
+				var m = $("#mail3").val();
+				$("#mail2").val(m);    
+				   
+			})
+			
+			
 			var delivery =$(".delivery").html(); 
 			
 			var sum =0;

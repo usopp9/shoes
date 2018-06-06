@@ -122,19 +122,19 @@
 					for(var i =0; i<sumlength;i++){
 						var price = $(".sumPrice").eq(i).html();
 						  
-						sum+=Number(price.replace(",",""));
+						sum+=Number(price.replace(",","").replace(",","").replace(",","").replace(",",""));
 					}
 					/* 배송비 결제 */
-					if(sum < 20000){
-						$("#deliveryPr").html(nc(2000));   
+					if(sum < 20000){  
+						$("#deliveryPr").html(nc(2000));     
 					}
 					$("#tPrice").html(nc(sum));  
 		            
 					var deliveryP = $("#deliveryPr").html();
-					var totalSum = sum+ Number(deliveryP.replace(",",""));
+					var totalSum = sum+ Number(deliveryP.replace(",","").replace(",","").replace(",","").replace(",",""));
 					$("#total_div_span_total").html(nc(totalSum)); 
 		}
-		  
+		       
 		
 		
 		/* 수량변경 */  
@@ -157,9 +157,9 @@
 		            	if(result=="success"){    
 		            		var cnt =$(".updateBasket").eq(index).parent().parent().find(".table_input").val();
 		            		var price =$(".updateBasket").eq(index).parent().parent().find(".totalPrice").html();		            		
-		            		var sum = Number(cnt)*Number(price.replace(",",""));
-		            		var point = (Number(cnt)*Number(price.replace(",",""))*0.01);
-		            		
+		            		var sum = Number(cnt)*Number(price.replace(",","").replace(",","").replace(",",""));
+		            		var point = (Number(cnt)*Number(price.replace(",","").replace(",","").replace(",",""))*0.01);
+		            		  
 		            		
 		            		$(".updateBasket").eq(index).parent().parent().find(".sumPrice").html(nc(sum)); 
 		            		$(".updateBasket").eq(index).parent().parent().find(".point").html(nc(point)); 
@@ -312,7 +312,7 @@
 									<span class="basketPrice">${pPrice}</span>
 								</c:if>
 								</td>
-								<td><input type="number"  value="${item.bCount }" size="2" class="table_input" min="1"><button type="button" class="updateBasket">변경</button></td>
+								<td><input type="number"  value="${item.bCount }" size="2" class="table_input" min="1" max="10"><button type="button" class="updateBasket">변경</button></td>
 								<fmt:formatNumber value="${item.detailProduct.product.pTotalPrice * item.bCount }" type="number" var="pSum"/>
 								
 								<td><span class="sumPrice">${pSum}</span><br>  
