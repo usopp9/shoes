@@ -3,28 +3,28 @@ show tables;
 select b_no,b_name_kor,b_name_eng from brand;
 
 insert into brand(b_name_eng,b_name_kor) values
-('Adidas','¾Æµğ´Ù½º'),
-('Fila','ÈÙ¶ó'),
-('Lacoste','¶óÄÚ½ºÅ×'),
-('Nike','³ªÀÌÅ°'),
-('Puma','Çª¸¶'),
-('Reebok','¸®º¹'),
-('Vans','¹İ½º');
+('Adidas','ì•„ë””ë‹¤ìŠ¤'),
+('Fila','íœ ë¼'),
+('Lacoste','ë¼ì½”ìŠ¤í…Œ'),
+('Nike','ë‚˜ì´í‚¤'),
+('Puma','í‘¸ë§ˆ'),
+('Reebok','ë¦¬ë³µ'),
+('Vans','ë°˜ìŠ¤');
 
 select * from brand;
 
 select * from brand where b_name_eng like 'nike';
 
 insert into brand(b_name_eng,b_name_kor) values
-('Fila','ÈÙ¶ó');
+('Fila','íœ ë¼');
 select * from category;
 delete from brand where b_no=2;
 insert into category(c_name) values
-('¿îµ¿È­'),
-('½ºÆ÷Ã÷.·¹Á®'),
-('±¸µÎ'),
-('»÷µé'),
-('ºÎÃ÷');
+('ìš´ë™í™”'),
+('ìŠ¤í¬ì¸ .ë ˆì ¸'),
+('êµ¬ë‘'),
+('ìƒŒë“¤'),
+('ë¶€ì¸ ');
 
 select c_no, c_name from category;
 
@@ -47,7 +47,7 @@ select distinct(d_color) from detail_product
 where p_no=1;
 
 select d_no,d_size,d_stock from detail_product
-where p_no=1 and d_color='ºí·¢';
+where p_no=1 and d_color='ë¸”ë™';
 
 update product set p_cnt =5 where p_no=1;
 select b.b_name_eng,p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price from product p 
@@ -57,70 +57,70 @@ select b.b_name_eng,p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_tot
 
 select b.b_name_kor,b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,p_date, p.p_tf from product p 
 		join brand b on p.b_no = b.b_no
-		where  p.p_name_kor like '%Á¦Æ®%8000';
+		where  p.p_name_kor like '%ì œíŠ¸%8000';
 
 select b.b_name_kor,b.b_name_eng, p.p_no, p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,p_date, p.p_tf from product p 
 		join brand b on p.b_no = b.b_no
-		where  b.b_name_kor like '³ªÀÌÅ°';
+		where  b.b_name_kor like 'ë‚˜ì´í‚¤';
 
 update product set p_tf =0 where p_no=10;
 select * from product;
 delete from product where b_no=2;
 
 insert into product(b_no,c_no,p_code,p_name_kor,p_name_eng,p_price,p_rate,p_total_price,p_date,p_count,p_tf,p_cnt)values
-(1,1,'S82819','Á¦Æ®¿¢½º 8000','ZX 8000',109000,5,100000,'2018-05-27',50,1,5),
-(1,4,'B41720','¾ËÆÄ¹Ù¿î½º ½½¶óÀÌµå','ALPHABOUNCE SLIDE',59000,0,59000,'2018-05-28',0,0,0),
-(1,2,'CG3914','Å¬¶óÀÌ¸¶Äğ º¥Æ® ¿¥','CLIMACOOL VENT M',129000,0,129000,'2018-05-29',0,1,0),
-(1,1,'B37955','¿£-5923','N-5923',79000,5,59000,'2018-05-29',0,1,0),
-(1,1,'AQ1132','¿£-5923 ¿ì¸Õ','N-5923 W',79000,5,59000,'2018-05-29',0,1,0),
-(2,2,'FK1SIA1043X','¾îµåº¥ÃÄ ER KD','ADVENTURE ER KD',59000,0,59000,'2018-06-01',0,1,0),
-(3,4,'7-29SPM0057','ÇÁ·¹Áö¿¡ ºñ¾Ëµğ1','FRAISIER BRD1',35000,0,35000,'2018-06-02',0,1,0),
-(4,1,'749571','Å¬·¡½Ä ÄÚ¸£Å×Áî ·¹´õ','CLASSIC CORTEZ LEATHER',99000,0,99000,'2018-06-02',77,1,5),
-(4,1,'845104','³ªÀÌÅ° ÄÚÆ® º¸·Î¿ì ·Î¿ì (±×·¹ÀÌµå½ºÄğ)','NIKE COURT BOROUGH LOW GG',59000,0,59000,'2018-06-03',46,0,0),
-(4,1,'942237','³ªÀÌÅ° ¿¡½ººñ µ¨Å¸ Æ÷½º ¹úÅ©','NIKE SB DELTA FORCE VULC',69000,10,59000,'2018-06-04',55,1,0),
-(4,2,'916789','¿ì¸Õ½º ³ªÀÌÅ° ¿¡¾î ¸Æ½º ³ë½ºÅÚÁ÷','WMNS NIKE AIR MAX NOSTALGIC',89000,0,59000,'2018-06-05',0,1,0),
-(4,2,'818381','³ªÀÌÅ° ÅºÁØ (±×·¹ÀÌµå½ºÄğ)','NIKE TANJUN BG',75000,0,59000,'2018-06-05',0,1,0),
-(5,1,'PKI36159113','Çª¸¶ ½º¸Å½¬ Æİ ¿¤ ºêÀÌ ÇÇ¿¡½º','Puma Smash FUN L V PS',29000,0,29000,'2018-06-06',73,1,0),
-(6,2,'RBKCN3534','¸®º¹ µå¸®ÇÁÆ¼¿ò','REEBOK DRIFTIUM',69000,10,59000,'2018-06-06',53,1,0),
-(7,4,'VN0A3MW6P29','¸¶ÄÉ³ª','MAKENA',29000,0,59000,'2018-05-27',0,1,0);
+(1,1,'S82819','ì œíŠ¸ì—‘ìŠ¤ 8000','ZX 8000',109000,5,100000,'2018-05-27',50,1,5),
+(1,4,'B41720','ì•ŒíŒŒë°”ìš´ìŠ¤ ìŠ¬ë¼ì´ë“œ','ALPHABOUNCE SLIDE',59000,0,59000,'2018-05-28',0,0,0),
+(1,2,'CG3914','í´ë¼ì´ë§ˆì¿¨ ë²¤íŠ¸ ì— ','CLIMACOOL VENT M',129000,0,129000,'2018-05-29',0,1,0),
+(1,1,'B37955','ì—”-5923','N-5923',79000,5,59000,'2018-05-29',0,1,0),
+(1,1,'AQ1132','ì—”-5923 ìš°ë¨¼','N-5923 W',79000,5,59000,'2018-05-29',0,1,0),
+(2,2,'FK1SIA1043X','ì–´ë“œë²¤ì³ ER KD','ADVENTURE ER KD',59000,0,59000,'2018-06-01',0,1,0),
+(3,4,'7-29SPM0057','í”„ë ˆì§€ì— ë¹„ì•Œë””1','FRAISIER BRD1',35000,0,35000,'2018-06-02',0,1,0),
+(4,1,'749571','í´ë˜ì‹ ì½”ë¥´í…Œì¦ˆ ë ˆë”','CLASSIC CORTEZ LEATHER',99000,0,99000,'2018-06-02',77,1,5),
+(4,1,'845104','ë‚˜ì´í‚¤ ì½”íŠ¸ ë³´ë¡œìš° ë¡œìš° (ê·¸ë ˆì´ë“œìŠ¤ì¿¨)','NIKE COURT BOROUGH LOW GG',59000,0,59000,'2018-06-03',46,0,0),
+(4,1,'942237','ë‚˜ì´í‚¤ ì—ìŠ¤ë¹„ ë¸íƒ€ í¬ìŠ¤ ë²Œí¬','NIKE SB DELTA FORCE VULC',69000,10,59000,'2018-06-04',55,1,0),
+(4,2,'916789','ìš°ë¨¼ìŠ¤ ë‚˜ì´í‚¤ ì—ì–´ ë§¥ìŠ¤ ë…¸ìŠ¤í…”ì§','WMNS NIKE AIR MAX NOSTALGIC',89000,0,59000,'2018-06-05',0,1,0),
+(4,2,'818381','ë‚˜ì´í‚¤ íƒ„ì¤€ (ê·¸ë ˆì´ë“œìŠ¤ì¿¨)','NIKE TANJUN BG',75000,0,59000,'2018-06-05',0,1,0),
+(5,1,'PKI36159113','í‘¸ë§ˆ ìŠ¤ë§¤ì‰¬ í€ ì—˜ ë¸Œì´ í”¼ì—ìŠ¤','Puma Smash FUN L V PS',29000,0,29000,'2018-06-06',73,1,0),
+(6,2,'RBKCN3534','ë¦¬ë³µ ë“œë¦¬í”„í‹°ì›€','REEBOK DRIFTIUM',69000,10,59000,'2018-06-06',53,1,0),
+(7,4,'VN0A3MW6P29','ë§ˆì¼€ë‚˜','MAKENA',29000,0,59000,'2018-05-27',0,1,0);
 
 select * from detail_product;
 delete from detail_product;
 
 select * from detail_product where p_no=8;
 insert into detail_product(p_no,d_color,d_size,d_stock) values
-(1,'º£ÀÌÁö',220,10),
-(1,'º£ÀÌÁö',230,10),
-(1,'º£ÀÌÁö',240,10),
-(1,'º£ÀÌÁö',250,10),
-(1,'º£ÀÌÁö',260,10),
-(1,'º£ÀÌÁö',270,10),
-(1,'º£ÀÌÁö',280,10),
-(1,'º£ÀÌÁö',290,10),
-(1,'ºí·¢',220,10),
-(1,'ºí·¢',230,10),
-(1,'ºí·¢',240,10),
-(1,'ºí·¢',250,10),
-(1,'ºí·¢',260,10),
-(1,'ºí·¢',270,10),
-(1,'ºí·¢',280,10),
-(1,'ºí·¢',290,10),
-(8,'Èò»ö',220,10),
-(8,'Èò»ö',230,10),
-(8,'Èò»ö',240,10),
-(8,'Èò»ö',250,10),
-(8,'Èò»ö',260,10),
-(8,'Èò»ö',270,10),
-(8,'Èò»ö',280,10),
-(8,'Èò»ö',290,10),
-(8,'·¹µå',220,10),
-(8,'·¹µå',230,10),
-(8,'·¹µå',240,10),
-(8,'·¹µå',250,10),
-(8,'·¹µå',260,10),
-(8,'·¹µå',270,10),
-(8,'·¹µå',280,10),
-(8,'·¹µå',290,10);
+(1,'ë² ì´ì§€',220,10),
+(1,'ë² ì´ì§€',230,10),
+(1,'ë² ì´ì§€',240,10),
+(1,'ë² ì´ì§€',250,10),
+(1,'ë² ì´ì§€',260,10),
+(1,'ë² ì´ì§€',270,10),
+(1,'ë² ì´ì§€',280,10),
+(1,'ë² ì´ì§€',290,10),
+(1,'ë¸”ë™',220,10),
+(1,'ë¸”ë™',230,10),
+(1,'ë¸”ë™',240,10),
+(1,'ë¸”ë™',250,10),
+(1,'ë¸”ë™',260,10),
+(1,'ë¸”ë™',270,10),
+(1,'ë¸”ë™',280,10),
+(1,'ë¸”ë™',290,10),
+(8,'í°ìƒ‰',220,10),
+(8,'í°ìƒ‰',230,10),
+(8,'í°ìƒ‰',240,10),
+(8,'í°ìƒ‰',250,10),
+(8,'í°ìƒ‰',260,10),
+(8,'í°ìƒ‰',270,10),
+(8,'í°ìƒ‰',280,10),
+(8,'í°ìƒ‰',290,10),
+(8,'ë ˆë“œ',220,10),
+(8,'ë ˆë“œ',230,10),
+(8,'ë ˆë“œ',240,10),
+(8,'ë ˆë“œ',250,10),
+(8,'ë ˆë“œ',260,10),
+(8,'ë ˆë“œ',270,10),
+(8,'ë ˆë“œ',280,10),
+(8,'ë ˆë“œ',290,10);
 
 select * from detail_product;
 select * from product p
@@ -138,12 +138,12 @@ insert into basket(b_id,d_no,b_count) values
 select * from coustomer;
 
 insert into coustomer values
-('d','±è¸Å¹Ì','d','2000-01-01','2018-06-04','011-111-111','ddd@co.e','4242,tjdnf,rlaaoal',0,1);
+('d','ê¹€ë§¤ë¯¸','d','2000-01-01','2018-06-04','011-111-111','ddd@co.e','4242,tjdnf,rlaaoal',0,1);
 
 select * from coustomer;
 update coustomer set c_point=5000 where c_id='d';
 insert into coustomer(c_id,c_name,c_password,c_tf)values
-('d','±è¸Å¹Ì','d',1);
+('d','ê¹€ë§¤ë¯¸','d',1);
 
 select c_id, c_name, c_password from coustomer
 		where c_id = 'test' and c_password = 'dddd';
@@ -157,7 +157,7 @@ select distinct(o_num), o_date,o_price from order_product where o_id='d' order b
 select o_num, o_date,o_price from order_product
 where o_num = '830380728';
 
-
+select * from reviews;
 
 select * from product;
 
@@ -173,7 +173,8 @@ where o_num = 835913652 and o_password='q';
 select o_no from order_product
 where o_num = 835913652 and o_password='q';
 
-
+insert into order_product(o_num,d_no,o_id,o_name,o_phone,o_mail,o_password,o_address,o_price,o_point,o_upoint,o_date,o_count)
+		values(#{oNum},#{detail.dNo},#{oId},#{oName},#{oPhone},#{oMail},#{oPassword},#{oAddress},#{oPrice},#{oPoint},#{oUpoint},now(),#{oCount})
 insert into order_product(o_num,b_no,o_id,o_name,o_phone,o_mail,o_password,o_address,o_price,o_point)
 values()
 
@@ -184,6 +185,12 @@ select o.o_num,o.o_price,o.o_count,o.o_date,o.o_point,o.o_address,o.o_name,o.o_p
 		join product p on d.p_no=p.p_no
 		join brand b on b.b_no=p.b_no
 		where o_num = 830380728;
+
+select d.d_color,d.d_size,d.d_stock,p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,br.b_name_eng from detail_product d
+		join product p on p.p_no=d.p_no 
+		join brand br on br.b_no=p.b_no
+		where d.d_no=1;
+
 
 
 
@@ -200,4 +207,4 @@ insert into coustomer(c_id) values
 ('test5');
 
 insert into coustomer(c_id,c_password,c_name) values
-('test10','dddd','¸Å¹Ì');
+('test10','dddd','ë§¤ë¯¸');
