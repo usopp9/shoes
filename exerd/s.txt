@@ -158,6 +158,12 @@ select o_num, o_date,o_price from order_product
 where o_num = '830380728';
 
 select * from reviews;
+insert into reviews(d_no,r_title,r_content,r_date,r_pic,r_id) values
+		(1,'dd','ddddd',now(),'dwdw','dw')
+
+select r_no,d_no,r_title,r_content,r_date,r_pic,r_id from reviews;
+		
+delete from reviews;
 
 select * from product;
 
@@ -192,6 +198,9 @@ select d.d_color,d.d_size,d.d_stock,p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate
 		where d.d_no=1;
 
 
+select * from reviews;
+insert into(d_no,r_title,r_content,r_date,r_pic) values
+();
 
 
 select c_id from coustomer;
