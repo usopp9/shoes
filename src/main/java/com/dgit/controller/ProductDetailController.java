@@ -31,11 +31,13 @@ import com.dgit.domain.CoustomerVO;
 import com.dgit.domain.DetailProductVO;
 import com.dgit.domain.OrderProductVO;
 import com.dgit.domain.ProductVO;
+import com.dgit.domain.ReviewsVO;
 import com.dgit.service.BasketService;
 import com.dgit.service.CoustomerService;
 import com.dgit.service.DetailProductService;
 import com.dgit.service.OrderProductService;
 import com.dgit.service.ProductService;
+import com.dgit.service.ReviewsService;
 
 @RequestMapping("/product/*")
 @Controller
@@ -58,6 +60,8 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 	@Autowired
 	OrderProductService orderProductService;
 	
+	@Autowired
+	ReviewsService  reviewsService;
 	@RequestMapping(value="detail", method=RequestMethod.GET)
 	public void detailGet(int no,Model model){
 		logger.info("detail get..................................");
@@ -66,9 +70,12 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		ProductVO product = productService.selectDetailProduct(no);
 		List<String> color = detailProductService.selectDPColor(no);
 		
-		logger.info("product : "+product);     
+		List<ReviewsVO> reviews = reviewsService.selectAllReviews();
+		logger.info("reviews : "+reviews);     
 		model.addAttribute("product", product);   
-		model.addAttribute("color", color);    		  
+		model.addAttribute("color", color);   
+		model.addAttribute("dNo", no);
+		model.addAttribute("reviews", reviews);
 	}
 	
 	

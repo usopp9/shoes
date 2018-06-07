@@ -380,18 +380,20 @@
 </style>   
 </head>  
 <body>
+	
 	<%@ include file="../include/header.jsp"%>
+	<!--  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>    -->  
 	<script type="text/javascript">
 		$(function(){  
 			/* 콤마 */
 			function nc(n) {  
 				return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");   
 			}
-			
+			  
 			/* 총가격 */
 			var totalSum=0;
 			
-			/* 사진이미지 */
+			/* 사진이미지 */ 
 			$(".smallPic").click(function(){
 				$("#section_detail_left_wrap").empty();    
 				$(".smallPic").css("border","1px solid white");    
@@ -600,7 +602,7 @@
 				/* var sendData = {rTitle:title, rContent:content,file;file};  */
 				
 				
-				/* var title =$("#rTitle").val();
+				var title =$("#rTitle").val();
 				
 				var content = $("#comment").val().replace(/(^\s*)|(\s*$)/gi, "");
 					if(title.lenth==0 ||content.length==0){
@@ -612,31 +614,55 @@
 			
 				var form = $("#reviewForm")[0];
 				var formDate = new FormData(form);
-					formDate.append("fileObj",$("#rPic")[0]);
-			  
-			
-					$.ajax({   
+					/* formDate.append("fileObj",$("#rPic")[0].files[0]);
+					formDate.append("rTitle",$("#rTitle").val());
+					formDate.append("rContent",$("#comment").val());
+					 */
+					$.ajax({         
 						type:"post",
 						url:"${pageContext.request.contextPath}/review/write",
 						data: formDate, //json 형태로 바꿔줌
 						dataType:"text",//xml,text,json   
-						headers:{"Content-Type":"application/json"},
-						processData: false,  // file전송시 필수
- 	    	         	contentType: false,  
+						/* headers:{"Content-Type":"application/json"},     */  
+						processData: false,  // file전송시 필수   
+ 	    	         	contentType: false,    
 						success:function(result){    
-							console.log(result);           
-				    
-						}
-					})	  */
-					
-					
-
+							console.log(result);             
+				    		if(result=="success"){
+				    			$("#rTitle").val("");  
+				    			$("#comment").val("");  
+				    			$(".closeW").trigger("click"); 
+				    			location.href="detail?no=${dNo}";  
+				    		}   
+						}        
+					})	 
 			})
-			
-			
+		
 			/* 글쓰기취소 */
 			$("#cancelWBtn").click(function(){
 				$(".closeW").trigger("click"); 
+			})
+			/* 댓글삭제 */
+			$(".deleteReview").click(function(){
+				
+				var con = confirm("정말삭제하시겠습니까?");
+				if(con==false){     
+					return;    
+				}
+				var index = $(".deleteReview").index(this);
+				var rNo = $(".rNo").eq(index).val();
+				var rPic = $(".rPic").eq(index).val();
+				$.ajax({         
+					type:"get",
+					url:"${pageContext.request.contextPath}/review/deleteReview?rNo="+rNo+"&rPic="+rPic,
+					dataType:"text",//xml,text,json     
+					success:function(result){    
+						console.log(result);             
+			    		if(result=="success"){
+			    			$(".deleteReview").eq(index).parent().parent().remove();     
+			    		}
+					}        
+				})	  
 			})
 		})           
 	</script>      
@@ -777,7 +803,30 @@
 					<span class="review_title_span span1">제목</span><span class="review_title_span">아이디</span><span class="review_title_span">날짜</span><span class="review_title_span">&nbsp;&nbsp;</span>
 				</div>   
 				
+				<c:forEach var="list" items="${reviews}">  
 				<div class="review_title_1">
+					<input type="hidden" value="${list.rNo}" class="rNo"> 
+					<input type="hidden" value="${list.rPic}" class="rPic">
+					<span class="review_title_span1 span11">${list.rTitle}</span><span class="review_title_span1">${list.rId}</span>
+					<fmt:formatDate value="${list.date  }" pattern="yyyy-MM-dd" var="date"/>
+					<span class="review_title_span1">${date}</span>
+					<span class="review_title_span1"> 
+						<button type="button" class="btn btn-warning">수정</button>   
+						<button type="button" class="btn btn-danger deleteReview">삭제</button>
+					</span>       
+				</div>        
+				<div class="review_content">
+					<img src="displayFile?filename=${list.rPic}" class="review_content_pic"><br>
+				       
+				
+					<%-- <img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br> --%>
+					<div>
+						<pre>${list.rContent}</pre>    
+					</div> 	
+				</div>
+				</c:forEach>
+				
+				<%-- <div class="review_title_1">
 					<span class="review_title_span1 span11">제목은제목이요</span><span class="review_title_span1">김매미</span><span class="review_title_span1">2016-08-08</span>
 					<span class="review_title_span1">
 						<button type="button" class="btn btn-warning">수정</button>   
@@ -795,22 +844,8 @@
 						dwqkd <br>
 						wqd
 					</div> 	
-				</div>
-				<div class="review_title_1">
-					<span class="review_title_span1 span11">제목은제목이요</span><span class="review_title_span1">김매미</span><span class="review_title_span1">2016-08-08</span><span class="review_title_span1">&nbsp;&nbsp;</span>
-				</div>
-				<div class="review_content">
-					<img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br>
-					<div>
-						dskdqlwd
-						dwqkd <br>
-						dwqkd <br>                   
-						dwqkd <br>
-						dwqkd <br>
-						dwqkd <br>
-						wqd
-					</div> 	
-				</div>
+				</div> --%>
+		
 				<div id="writerBtn">
 					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myWriterModal">글쓰기</button>
 				</div>
@@ -830,8 +865,8 @@
 			        <h4 class="modal-title">후기 작성</h4>
 			      </div>   
 			      <div class="modal-body">
-				      	<form action="review/write" method="post" enctype="multipart/form-data" id="reviewForm">
-						  <div class="form-group">
+				      	<form id="reviewForm" enctype="multipart/form-data">
+						  <div class="form-group"> 
 						    <label for="rTitle">제목</label>  
 						    <input type="text" class="form-control" id="rTitle" name="rTitle">
 						  </div>
@@ -841,13 +876,15 @@
 						  </div>
 						 <div class="form-group">
 							  <label for="comment">내용</label>
-							  <textarea class="form-control" rows="5" id="comment" name="rContent"></textarea>
-							</div>
+							   <textarea class="form-control" rows="5" id="comment" name="rContent"></textarea>
+							  <input type="hidden" value="${dNo }" name="detailNo">
+							  <input type="hidden" value="${id}" name="rId">
+							</div>  
 							<button type="button" class="btn btn-info" id="rWriterBtn">글작성</button>
 						  <button type="button" class="btn btn-default" id="cancelWBtn">취소</button>
 						</form>		       
 			      </div>	 
-			    </div>
+			    </div>  
 			
 			  </div>
 			</div>

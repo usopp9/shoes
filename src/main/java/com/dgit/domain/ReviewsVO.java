@@ -9,6 +9,7 @@ public class ReviewsVO {
 	private String rContent;
 	private Date date;
 	private String rPic;
+	private String rId;
 	
 	public int getrNo() {
 		return rNo;
@@ -47,10 +48,16 @@ public class ReviewsVO {
 	public void setrPic(String rPic) {
 		this.rPic = rPic;
 	}
+	public String getrId() {
+		return rId;
+	}  
+	public void setrId(String rId) {
+		this.rId = rId;
+	}
+	
 	@Override
 	public String toString() {
 		return "ReviewsVO [rNo=" + rNo + ", detailNo=" + detailNo + ", rTitle=" + rTitle + ", rContent=" + rContent
-				+ ", date=" + date + ", rPic=" + rPic + "]";
+				+ ", date=" + date + ", rPic=" + rPic + ", rId=" + rId + "]";
 	}
-	
 }

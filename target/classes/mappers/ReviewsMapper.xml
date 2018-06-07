@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.ReviewsMapper">	
+	<resultMap type="ReviewsVO" id="ReviewsResult">
+		<id property="rNo" column="r_no"/>
+		<result property="detailNo" column="d_no"/>
+		<result property="rTitle" column="r_title"/>
+		<result property="rContent" column="r_content"/>
+		<result property="date" column="r_date"/>
+		<result property="rPic" column="r_pic"/>
+		<result property="rId" column="r_id"/>
+	</resultMap>
+	
+	<insert id="insertReviews">
+		insert into reviews(d_no,r_title,r_content,r_date,r_pic,r_id) values
+		(#{detailNo},#{rTitle},#{rContent},now(),#{rPic},#{rId})
+	</insert>  
+	
+	<select id="selectAllReviews" resultMap="ReviewsResult">
+		select r_no,d_no,r_title,r_content,r_date,r_pic,r_id from reviews
+	</select>
+	
+	<delete id="deleteReviews">
+		delete from reviews where r_no=#{rNo} 
+	</delete>
+</mapper>             
