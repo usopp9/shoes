@@ -19,10 +19,14 @@
 	</insert>  
 	
 	<select id="selectAllReviews" resultMap="ReviewsResult">
-		select r_no,d_no,r_title,r_content,r_date,r_pic,r_id from reviews
+		select r_no,d_no,r_title,r_content,r_date,r_pic,r_id from reviews order by r_no desc  
 	</select>
 	
 	<delete id="deleteReviews">
 		delete from reviews where r_no=#{rNo} 
 	</delete>
+	
+	<update id="updateReviews">
+		update reviews set r_title=#{rTitle}, r_content=#{rContent} , r_pic=#{rPic} where r_no =${rNo}
+	</update>
 </mapper>             

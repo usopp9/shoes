@@ -11,4 +11,6 @@ public interface ReviewsDAO {
 	public List<ReviewsVO> selectAllReviews();
 	
 	public void deleteReviews(int rNo);
+	
+	public void updateReviews(ReviewsVO vo);
 }

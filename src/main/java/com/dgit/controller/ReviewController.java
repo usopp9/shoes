@@ -53,10 +53,9 @@ public class ReviewController {
 			if(dirPath.exists() == false){
 				dirPath.mkdirs();
 			}
-			if(!file.equals("")){  
-				
+			if(!file.getOriginalFilename().equals("")){  		  	  
 				String thumb =  UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());  
-				vo.setrPic(thumb);	
+				vo.setrPic(thumb);	   
 			}
 			reviewsService.insertReviews(vo);
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);// 200
@@ -68,9 +67,42 @@ public class ReviewController {
 		return entity;	    
 	}  
 	
+	
+	@RequestMapping(value="writeUpdate", method=RequestMethod.POST)
+	public ResponseEntity<String> writeUpdate(MultipartFile file,ReviewsVO vo,HttpServletRequest request,String oldPic){
+		logger.info("writeUpdate Post.......");
+		logger.info("vo : "+vo.toString());
+		logger.info("oldPic : "+oldPic);  
+		logger.info("fileObj +" +file.getOriginalFilename());  
+		
+		
+		ResponseEntity<String> entity = null;
+		try {
+			
+			if(oldPic != null){
+				UploadFileUtils.deleteFile(uploadPath, oldPic); 
+			}  
+			ReviewsVO reviews = new ReviewsVO();	
+			  vo.setrPic(oldPic);
+			if(!file.getOriginalFilename().equals("")){  	
+				
+				String thumb =  UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());  
+				vo.setrPic(thumb);	
+			}
+			reviewsService.updateReviews(vo);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);// 200
+				
+		} catch (Exception e) {    
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);// 400
+		}
+		return entity;	    
+	}  
+	
+	
 	/*사진외부 보여주기*/
 	@ResponseBody
-	@RequestMapping("/displayFile")
+	@RequestMapping("displayFile") 
 	public ResponseEntity<byte[]> displayFile(String filename)throws Exception{
 		ResponseEntity<byte[]> entity = null;
 		InputStream in = null;

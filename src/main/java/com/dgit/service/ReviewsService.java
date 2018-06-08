@@ -10,4 +10,6 @@ public interface ReviewsService {
 	public List<ReviewsVO> selectAllReviews();
 	
 	public void deleteReviews(int rNo);
+	
+	public void updateReviews(ReviewsVO vo);
 }

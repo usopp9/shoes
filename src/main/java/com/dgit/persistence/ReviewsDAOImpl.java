@@ -32,6 +32,12 @@ public class ReviewsDAOImpl implements ReviewsDAO {
 	public void deleteReviews(int rNo) {
 		
 		session.delete(namespace+".deleteReviews",rNo);
+	}
+
+	@Override
+	public void updateReviews(ReviewsVO vo) {
+		
+		session.update(namespace+".updateReviews",vo);
 	} 
 
 }

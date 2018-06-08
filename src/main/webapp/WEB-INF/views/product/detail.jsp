@@ -376,7 +376,24 @@
 		margin-top:10px; 
 		text-align: center;  
 	} 
-	
+	#old_img{
+		position: relative;  
+	}
+	#deleteUing{		
+		position: absolute;
+		top: 0;
+		right: 0;	
+	}
+	#deleteUPic{
+		position: absolute;
+		top: 0;  
+		right: 10px; 
+		color: red;         
+		font-weight: bold;  
+	}
+	#deleteUPic:HOVER {
+		cursor: pointer;  
+	}
 </style>   
 </head>  
 <body>
@@ -614,10 +631,7 @@
 			
 				var form = $("#reviewForm")[0];
 				var formDate = new FormData(form);
-					/* formDate.append("fileObj",$("#rPic")[0].files[0]);
-					formDate.append("rTitle",$("#rTitle").val());
-					formDate.append("rContent",$("#comment").val());
-					 */
+					
 					$.ajax({         
 						type:"post",
 						url:"${pageContext.request.contextPath}/review/write",
@@ -659,11 +673,89 @@
 					success:function(result){    
 						console.log(result);             
 			    		if(result=="success"){
-			    			$(".deleteReview").eq(index).parent().parent().remove();     
+			    			$(".deleteReview").eq(index).parent().parent().remove();      
+			    			$(".review_content").eq(index).remove(); 
 			    		}
 					}        
-				})	  
+				})	     
 			})
+			/* 수정 */
+			$(".updateReview").click(function(){
+				var index = $(".updateReview").index(this);
+				/* var rNo = $(".rNo").eq(index).val();
+				var rPic = $(".rPic").eq(index).val(); */
+				var title =$(".span11").eq(index).html();
+				$("#old_img").empty();         
+				var content = $(".rcontent").eq(index).html();   
+				var pic = $(".review_content_pic").eq(index).attr("src");
+				var rNo = $(".rNo").eq(index).val();
+				var $rNohidden =  "<input type='hidden' value='"+ rNo+"' name='rNo'>";
+				$("#reviewUpdateForm").append($rNohidden);        
+				if(pic != null){
+					
+					var $img = "<img src='"+pic+"' id='deleteUing'><span id='deleteUPic'>x</span>";  
+					$("#old_img").append($img);         
+				}    
+				$("#uTitle").val(title);
+				$("#ucomment").val(content);
+				    
+			})
+			
+			/* 수정취소 */
+			$("#cancelUBtn").click(function(){ 
+				$(".closeW").trigger("click");   
+			})
+			  
+			$(document).on("click","#deleteUPic",function(){			   
+				var imgpath = $("#deleteUing").attr("src");
+				var $hidden="<input type='hidden' value="+imgpath+" id='hiddenOldPic' name='oldPic'>";
+				$("#old_img").append($hidden);     
+				$(this).remove();
+				$("#deleteUing").remove();  
+			})
+			
+			$("#uPic").click(function(){
+				var oldPic =  $("#hiddenOldPic").val();   
+				alert(typeof(oldPic)); 
+				if(oldPic == null){      
+					alert("기존 사진을 삭제해주세요.");
+					return false;  
+				}
+			})
+			
+			/* 수정form */
+			$("#updateWBtn").click(function(){
+				var title =	$("#uTitle").val();
+				var content =$("#ucomment").val();
+				if(title.length==0 || content.length==0){
+					alert("내용을 입력해주세요.");       
+					return false;  
+				}
+
+				var form = $("#reviewUpdateForm")[0];
+				var formDate = new FormData(form);
+					
+					$.ajax({         
+						type:"post",
+						url:"${pageContext.request.contextPath}/review/writeUpdate",
+						data: formDate, //json 형태로 바꿔줌
+						dataType:"text",//xml,text,json   
+						/* headers:{"Content-Type":"application/json"},     */  
+						processData: false,  // file전송시 필수   
+ 	    	         	contentType: false,    
+						success:function(result){    
+							console.log(result);             
+				    		/* if(result=="success"){
+				    			$("#rTitle").val("");  
+				    			$("#comment").val("");  
+				    			$(".closeW").trigger("click"); 
+				    			location.href="detail?no=${dNo}";  
+				    		}    */
+						}        
+					})	 
+				
+				
+			})  
 		})           
 	</script>      
 	<section>  
@@ -811,17 +903,18 @@
 					<fmt:formatDate value="${list.date  }" pattern="yyyy-MM-dd" var="date"/>
 					<span class="review_title_span1">${date}</span>
 					<span class="review_title_span1"> 
-						<button type="button" class="btn btn-warning">수정</button>   
+						<button type="button" class="btn btn-warning updateReview" data-toggle="modal" data-target="#myUpdateModal">수정</button>   
 						<button type="button" class="btn btn-danger deleteReview">삭제</button>
 					</span>       
-				</div>        
+				</div>          
 				<div class="review_content">
-					<img src="displayFile?filename=${list.rPic}" class="review_content_pic"><br>
-				       
+				<c:if test="${list.rPic !=null}">
+					<img src="${pageContext.request.contextPath }/review/displayFile?filename=${list.rPic}" class="review_content_pic"><br>
+				</c:if>         
 				
 					<%-- <img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br> --%>
 					<div>
-						<pre>${list.rContent}</pre>    
+						<pre class="rcontent">${list.rContent}</pre>    
 					</div> 	
 				</div>
 				</c:forEach>
@@ -854,7 +947,7 @@
 			</div>
 		
 		</div>
-					<!-- Modal -->
+					<!-- ModalWrite -->
 			<div id="myWriterModal" class="modal fade" role="dialog">
 			  <div class="modal-dialog">
 			   
@@ -885,10 +978,44 @@
 						</form>		       
 			      </div>	 
 			    </div>  
-			
 			  </div>
 			</div>
 		
+		<!-- Modalupdate -->
+			<div id="myUpdateModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+			   
+			    <!-- Modal content-->    
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close closeW" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">후기 수정</h4>
+			      </div>   
+			      <div class="modal-body">
+				      	<form id="reviewUpdateForm" enctype="multipart/form-data">
+						  <div class="form-group"> 
+						    <label for="uTitle">제목</label>  
+						    <input type="text" class="form-control" id="uTitle" name="rTitle">
+						  </div>
+						   <div class="form-group" id="old_img"> 
+						    
+						  </div>
+						   <div class="form-group">
+						    <label for="uPic">사진</label>						    
+						    <input type="file" class="form-control" id="uPic" name="file">
+						  </div>
+						 <div class="form-group">
+							  <label for="ucomment">내용</label>
+							   <textarea class="form-control" rows="5" id="ucomment" name="rContent"></textarea>
+							  <input type="hidden" value="${id}" name="rId">
+							</div>  
+							<button type="button" class="btn btn-info" id="updateWBtn">수정</button>
+						  <button type="button" class="btn btn-default" id="cancelUBtn">취소</button>
+						</form>		       
+			      </div>	 
+			    </div>  
+			  </div>
+			</div>
 	</section>
 	
 	<%@ include file="../include/footer.jsp"%>

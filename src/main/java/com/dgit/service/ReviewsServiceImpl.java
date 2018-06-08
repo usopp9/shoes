@@ -33,4 +33,10 @@ public class ReviewsServiceImpl implements ReviewsService {
 		dao.deleteReviews(rNo);
 	}
 
+	@Override
+	public void updateReviews(ReviewsVO vo) {
+		
+		dao.updateReviews(vo);
+	}
+
 }
