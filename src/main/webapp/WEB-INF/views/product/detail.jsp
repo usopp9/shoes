@@ -679,22 +679,27 @@
 					}        
 				})	     
 			})
+			var deletePic = false;
 			/* 수정 */
 			$(".updateReview").click(function(){
+				deletePic = false;   
+				$("#uPic").val(""); 
 				var index = $(".updateReview").index(this);
 				/* var rNo = $(".rNo").eq(index).val();
 				var rPic = $(".rPic").eq(index).val(); */
 				var title =$(".span11").eq(index).html();
-				$("#old_img").empty();         
-				var content = $(".rcontent").eq(index).html();   
-				var pic = $(".review_content_pic").eq(index).attr("src");
+				$("#old_img").empty();                
+				var content = $(".rcontent").eq(index).html();   				
+				var $pic = $(".review_content").eq(index).find(".review_content_pic").attr("src");  
 				var rNo = $(".rNo").eq(index).val();
 				var $rNohidden =  "<input type='hidden' value='"+ rNo+"' name='rNo'>";
-				$("#reviewUpdateForm").append($rNohidden);        
-				if(pic != null){
+				$("#reviewUpdateForm").append($rNohidden);  
+				
+				if($pic != null){
 					
-					var $img = "<img src='"+pic+"' id='deleteUing'><span id='deleteUPic'>x</span>";  
-					$("#old_img").append($img);         
+					var $img = "<img src='"+$pic+"' id='deleteUing'><span id='deleteUPic'>x</span>";  
+					$("#old_img").append($img);        
+					deletePic = true;  
 				}    
 				$("#uTitle").val(title);
 				$("#ucomment").val(content);
@@ -704,27 +709,37 @@
 			/* 수정취소 */
 			$("#cancelUBtn").click(function(){ 
 				$(".closeW").trigger("click");   
+				deletePic = false;
 			})
 			  
+			
 			$(document).on("click","#deleteUPic",function(){			   
 				var imgpath = $("#deleteUing").attr("src");
 				var $hidden="<input type='hidden' value="+imgpath+" id='hiddenOldPic' name='oldPic'>";
 				$("#old_img").append($hidden);     
 				$(this).remove();
 				$("#deleteUing").remove();  
-			})
-			
+				deletePic = false;   
+			})  
+			  
 			$("#uPic").click(function(){
-				var oldPic =  $("#hiddenOldPic").val();   
+				/* var oldPic =  $("#hiddenOldPic").val();   
 				alert(typeof(oldPic)); 
-				if(oldPic == null){      
+				 if(oldPic != null){      
 					alert("기존 사진을 삭제해주세요.");
-					return false;  
-				}
+					return false;    
+				}  */
+
+				 if(deletePic==true){      
+					alert("기존 사진을 삭제해주세요.");
+					return false;    
+				} 
+				
 			})
 			
 			/* 수정form */
 			$("#updateWBtn").click(function(){
+			
 				var title =	$("#uTitle").val();
 				var content =$("#ucomment").val();
 				if(title.length==0 || content.length==0){

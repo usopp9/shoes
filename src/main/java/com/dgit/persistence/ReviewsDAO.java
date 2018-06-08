@@ -13,4 +13,5 @@ public interface ReviewsDAO {
 	public void deleteReviews(int rNo);
 	
 	public void updateReviews(ReviewsVO vo);
+	public void updateReviewsNoneImg(ReviewsVO vo);
 }

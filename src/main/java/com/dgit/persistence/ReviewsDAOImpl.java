@@ -38,6 +38,12 @@ public class ReviewsDAOImpl implements ReviewsDAO {
 	public void updateReviews(ReviewsVO vo) {
 		
 		session.update(namespace+".updateReviews",vo);
+	}
+
+	@Override
+	public void updateReviewsNoneImg(ReviewsVO vo) {
+		
+		session.update(namespace+".updateReviewsNoneImg",vo);
 	} 
 
 }

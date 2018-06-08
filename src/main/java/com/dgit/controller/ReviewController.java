@@ -76,20 +76,25 @@ public class ReviewController {
 		logger.info("fileObj +" +file.getOriginalFilename());  
 		
 		
-		ResponseEntity<String> entity = null;
+		ResponseEntity<String> entity = null;  
 		try {
 			
 			if(oldPic != null){
+				oldPic = oldPic.substring(35, oldPic.length());  
 				UploadFileUtils.deleteFile(uploadPath, oldPic); 
 			}  
-			ReviewsVO reviews = new ReviewsVO();	
-			  vo.setrPic(oldPic);
+
+			if(oldPic ==null){
+				System.out.println("nulll");  
+				reviewsService.updateReviewsNoneImg(vo);
+			}
 			if(!file.getOriginalFilename().equals("")){  	
 				
 				String thumb =  UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());  
 				vo.setrPic(thumb);	
+				reviewsService.updateReviews(vo);
 			}
-			reviewsService.updateReviews(vo);
+			
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);// 200
 				
 		} catch (Exception e) {    

@@ -39,4 +39,10 @@ public class ReviewsServiceImpl implements ReviewsService {
 		dao.updateReviews(vo);
 	}
 
+	@Override
+	public void updateReviewsNoneImg(ReviewsVO vo) {
+		
+		dao.updateReviewsNoneImg(vo);
+	}
+
 }

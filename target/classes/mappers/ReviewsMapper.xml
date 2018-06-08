@@ -29,4 +29,7 @@
 	<update id="updateReviews">
 		update reviews set r_title=#{rTitle}, r_content=#{rContent} , r_pic=#{rPic} where r_no =${rNo}
 	</update>
+	<update id="updateReviewsNoneImg">
+		update reviews set r_title=#{rTitle}, r_content=#{rContent} where r_no =${rNo}
+	</update>
 </mapper>             
