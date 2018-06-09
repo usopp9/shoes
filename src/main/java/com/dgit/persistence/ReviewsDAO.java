@@ -8,7 +8,7 @@ public interface ReviewsDAO {
 
 	public void insertReviews(ReviewsVO vo);
 	
-	public List<ReviewsVO> selectAllReviews();
+	public List<ReviewsVO> selectAllReviews(int pNo);
 	
 	public void deleteReviews(int rNo);
 	

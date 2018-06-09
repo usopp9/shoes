@@ -19,7 +19,11 @@
 	</insert>  
 	
 	<select id="selectAllReviews" resultMap="ReviewsResult">
-		select r_no,d_no,r_title,r_content,r_date,r_pic,r_id from reviews order by r_no desc  
+		select r.r_no,r.d_no,r.r_title,r.r_content,r.r_date,r.r_pic,r.r_id from reviews r
+		join detail_product d on r.d_no=d.d_no
+		join product p on d.d_no=p.p_no
+		where p.p_no=#{pNo}
+		order by r_no desc
 	</select>
 	
 	<delete id="deleteReviews">

@@ -16,7 +16,7 @@
 		width:60%;
 		margin: 0 auto;  	
 		overflow: hidden;       
-		min-height: 500px;      
+		/* min-height: 500px;       */  
 	}    
 	#section_detail_left{   
 		width: 48%;
@@ -301,7 +301,7 @@
 	#section_detail_review{
 		width: 50%;
 		margin:0 auto; 
-		height: 600px;
+		min-height: 600px;  
 		border: 1px solid red ;
 		display: none;	
 	}
@@ -653,9 +653,12 @@
 			})
 		
 			/* 글쓰기취소 */
+			
 			$("#cancelWBtn").click(function(){
-				$(".closeW").trigger("click"); 
-			})
+				/* $(".close").trigger("click");         */
+				$("#wcloseBtn").trigger("click");        
+				
+			})  
 			/* 댓글삭제 */
 			$(".deleteReview").click(function(){
 				
@@ -709,7 +712,7 @@
 			/* 수정취소 */
 			$("#cancelUBtn").click(function(){ 
 				$(".closeW").trigger("click");   
-				deletePic = false;
+				deletePic = false;  
 			})
 			  
 			
@@ -760,17 +763,37 @@
  	    	         	contentType: false,    
 						success:function(result){    
 							console.log(result);             
-				    		/* if(result=="success"){
-				    			$("#rTitle").val("");  
-				    			$("#comment").val("");  
-				    			$(".closeW").trigger("click"); 
+				    		 if(result=="success"){
+				    			$("#uTitle").val("");  
+				    			$("#ucomment").val("");  
+				    			$(".closeW").trigger("click");  
 				    			location.href="detail?no=${dNo}";  
-				    		}    */
+				    		}   
 						}        
-					})	 
-				
-				
+					})	 								
 			})  
+			/* 글쓰기 자격 */
+			$("#writerReview").click(function(e){
+				var pNo = "${product.pNo}";
+				
+				$.ajax({         
+					type:"get",
+					url:"${pageContext.request.contextPath}/review/writeMember?pNo="+pNo,
+					dataType:"text",//xml,text,json    
+					success:function(result){       
+						console.log(result);             
+			    		  if(result=="success"){
+			    			  $("#myWriterModal").modal('show'); 
+			    		}else if(result=="fail"){     
+			    		/* 	$(".closeW").trigger("click");       */     
+			    			alert("해당 상품을 구입한 회원만 후기를 작성할 수 있습니다.");
+			    			return false;    
+			    		}
+					}        
+				})	 
+				return false;         
+			})  
+			
 		})           
 	</script>      
 	<section>  
@@ -918,8 +941,13 @@
 					<fmt:formatDate value="${list.date  }" pattern="yyyy-MM-dd" var="date"/>
 					<span class="review_title_span1">${date}</span>
 					<span class="review_title_span1"> 
+					<c:if test="${id==list.rId}">
 						<button type="button" class="btn btn-warning updateReview" data-toggle="modal" data-target="#myUpdateModal">수정</button>   
 						<button type="button" class="btn btn-danger deleteReview">삭제</button>
+					</c:if>
+					<c:if test="${id!=list.rId}">
+						<span>&nbsp;&nbsp;</span>
+					</c:if>
 					</span>       
 				</div>          
 				<div class="review_content">
@@ -955,7 +983,7 @@
 				</div> --%>
 		
 				<div id="writerBtn">
-					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myWriterModal">글쓰기</button>
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myWriterModal" id="writerReview">글쓰기</button>
 				</div>
 				
 				
@@ -969,7 +997,7 @@
 			    <!-- Modal content-->    
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <button type="button" class="close closeW" data-dismiss="modal">&times;</button>
+			        <button type="button" class="close closeW" data-dismiss="modal" id="wcloseBtn">&times;</button>
 			        <h4 class="modal-title">후기 작성</h4>
 			      </div>   
 			      <div class="modal-body">

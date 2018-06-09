@@ -70,10 +70,10 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		ProductVO product = productService.selectDetailProduct(no);
 		List<String> color = detailProductService.selectDPColor(no);
 		
-		List<ReviewsVO> reviews = reviewsService.selectAllReviews();
-		logger.info("reviews : "+reviews);     
+		List<ReviewsVO> reviews = reviewsService.selectAllReviews(no);
+		logger.info("reviews : "+reviews);      
 		model.addAttribute("product", product);   
-		model.addAttribute("color", color);   
+		model.addAttribute("color", color);    
 		model.addAttribute("dNo", no);
 		model.addAttribute("reviews", reviews);
 	}

@@ -52,4 +52,11 @@ public class OrderProductDAOImpl implements OrderProductDAO {
 		return session.selectList(namespace+".selectNoneMemberMypage",map); 
 	}
 
+
+	@Override
+	public List<Integer> selectReviewMember(Map<String, Object> map) {
+		
+		return session.selectList(namespace+".selectReviewMember",map); 
+	}
+
 }

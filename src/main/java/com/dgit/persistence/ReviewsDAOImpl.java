@@ -23,9 +23,9 @@ public class ReviewsDAOImpl implements ReviewsDAO {
 	}
 
 	@Override
-	public List<ReviewsVO> selectAllReviews() {
+	public List<ReviewsVO> selectAllReviews(int pNo) {
 		
-		return session.selectList(namespace+".selectAllReviews");
+		return session.selectList(namespace+".selectAllReviews",pNo);
 	}
 
 	@Override

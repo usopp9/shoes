@@ -70,4 +70,12 @@
 	 	select o_no from order_product
 		where o_num = #{num} and o_password=#{pw}
 	 </select>
+	 
+	 <!-- 리뷰쓸 회원인가확인 -->
+	 <select id="selectReviewMember" resultType="int">  
+	 	select o_no from order_product o 
+		join detail_product d on o.d_no=d.d_no
+		join product p on d.p_no=p.p_no
+		where o_id=#{id} and p.p_no=#{pNo} 
+	 </select>
 </mapper> 

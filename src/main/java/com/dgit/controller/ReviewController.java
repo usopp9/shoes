@@ -3,7 +3,9 @@ package com.dgit.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +20,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dgit.domain.ReviewsVO;
+import com.dgit.service.OrderProductService;
 import com.dgit.service.ReviewsService;
 import com.dgit.util.MediaUtils;
 import com.dgit.util.UploadFileUtils;
@@ -36,6 +38,9 @@ public class ReviewController {
 	
 	@Autowired
 	ReviewsService  reviewsService;
+	
+	@Autowired
+	OrderProductService orderProductService;
 	
 	@Resource(name="uploadPath")
 	private String uploadPath;
@@ -66,6 +71,35 @@ public class ReviewController {
 		}
 		return entity;	    
 	}  
+	
+	
+	@RequestMapping(value="writeMember", method=RequestMethod.GET)
+	public ResponseEntity<String> writeMember(int pNo,HttpServletRequest request){
+		logger.info("writeMember Post.......");  
+		logger.info("pNo : "+ pNo);         
+ 		
+		ResponseEntity<String> entity = null;    
+		try {    
+			HttpSession session = request.getSession();
+			String id =(String) session.getAttribute("id");
+			 
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", id);
+			map.put("pNo", pNo);
+			
+			List<Integer> list = orderProductService.selectReviewMember(map);
+			
+			if(list.size()==0){
+				entity = new ResponseEntity<String>("fail", HttpStatus.OK);// 200
+			}else{
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);// 200	
+			}			
+		} catch (Exception e) {    
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);// 400
+		}
+		return entity;	    
+	}   
 	
 	
 	@RequestMapping(value="writeUpdate", method=RequestMethod.POST)

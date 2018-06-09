@@ -44,4 +44,10 @@ public class OrderProductServiceImpl implements OrderProductService {
 		return dao.selectNoneMemberMypage(map);
 	}
 
+	@Override
+	public List<Integer> selectReviewMember(Map<String, Object> map) {
+		
+		return dao.selectReviewMember(map);
+	}
+
 }

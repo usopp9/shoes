@@ -22,9 +22,9 @@ public class ReviewsServiceImpl implements ReviewsService {
 	}
 
 	@Override
-	public List<ReviewsVO> selectAllReviews() {
+	public List<ReviewsVO> selectAllReviews(int pNo) {
 		
-		return dao.selectAllReviews();
+		return dao.selectAllReviews(pNo);
 	}
 
 	@Override

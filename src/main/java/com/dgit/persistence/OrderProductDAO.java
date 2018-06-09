@@ -14,4 +14,6 @@ public interface OrderProductDAO {
 	public List<OrderProductVO> selectMypageDetail(int oNum);
 	
 	public List<Integer> selectNoneMemberMypage(Map<String, Object> map);
+	
+	public List<Integer> selectReviewMember(Map<String, Object> map);
 }
