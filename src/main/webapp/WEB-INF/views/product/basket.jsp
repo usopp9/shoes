@@ -225,16 +225,15 @@
 		
 		/* 바로구매 */
 		$(".btnNow").click(function(){
-<<<<<<< HEAD
-			var bNo = $(this).parent().parent().find(".hiddenBno").val();
+
+	/* 		var bNo = $(this).parent().parent().find(".hiddenBno").val();
 			 location.href="${pageContext.request.contextPath}/product/orderNow?bNo="+bNo;
-			
-			
-=======
-					      
+
+					         
 			$("input[type='checkbox']").prop("checked", false);    	           
-			$(this).parent().parent().find(".selectChk").prop("checked",true);    
->>>>>>> refs/remotes/origin/HEAD
+			$(this).parent().parent().find(".selectChk").prop("checked",true);     */  
+			/* 여기까지 주석 */
+ 			
 			
 			/* var length = $(".selectChk").length;       
 			

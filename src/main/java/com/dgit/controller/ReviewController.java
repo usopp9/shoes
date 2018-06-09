@@ -20,11 +20,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dgit.domain.Criteria;
+import com.dgit.domain.PageMaker;
 import com.dgit.domain.ReviewsVO;
 import com.dgit.service.OrderProductService;
 import com.dgit.service.ReviewsService;
@@ -32,6 +35,7 @@ import com.dgit.util.MediaUtils;
 import com.dgit.util.UploadFileUtils;
 
 @Controller
+/*@RestController*/
 @RequestMapping("/review") 
 public class ReviewController {
 	private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
@@ -39,7 +43,7 @@ public class ReviewController {
 	@Autowired
 	ReviewsService  reviewsService;
 	
-	@Autowired
+	@Autowired  
 	OrderProductService orderProductService;
 	
 	@Resource(name="uploadPath")
@@ -170,7 +174,7 @@ public class ReviewController {
 	
 	@RequestMapping(value="deleteReview", method=RequestMethod.GET)
 	public ResponseEntity<String> write(int rNo,String rPic){
-		logger.info("write Post.......");
+		logger.info("deleteReview Post.......");
 		logger.info("rNo : "+rNo);
      
 		
@@ -188,5 +192,37 @@ public class ReviewController {
 		}
 		return entity;	    
 	}  
+	
+	/*댓글 페이징*/
+	
+	// /{bno}/{page}
+	@RequestMapping(value="{pNo}/{page}",method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> listPage(@PathVariable("pNo")int pNo,@PathVariable("page")int page){
+		logger.info("listPage");       
+		logger.info("pNo : "+pNo);   
+		logger.info("page : "+page); 
+		ResponseEntity<Map<String,Object>> entity = null;
+		 
+		try {   
+			Criteria cri = new Criteria();
+			cri.setPage(page);
+			List<ReviewsVO> list = reviewsService.selectAllReviews(pNo, cri);
+			
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(reviewsService.selectCount(pNo));
+			
+			Map<String,Object> map = new HashMap<>();
+			map.put("list", list);  
+			map.put("pageMaker", pageMaker);
+			
+			entity = new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+			
+		} catch (Exception e) {
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+
 }
  

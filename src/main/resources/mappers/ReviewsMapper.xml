@@ -18,12 +18,20 @@
 		(#{detailNo},#{rTitle},#{rContent},now(),#{rPic},#{rId})
 	</insert>  
 	
+	<!-- 페이징 -->
 	<select id="selectAllReviews" resultMap="ReviewsResult">
 		select r.r_no,r.d_no,r.r_title,r.r_content,r.r_date,r.r_pic,r.r_id from reviews r
 		join detail_product d on r.d_no=d.d_no
 		join product p on d.d_no=p.p_no
 		where p.p_no=#{pNo}
-		order by r_no desc
+		order by r_no desc limit #{cri.pageStart},#{cri.perPageNum}
+	</select>
+	<!-- 총 갯수 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from reviews r
+		join detail_product d on r.d_no=d.d_no
+		join product p on d.d_no=p.p_no
+		where p.p_no=#{pNo} 
 	</select>
 	
 	<delete id="deleteReviews">

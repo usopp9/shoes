@@ -1,11 +1,14 @@
 package com.dgit.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dgit.domain.Criteria;
 import com.dgit.domain.ReviewsVO;
 
 @Repository
@@ -23,9 +26,12 @@ public class ReviewsDAOImpl implements ReviewsDAO {
 	}
 
 	@Override
-	public List<ReviewsVO> selectAllReviews(int pNo) {
+	public List<ReviewsVO> selectAllReviews(int pNo,Criteria cri) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("pNo", pNo);
+		map.put("cri", cri);
 		
-		return session.selectList(namespace+".selectAllReviews",pNo);
+		return session.selectList(namespace+".selectAllReviews",map);
 	}
 
 	@Override
@@ -44,6 +50,12 @@ public class ReviewsDAOImpl implements ReviewsDAO {
 	public void updateReviewsNoneImg(ReviewsVO vo) {
 		
 		session.update(namespace+".updateReviewsNoneImg",vo);
+	}
+
+	@Override
+	public int selectCount(int pNo) {
+		
+		return session.selectOne(namespace+".selectCount",pNo);
 	} 
 
 }

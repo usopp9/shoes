@@ -604,12 +604,119 @@
 		   		$("#section_detail_page").css("display","none"); 
 		   		$("#section_detail_review").show();
 		   	})   
-		   		$(".section_detail_select_span").eq(1).trigger("click"); 
+		   	
+		   	
+		   		$(".section_detail_select_span").eq(0).trigger("click"); 
+
 			
-	
-			/* 내용보여주기 */
-			$(".span11").click(function(){
-				  
+			
+			var lastpage = 0;
+			var startpage = 0;
+			function displayPaging(result){
+				
+				var str="";     
+				if(result.pageMaker.prev){
+					str+="<li><a href='#' id='startPage'> << </a></li>";
+				}
+				
+				for(var i = result.pageMaker.startPage; i<=result.pageMaker.endPage;i++){
+					str+="<li><a href='#'>"+i+"</a></li>";
+				}
+				
+				if(result.pageMaker.next){
+					str+="<li><a href='#' id='nextPage'> >> </a></li>";
+				}
+				startpage = result.pageMaker.startPage;
+				lastpage = Number(result.pageMaker.endPage);        
+				$(".pagination").html(str);      
+			}
+			
+			
+			function displayList(result){
+	 
+				for(var i = 0;i<result.length;i++){
+					var $div1 = $("<div class='review_title_1'>");
+					var $input1 = "<input type='hidden' value='"+result[i].rNo+"' class='rNo'>";
+					var $input2 = "<input type='hidden' value='"+result[i].rPic+"' class='rPic'>";
+					var $span = "<span class='review_title_span1 span11'>"+result[i].rTitle+"</span><span class='review_title_span1'>"+result[i].rId+"</span>";
+					var date = new Date(result[i].date);
+		  	
+					var $span2 = "<span class='review_title_span1'>"+date.getFullYear()+"-"+((date.getMonth()+1) > 9 ? (date.getMonth()+1):"0"+(date.getMonth()+1))+"-"+(date.getDate() > 9 ? date.getDate():"0"+date.getDate())+"</span>";     
+					$div1.append($input1).append($input2).append($span).append($span2);                  
+					
+					var id = "${id}";
+					if(id==result[i].rId){
+						var btn1= "<button type='button' class='btn btn-warning updateReview' data-toggle='modal' data-target=''#myUpdateModal'>수정</button>";
+						var btn2 = "<button type='button' class='btn btn-danger deleteReview'>삭제</button>";
+						$div1.append(btn1).append(btn2);
+					}
+					if(id!=result[i].rId){
+						var btn = "<span>&nbsp;&nbsp;</span>";
+						$div1.append(btn);     
+					}
+					var div2 = $("<div class='review_content'>");
+					if(result[i].rPic != null){
+						var img = "<img src='${pageContext.request.contextPath }/review/displayFile?filename="+result[i].rPic+"' class='review_content_pic'><br>";
+						div2.append(img);
+					}
+					var $pre = "<pre class='rcontent'>"+result[i].rContent+"</pre>";
+					div2.append($pre);
+					$("#review_limit").append($div1).append(div2);                   
+				}  				
+			}
+				
+			
+			var pNo = "${product.pNo}";
+			var pageNumber = 1;
+			
+			
+			/* 페이징 */
+			$(".section_detail_select_span").eq(1).click(function(){
+				$.ajax({      
+					url:"${pageContext.request.contextPath}/review/"+pNo+"/"+pageNumber,    
+					type:"get",
+					dataType:"json",
+					success:function(result){    
+						console.log(result);  
+					 	 $("#review_limit").empty(); 
+						//list     
+						 
+					 	displayList(result.list);   
+						
+						//pagination
+						displayPaging(result);
+					}
+				})
+			})
+			
+			/* 페이징 숫자 */
+					
+			$(document).on("click",".pagination a",function(e){
+				e.preventDefault(); //link막기
+				
+				
+				// 해당 a태그 값이 들어가면 됨
+				pageNumber = $(this).text();
+				
+				$(".section_detail_select_span").eq(1).trigger("click");  
+				
+			})
+			/* 다음페이지 */
+			$(document).on("click","#nextPage",function(e){
+				e.preventDefault(); //link막기				    				   
+				// 해당 a태그 값이 들어가면 됨   
+				pageNumber = Number(lastpage+1);                			
+				$(".section_detail_select_span").eq(1).trigger("click");  
+			})	
+			/* 이전페이지 */
+			$(document).on("click","#startPage",function(e){
+				e.preventDefault(); //link막기				    				   
+				// 해당 a태그 값이 들어가면 됨   
+				pageNumber = Number(startpage-1);                     			
+				$(".section_detail_select_span").eq(1).trigger("click");  
+			})
+			/* 내용보여주기 */ 
+			$(document).on("click",".span11",function(){ 	  
 				var index = $(".span11").index(this); 
 				$(".review_content").eq(index).slideToggle(100);        
 			})  
@@ -659,9 +766,8 @@
 				$("#wcloseBtn").trigger("click");        
 				
 			})  
-			/* 댓글삭제 */
-			$(".deleteReview").click(function(){
-				
+			/* 댓글삭제 */ 
+				$(document).on("click",".deleteReview",function(){ 
 				var con = confirm("정말삭제하시겠습니까?");
 				if(con==false){     
 					return;    
@@ -684,12 +790,13 @@
 			})
 			var deletePic = false;
 			/* 수정 */
-			$(".updateReview").click(function(){
-				deletePic = false;   
-				$("#uPic").val(""); 
-				var index = $(".updateReview").index(this);
-				/* var rNo = $(".rNo").eq(index).val();
-				var rPic = $(".rPic").eq(index).val(); */
+			
+
+			$(document).on("click",".updateReview",function(){             
+			      
+				deletePic = false;                     
+				$("#uPic").val("");                 
+				var index = $(".updateReview").index(this);  
 				var title =$(".span11").eq(index).html();
 				$("#old_img").empty();                
 				var content = $(".rcontent").eq(index).html();   				
@@ -707,7 +814,7 @@
 				$("#uTitle").val(title);
 				$("#ucomment").val(content);
 				    
-			})
+			}) 
 			
 			/* 수정취소 */
 			$("#cancelUBtn").click(function(){ 
@@ -932,8 +1039,8 @@
 				<div id="review_title">
 					<span class="review_title_span span1">제목</span><span class="review_title_span">아이디</span><span class="review_title_span">날짜</span><span class="review_title_span">&nbsp;&nbsp;</span>
 				</div>   
-				
-				<c:forEach var="list" items="${reviews}">  
+			<div id="review_limit">	
+				<%-- <c:forEach var="list" items="${reviews}">  
 				<div class="review_title_1">
 					<input type="hidden" value="${list.rNo}" class="rNo"> 
 					<input type="hidden" value="${list.rPic}" class="rPic">
@@ -955,40 +1062,25 @@
 					<img src="${pageContext.request.contextPath }/review/displayFile?filename=${list.rPic}" class="review_content_pic"><br>
 				</c:if>         
 				
-					<%-- <img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br> --%>
+					<img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br>
 					<div>
 						<pre class="rcontent">${list.rContent}</pre>    
 					</div> 	
 				</div>
-				</c:forEach>
-				
-				<%-- <div class="review_title_1">
-					<span class="review_title_span1 span11">제목은제목이요</span><span class="review_title_span1">김매미</span><span class="review_title_span1">2016-08-08</span>
-					<span class="review_title_span1">
-						<button type="button" class="btn btn-warning">수정</button>   
-						<button type="button" class="btn btn-danger">삭제</button>
-					</span>  
-				</div>
-				<div class="review_content">
-					<img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br>
-					<div>
-						dskdqlwd
-						dwqkd <br>
-						dwqkd <br>            
-						dwqkd <br>
-						dwqkd <br>
-						dwqkd <br>
-						wqd
-					</div> 	
-				</div> --%>
-		
+				</c:forEach> --%>
+			</div>		
 				<div id="writerBtn">
 					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myWriterModal" id="writerReview">글쓰기</button>
+				</div>
+				<!-- 페이징 -->
+				<div class="text-center">
+				<ul id="pagination" class="pagination pagination-sm no-margin">
+				
+				</ul> 
 				</div>
 				
 				
 			</div>
-		
 		</div>
 					<!-- ModalWrite -->
 			<div id="myWriterModal" class="modal fade" role="dialog">

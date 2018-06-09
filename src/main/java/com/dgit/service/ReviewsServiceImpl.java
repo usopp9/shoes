@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dgit.domain.Criteria;
 import com.dgit.domain.ReviewsVO;
 import com.dgit.persistence.ReviewsDAO;
 
@@ -22,9 +23,9 @@ public class ReviewsServiceImpl implements ReviewsService {
 	}
 
 	@Override
-	public List<ReviewsVO> selectAllReviews(int pNo) {
+	public List<ReviewsVO> selectAllReviews(int pNo,Criteria cri) {
 		
-		return dao.selectAllReviews(pNo);
+		return dao.selectAllReviews(pNo,cri);
 	}
 
 	@Override
@@ -43,6 +44,12 @@ public class ReviewsServiceImpl implements ReviewsService {
 	public void updateReviewsNoneImg(ReviewsVO vo) {
 		
 		dao.updateReviewsNoneImg(vo);
+	}
+
+	@Override
+	public int selectCount(int pNo) {
+		
+		return dao.selectCount(pNo);
 	}
 
 }
