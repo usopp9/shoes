@@ -174,16 +174,20 @@ public class ReviewController {
 	
 	@RequestMapping(value="deleteReview", method=RequestMethod.GET)
 	public ResponseEntity<String> write(int rNo,String rPic){
-		logger.info("deleteReview Post.......");
+		logger.info("deleteReview GET.......");
 		logger.info("rNo : "+rNo);
-     
+		logger.info("rPic : "+rPic);  
 		
 		ResponseEntity<String> entity = null;
 		try {
 			
+			
 			/*사진삭제수정 해야함*/
-			UploadFileUtils.deleteFile(uploadPath, rPic); 
-			reviewsService.deleteReviews(rNo);		
+			if(!rPic.equals("null")){         
+				logger.info("찍히냐");               
+				UploadFileUtils.deleteFile(uploadPath, rPic); 
+			}         
+			reviewsService.deleteReviews(rNo);	    	
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);// 200
 				
 		} catch (Exception e) {    

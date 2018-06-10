@@ -8,22 +8,26 @@
 <meta charset="UTF-8">
 <title>NekoShoes</title>
 <style>
+	body{
+		width:100%;        
+		height: 100%;               	
+	}
 	section{
 		width: 100%;
-		min-height: 800px;
-	}
-	#section_detail{
+	 	min-height: 1200px;                                                              
+	}  
+	#section_detail{   
 		width:60%;
 		margin: 0 auto;  	
 		overflow: hidden;       
-		/* min-height: 500px;       */  
+		min-height: 500px;     
 	}    
 	#section_detail_left{   
 		width: 48%;
 		height: 450px;
 		float: left;
 		margin-top: 60px;   
-	}
+	}       
 	#section_detail_right{
 		width: 50%;
 		height: 450px;   
@@ -299,12 +303,12 @@
 	}
 			/* display: none; */
 	#section_detail_review{
-		width: 50%;
-		margin:0 auto; 
-		min-height: 600px;  
-		border: 1px solid red ;
-		display: none;	
-	}
+		width: 50%;   
+		margin:0 auto;        
+		min-height:650px;                  
+		display: none;	     
+		overflow: auto;  
+	}          
 	#section_detail_review_div{
 		width: 100%;
 		height: 50px;
@@ -627,7 +631,7 @@
 					str+="<li><a href='#' id='nextPage'> >> </a></li>";
 				}
 				startpage = result.pageMaker.startPage;
-				lastpage = Number(result.pageMaker.endPage);        
+				lastpage = result.pageMaker.endPage;              
 				$(".pagination").html(str);      
 			}
 			
@@ -646,8 +650,8 @@
 					
 					var id = "${id}";
 					if(id==result[i].rId){
-						var btn1= "<button type='button' class='btn btn-warning updateReview' data-toggle='modal' data-target=''#myUpdateModal'>수정</button>";
-						var btn2 = "<button type='button' class='btn btn-danger deleteReview'>삭제</button>";
+						var btn1= "<button type='button' class='btn btn-warning updateReview' data-toggle='modal' data-target='#myUpdateModal'>수정</button>";
+						var btn2 = "<button type='button' class='btn btn-danger deleteReview'>삭제</button>";  
 						$div1.append(btn1).append(btn2);
 					}
 					if(id!=result[i].rId){
@@ -677,7 +681,7 @@
 					type:"get",
 					dataType:"json",
 					success:function(result){    
-						console.log(result);  
+						/* console.log(result);   */
 					 	 $("#review_limit").empty(); 
 						//list     
 						 
@@ -697,7 +701,8 @@
 				
 				// 해당 a태그 값이 들어가면 됨
 				pageNumber = $(this).text();
-				
+				/* $(this).parent().addClass(".active");         */  
+				                      
 				$(".section_detail_select_span").eq(1).trigger("click");  
 				
 			})
@@ -705,19 +710,23 @@
 			$(document).on("click","#nextPage",function(e){
 				e.preventDefault(); //link막기				    				   
 				// 해당 a태그 값이 들어가면 됨   
-				pageNumber = Number(lastpage+1);                			
+				pageNumber = lastpage+1;                			
 				$(".section_detail_select_span").eq(1).trigger("click");  
 			})	
+			
 			/* 이전페이지 */
-			$(document).on("click","#startPage",function(e){
+			$(document).on("click","#startPage",function(e){  
 				e.preventDefault(); //link막기				    				   
 				// 해당 a태그 값이 들어가면 됨   
-				pageNumber = Number(startpage-1);                     			
+				pageNumber = startpage-1;                     			
 				$(".section_detail_select_span").eq(1).trigger("click");  
 			})
+			
+			
 			/* 내용보여주기 */ 
-			$(document).on("click",".span11",function(){ 	  
-				var index = $(".span11").index(this); 
+			$(document).on("click",".span11",function(){ 	
+				$(".review_content").slideUp(100);         
+				var index = $(".span11").index(this);    		    
 				$(".review_content").eq(index).slideToggle(100);        
 			})  
 			
@@ -753,9 +762,9 @@
 				    			$("#rTitle").val("");  
 				    			$("#comment").val("");  
 				    			$(".closeW").trigger("click"); 
-				    			location.href="detail?no=${dNo}";  
+				    			$(".section_detail_select_span").eq(1).trigger("click");  
 				    		}   
-						}        
+						}          
 					})	 
 			})
 		
@@ -782,8 +791,9 @@
 					success:function(result){    
 						console.log(result);             
 			    		if(result=="success"){
-			    			$(".deleteReview").eq(index).parent().parent().remove();      
-			    			$(".review_content").eq(index).remove(); 
+			    			/* $(".deleteReview").eq(index).parent().parent().remove();       */
+			    			$(".deleteReview").eq(index).parent().remove();      
+			    			$(".review_content").eq(index).remove();   
 			    		}
 					}        
 				})	     
@@ -874,8 +884,8 @@
 				    			$("#uTitle").val("");  
 				    			$("#ucomment").val("");  
 				    			$(".closeW").trigger("click");  
-				    			location.href="detail?no=${dNo}";  
-				    		}   
+				    			$(".section_detail_select_span").eq(1).trigger("click");  
+				    		}             
 						}        
 					})	 								
 			})  
