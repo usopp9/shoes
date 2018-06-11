@@ -1,323 +1,241 @@
--- ½Å¹ß
+-- ì‹ ë°œ
 DROP SCHEMA IF EXISTS `shoes_project`;
 
--- ½Å¹ß
+-- ì‹ ë°œ
 CREATE SCHEMA `shoes_project`;
 
--- °í°´
+-- ê³ ê°
 CREATE TABLE `shoes_project`.`coustomer` (
-	`c_id`       VARCHAR(20)  NOT NULL COMMENT '¾ÆÀÌµð', -- ¾ÆÀÌµð
-	`c_name`     VARCHAR(20)  NULL     COMMENT 'ÀÌ¸§', -- ÀÌ¸§
-	`c_password` VARCHAR(20)  NULL     COMMENT 'ºñ¹Ð¹øÈ£', -- ºñ¹Ð¹øÈ£
-	`c_birth`    DATE         NULL     COMMENT '»ý³â¿ùÀÏ', -- »ý³â¿ùÀÏ
-	`c_join`     DATE         NULL     COMMENT '°¡ÀÔÀÏÀÚ', -- °¡ÀÔÀÏÀÚ
-	`c_phone`    VARCHAR(20)  NULL     COMMENT 'ÀüÈ­¹øÈ£', -- ÀüÈ­¹øÈ£
-	`c_mail`     VARCHAR(50)  NULL     COMMENT '¸ÞÀÏ', -- ¸ÞÀÏ
-	`c_address`  VARCHAR(100) NULL     COMMENT 'ÁÖ¼Ò', -- ÁÖ¼Ò
-	`c_point`    INT(20)      NULL     COMMENT 'Àû¸³±Ý', -- Àû¸³±Ý
-	`c_tf`       BOOLEAN      NULL     COMMENT 'Å»Åð¿©ºÎ' -- Å»Åð¿©ºÎ
+	`c_id`       VARCHAR(20)  NOT NULL COMMENT 'ì•„ì´ë””', -- ì•„ì´ë””
+	`c_name`     VARCHAR(20)  NULL     COMMENT 'ì´ë¦„', -- ì´ë¦„
+	`c_password` VARCHAR(20)  NULL     COMMENT 'ë¹„ë°€ë²ˆí˜¸', -- ë¹„ë°€ë²ˆí˜¸
+	`c_birth`    DATE         NULL     COMMENT 'ìƒë…„ì›”ì¼', -- ìƒë…„ì›”ì¼
+	`c_join`     DATE         NULL     COMMENT 'ê°€ìž…ì¼ìž', -- ê°€ìž…ì¼ìž
+	`c_phone`    VARCHAR(20)  NULL     COMMENT 'ì „í™”ë²ˆí˜¸', -- ì „í™”ë²ˆí˜¸
+	`c_mail`     VARCHAR(50)  NULL     COMMENT 'ë©”ì¼', -- ë©”ì¼
+	`c_address`  VARCHAR(100) NULL     COMMENT 'ì£¼ì†Œ', -- ì£¼ì†Œ
+	`c_point`    INT(20)      NULL     COMMENT 'ì ë¦½ê¸ˆ', -- ì ë¦½ê¸ˆ
+	`c_tf`       BOOLEAN      NULL     COMMENT 'íƒˆí‡´ì—¬ë¶€' -- íƒˆí‡´ì—¬ë¶€
 )
-COMMENT '°í°´';
+COMMENT 'ê³ ê°';
 
--- °í°´
+-- ê³ ê°
 ALTER TABLE `shoes_project`.`coustomer`
-	ADD CONSTRAINT `PK_coustomer` -- °í°´ ±âº»Å°
+	ADD CONSTRAINT `PK_coustomer` -- ê³ ê° ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`c_id` -- ¾ÆÀÌµð
+			`c_id` -- ì•„ì´ë””
 		);
 
--- ºê·£µå
+-- ë¸Œëžœë“œ
 CREATE TABLE `shoes_project`.`brand` (
-	`b_no`       int(10)     NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`b_name_kor` VARCHAR(20) NULL     COMMENT 'ÀÌ¸§', -- ÀÌ¸§
-	`b_name_eng` VARCHAR(20) NULL     COMMENT '¿µ¾î' -- ¿µ¾î
+	`b_no`       int(10)     NOT NULL COMMENT 'ë²ˆí˜¸', -- ë²ˆí˜¸
+	`b_name_kor` VARCHAR(20) NULL     COMMENT 'ì´ë¦„', -- ì´ë¦„
+	`b_name_eng` VARCHAR(20) NULL     COMMENT 'ì˜ì–´' -- ì˜ì–´
 )
-COMMENT 'ºê·£µå';
+COMMENT 'ë¸Œëžœë“œ';
 
--- ºê·£µå
+-- ë¸Œëžœë“œ
 ALTER TABLE `shoes_project`.`brand`
-	ADD CONSTRAINT `PK_brand` -- ºê·£µå ±âº»Å°
+	ADD CONSTRAINT `PK_brand` -- ë¸Œëžœë“œ ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`b_no` -- ¹øÈ£
+			`b_no` -- ë²ˆí˜¸
 		);
 
 ALTER TABLE `shoes_project`.`brand`
-	MODIFY COLUMN `b_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
+	MODIFY COLUMN `b_no` int(10) NOT NULL AUTO_INCREMENT COMMENT 'ë²ˆí˜¸';
 
--- »óÇ°
+-- ìƒí’ˆ
 CREATE TABLE `shoes_project`.`product` (
-	`p_no`          INT(10)     NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`b_no`          int(10)     NULL     COMMENT 'ºê·£µå¹øÈ£', -- ºê·£µå¹øÈ£
-	`c_no`          INT(10)     NULL     COMMENT 'Ä«Å×°í¸®¹øÈ£', -- Ä«Å×°í¸®¹øÈ£
-	`p_code`        VARCHAR(50) NULL     COMMENT '»óÇ°ÄÚµå', -- »óÇ°ÄÚµå
-	`p_qr`          VARCHAR(50) NULL     COMMENT '»óÇ°QRÄÚµå', -- »óÇ°QRÄÚµå
-	`p_name_kor`    VARCHAR(50) NULL     COMMENT '»óÇ°ÀÌ¸§', -- »óÇ°ÀÌ¸§
-	`p_name_eng`    VARCHAR(50) NULL     COMMENT '»óÇ°ÀÌ¸§¿µ¾î', -- »óÇ°ÀÌ¸§¿µ¾î
-	`p_price`       INT(20)     NULL     COMMENT '°¡°Ý', -- °¡°Ý
-	`p_rate`        INT(10)     NULL     COMMENT 'ÇÒÀÎÀ²', -- ÇÒÀÎÀ²
-	`p_total_price` INT(20)     NULL     COMMENT 'ÃÑ°¡°Ý', -- ÃÑ°¡°Ý
-	`p_cnt`         INT(20)     NULL     COMMENT '»çÁø°¹¼ö', -- »çÁø°¹¼ö
-	`p_count`       INT(20)     NULL     COMMENT '±¸¸Å¼ö', -- ±¸¸Å¼ö
-	`p_tf`          BOOLEAN     NULL     COMMENT '»óÇ°Àç°íÀ¯¹«', -- »óÇ°Àç°íÀ¯¹«
-	`p_date`        DATE        NULL     COMMENT 'µî·ÏÀÏ' -- µî·ÏÀÏ
+	`p_no`          INT(10)     NOT NULL COMMENT 'ë²ˆí˜¸', -- ë²ˆí˜¸
+	`b_no`          int(10)     NULL     COMMENT 'ë¸Œëžœë“œë²ˆí˜¸', -- ë¸Œëžœë“œë²ˆí˜¸
+	`c_no`          INT(10)     NULL     COMMENT 'ì¹´í…Œê³ ë¦¬ë²ˆí˜¸', -- ì¹´í…Œê³ ë¦¬ë²ˆí˜¸
+	`p_code`        VARCHAR(50) NULL     COMMENT 'ìƒí’ˆì½”ë“œ', -- ìƒí’ˆì½”ë“œ
+	`p_qr`          VARCHAR(50) NULL     COMMENT 'ìƒí’ˆQRì½”ë“œ', -- ìƒí’ˆQRì½”ë“œ
+	`p_name_kor`    VARCHAR(50) NULL     COMMENT 'ìƒí’ˆì´ë¦„', -- ìƒí’ˆì´ë¦„
+	`p_name_eng`    VARCHAR(50) NULL     COMMENT 'ìƒí’ˆì´ë¦„ì˜ì–´', -- ìƒí’ˆì´ë¦„ì˜ì–´
+	`p_price`       INT(20)     NULL     COMMENT 'ê°€ê²©', -- ê°€ê²©
+	`p_rate`        INT(10)     NULL     COMMENT 'í• ì¸ìœ¨', -- í• ì¸ìœ¨
+	`p_total_price` INT(20)     NULL     COMMENT 'ì´ê°€ê²©', -- ì´ê°€ê²©
+	`p_cnt`         INT(20)     NULL     COMMENT 'ì‚¬ì§„ê°¯ìˆ˜', -- ì‚¬ì§„ê°¯ìˆ˜
+	`p_count`       INT(20)     NULL     COMMENT 'êµ¬ë§¤ìˆ˜', -- êµ¬ë§¤ìˆ˜
+	`p_tf`          BOOLEAN     NULL     COMMENT 'ìƒí’ˆìž¬ê³ ìœ ë¬´', -- ìƒí’ˆìž¬ê³ ìœ ë¬´
+	`p_date`        DATE        NULL     COMMENT 'ë“±ë¡ì¼' -- ë“±ë¡ì¼
 )
-COMMENT '»óÇ°';
+COMMENT 'ìƒí’ˆ';
 
--- »óÇ°
+-- ìƒí’ˆ
 ALTER TABLE `shoes_project`.`product`
-	ADD CONSTRAINT `PK_product` -- »óÇ° ±âº»Å°
+	ADD CONSTRAINT `PK_product` -- ìƒí’ˆ ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`p_no` -- ¹øÈ£
+			`p_no` -- ë²ˆí˜¸
 		);
 
 ALTER TABLE `shoes_project`.`product`
-	MODIFY COLUMN `p_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
+	MODIFY COLUMN `p_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'ë²ˆí˜¸';
 
--- »óÇ°µðÅ×ÀÏ
+-- ìƒí’ˆë””í…Œì¼
 CREATE TABLE `shoes_project`.`detail_product` (
-	`d_no`    INT(10)     NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`p_no`    INT(10)     NULL     COMMENT '»óÇ°¹øÈ£', -- »óÇ°¹øÈ£
-	`d_color` VARCHAR(20) NULL     COMMENT 'ÄÃ·¯', -- ÄÃ·¯
-	`d_size`  INT(10)     NULL     COMMENT '»çÀÌÁî', -- »çÀÌÁî
-	`d_stock` INT(10)     NULL     COMMENT 'Àç°í' -- Àç°í
+	`d_no`    INT(10)     NOT NULL COMMENT 'ë²ˆí˜¸', -- ë²ˆí˜¸
+	`p_no`    INT(10)     NULL     COMMENT 'ìƒí’ˆë²ˆí˜¸', -- ìƒí’ˆë²ˆí˜¸
+	`d_color` VARCHAR(20) NULL     COMMENT 'ì»¬ëŸ¬', -- ì»¬ëŸ¬
+	`d_size`  INT(10)     NULL     COMMENT 'ì‚¬ì´ì¦ˆ', -- ì‚¬ì´ì¦ˆ
+	`d_stock` INT(10)     NULL     COMMENT 'ìž¬ê³ ' -- ìž¬ê³ 
 )
-COMMENT '»óÇ°µðÅ×ÀÏ';
+COMMENT 'ìƒí’ˆë””í…Œì¼';
 
--- »óÇ°µðÅ×ÀÏ
+-- ìƒí’ˆë””í…Œì¼
 ALTER TABLE `shoes_project`.`detail_product`
-	ADD CONSTRAINT `PK_detail_product` -- »óÇ°µðÅ×ÀÏ ±âº»Å°
+	ADD CONSTRAINT `PK_detail_product` -- ìƒí’ˆë””í…Œì¼ ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`d_no` -- ¹øÈ£
+			`d_no` -- ë²ˆí˜¸
 		);
 
 ALTER TABLE `shoes_project`.`detail_product`
-	MODIFY COLUMN `d_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
+	MODIFY COLUMN `d_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'ë²ˆí˜¸';
 
--- ÁÖ¹®
+-- ì£¼ë¬¸
 CREATE TABLE `shoes_project`.`order_product` (
-	`o_no`       INT(50)      NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`o_num`      INT(50)      NULL     COMMENT 'ÁÖ¹®¹øÈ£', -- ÁÖ¹®¹øÈ£
-	`d_no`       INT(10)      NULL     COMMENT '»óÇ°¹øÈ£', -- »óÇ°¹øÈ£
-	`o_id`       VARCHAR(20)  NULL     COMMENT '¾ÆÀÌµð', -- ¾ÆÀÌµð
-	`o_name`     VARCHAR(20)  NULL     COMMENT 'ÀÌ¸§', -- ÀÌ¸§
-	`o_phone`    VARCHAR(20)  NULL     COMMENT 'ÀüÈ­¹øÈ£', -- ÀüÈ­¹øÈ£
-	`o_mail`     VARCHAR(50)  NULL     COMMENT '¸ÞÀÏ', -- ¸ÞÀÏ
-	`o_password` VARCHAR(20)  NULL     COMMENT 'ÁÖ¹®ºñ¹Ð¹øÈ£', -- ÁÖ¹®ºñ¹Ð¹øÈ£
-	`o_address`  VARCHAR(100) NULL     COMMENT 'ÁÖ¼Ò', -- ÁÖ¼Ò
-	`o_price`    INT(10)      NULL     COMMENT 'ÃÑ°¡°Ý', -- ÃÑ°¡°Ý
-	`o_point`    INT(10)      NULL     COMMENT 'Æ÷ÀÎÆ®Àû¸³', -- Æ÷ÀÎÆ®Àû¸³
-	`o_upoint`   INT(10)      NULL     COMMENT '»ç¿ëÇÑÆ÷ÀÎÆ®', -- »ç¿ëÇÑÆ÷ÀÎÆ®
-	`o_date`     DATE         NULL     COMMENT 'ÁÖ¹®³¯Â¥', -- ÁÖ¹®³¯Â¥
-	`o_count`    INT(10)      NULL     COMMENT '¼ö·®' -- ¼ö·®
+	`o_no`       INT(50)      NOT NULL COMMENT 'ë²ˆí˜¸', -- ë²ˆí˜¸
+	`o_num`      INT(50)      NULL     COMMENT 'ì£¼ë¬¸ë²ˆí˜¸', -- ì£¼ë¬¸ë²ˆí˜¸
+	`d_no`       INT(10)      NULL     COMMENT 'ìƒí’ˆë²ˆí˜¸', -- ìƒí’ˆë²ˆí˜¸
+	`o_id`       VARCHAR(20)  NULL     COMMENT 'ì•„ì´ë””', -- ì•„ì´ë””
+	`o_name`     VARCHAR(20)  NULL     COMMENT 'ì´ë¦„', -- ì´ë¦„
+	`o_phone`    VARCHAR(20)  NULL     COMMENT 'ì „í™”ë²ˆí˜¸', -- ì „í™”ë²ˆí˜¸
+	`o_mail`     VARCHAR(50)  NULL     COMMENT 'ë©”ì¼', -- ë©”ì¼
+	`o_password` VARCHAR(20)  NULL     COMMENT 'ì£¼ë¬¸ë¹„ë°€ë²ˆí˜¸', -- ì£¼ë¬¸ë¹„ë°€ë²ˆí˜¸
+	`o_address`  VARCHAR(100) NULL     COMMENT 'ì£¼ì†Œ', -- ì£¼ì†Œ
+	`o_price`    INT(10)      NULL     COMMENT 'ì´ê°€ê²©', -- ì´ê°€ê²©
+	`o_point`    INT(10)      NULL     COMMENT 'í¬ì¸íŠ¸ì ë¦½', -- í¬ì¸íŠ¸ì ë¦½
+	`o_upoint`   INT(10)      NULL     COMMENT 'ì‚¬ìš©í•œí¬ì¸íŠ¸', -- ì‚¬ìš©í•œí¬ì¸íŠ¸
+	`o_date`     DATE         NULL     COMMENT 'ì£¼ë¬¸ë‚ ì§œ', -- ì£¼ë¬¸ë‚ ì§œ
+	`o_count`    INT(10)      NULL     COMMENT 'ìˆ˜ëŸ‰' -- ìˆ˜ëŸ‰
 )
-COMMENT 'ÁÖ¹®';
+COMMENT 'ì£¼ë¬¸';
 
--- ÁÖ¹®
+-- ì£¼ë¬¸
 ALTER TABLE `shoes_project`.`order_product`
-	ADD CONSTRAINT `PK_order_product` -- ÁÖ¹® ±âº»Å°
+	ADD CONSTRAINT `PK_order_product` -- ì£¼ë¬¸ ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`o_no` -- ¹øÈ£
+			`o_no` -- ë²ˆí˜¸
 		);
 
 ALTER TABLE `shoes_project`.`order_product`
-	MODIFY COLUMN `o_no` INT(50) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
+	MODIFY COLUMN `o_no` INT(50) NOT NULL AUTO_INCREMENT COMMENT 'ë²ˆí˜¸';
 
--- »óÇ°ÈÄ±â
+-- ìƒí’ˆí›„ê¸°
 CREATE TABLE `shoes_project`.`reviews` (
-	`r_no`      INT(20)      NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`d_no`      INT(10)      NULL     COMMENT '»óÇ°¹øÈ£', -- »óÇ°¹øÈ£
-	`r_title`   VARCHAR(20)  NULL     COMMENT 'Á¦¸ñ', -- Á¦¸ñ
-	`r_content` VARCHAR(100) NULL     COMMENT '³»¿ë', -- ³»¿ë
-	`r_date`    DATE         NULL     COMMENT 'ÀÛ¼ºÀÏ', -- ÀÛ¼ºÀÏ
-	`r_pic`     VARCHAR(100) NULL     COMMENT '»óÇ°»çÁø', -- »óÇ°»çÁø
-	`r_id`      VARCHAR(20)  NULL     COMMENT 'ÀÛ¼ºÀÚ' -- ÀÛ¼ºÀÚ
+	`r_no`      INT(20)      NOT NULL COMMENT 'ë²ˆí˜¸', -- ë²ˆí˜¸
+	`d_no`      INT(10)      NULL     COMMENT 'ìƒí’ˆë²ˆí˜¸', -- ìƒí’ˆë²ˆí˜¸
+	`r_title`   VARCHAR(20)  NULL     COMMENT 'ì œëª©', -- ì œëª©
+	`r_content` VARCHAR(100) NULL     COMMENT 'ë‚´ìš©', -- ë‚´ìš©
+	`r_date`    DATE         NULL     COMMENT 'ìž‘ì„±ì¼', -- ìž‘ì„±ì¼
+	`r_pic`     VARCHAR(100) NULL     COMMENT 'ìƒí’ˆì‚¬ì§„', -- ìƒí’ˆì‚¬ì§„
+	`r_id`      VARCHAR(20)  NULL     COMMENT 'ìž‘ì„±ìž' -- ìž‘ì„±ìž
 )
-COMMENT '»óÇ°ÈÄ±â';
+COMMENT 'ìƒí’ˆí›„ê¸°';
 
--- »óÇ°ÈÄ±â
+-- ìƒí’ˆí›„ê¸°
 ALTER TABLE `shoes_project`.`reviews`
-	ADD CONSTRAINT `PK_reviews` -- »óÇ°ÈÄ±â ±âº»Å°
+	ADD CONSTRAINT `PK_reviews` -- ìƒí’ˆí›„ê¸° ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`r_no` -- ¹øÈ£
+			`r_no` -- ë²ˆí˜¸
 		);
 
 ALTER TABLE `shoes_project`.`reviews`
-	MODIFY COLUMN `r_no` INT(20) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
+	MODIFY COLUMN `r_no` INT(20) NOT NULL AUTO_INCREMENT COMMENT 'ë²ˆí˜¸';
 
--- Áú¹®
-CREATE TABLE `shoes_project`.`questaion` (
-	`q_no`      int(10)     NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`q_title`   VARCHAR(50) NULL     COMMENT 'Á¦¸ñ', -- Á¦¸ñ
-	`q_content` VARCHAR(50) NULL     COMMENT '³»¿ë', -- ³»¿ë
-	`c_id`      VARCHAR(20) NULL     COMMENT '¾ÆÀÌµð', -- ¾ÆÀÌµð
-	`p_no`      INT(10)     NULL     COMMENT '»óÇ°¹øÈ£', -- »óÇ°¹øÈ£
-	`q_date`    VARCHAR(50) NULL     COMMENT 'ÀÛ¼ºÀÏ', -- ÀÛ¼ºÀÏ
-	`q_tf`      BOOLEAN     NULL     COMMENT '´äº¯»óÅÂ' -- ´äº¯»óÅÂ
-)
-COMMENT 'Áú¹®';
-
--- Áú¹®
-ALTER TABLE `shoes_project`.`questaion`
-	ADD CONSTRAINT `PK_questaion` -- Áú¹® ±âº»Å°
-		PRIMARY KEY (
-			`q_no` -- ¹øÈ£
-		);
-
-ALTER TABLE `shoes_project`.`questaion`
-	MODIFY COLUMN `q_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
-
--- ´äº¯
-CREATE TABLE `shoes_project`.`answer` (
-	`q_no`      int(10)      NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`a_content` VARCHAR(100) NULL     COMMENT '³»¿ë' -- ³»¿ë
-)
-COMMENT '´äº¯';
-
--- ´äº¯
-ALTER TABLE `shoes_project`.`answer`
-	ADD CONSTRAINT `PK_answer` -- ´äº¯ ±âº»Å°
-		PRIMARY KEY (
-			`q_no` -- ¹øÈ£
-		);
-
-ALTER TABLE `shoes_project`.`answer`
-	MODIFY COLUMN `q_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
-
--- Ä«Å×°í¸®
+-- ì¹´í…Œê³ ë¦¬
 CREATE TABLE `shoes_project`.`category` (
-	`c_no`   INT(10)     NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`c_name` VARCHAR(50) NULL     COMMENT 'ÀÌ¸§' -- ÀÌ¸§
+	`c_name` VARCHAR(50) NULL     COMMENT 'ì´ë¦„', -- ì´ë¦„
+	`c_no`   INT(10)     NOT NULL COMMENT 'ë²ˆí˜¸' -- ë²ˆí˜¸
 )
-COMMENT 'Ä«Å×°í¸®';
+COMMENT 'ì¹´í…Œê³ ë¦¬';
 
--- Ä«Å×°í¸®
+-- ì¹´í…Œê³ ë¦¬
 ALTER TABLE `shoes_project`.`category`
-	ADD CONSTRAINT `PK_category` -- Ä«Å×°í¸® ±âº»Å°
+	ADD CONSTRAINT `PK_category` -- ì¹´í…Œê³ ë¦¬ ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`c_no` -- ¹øÈ£
+			`c_no` -- ë²ˆí˜¸
 		);
 
 ALTER TABLE `shoes_project`.`category`
-	MODIFY COLUMN `c_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
+	MODIFY COLUMN `c_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'ë²ˆí˜¸';
 
--- Àå¹Ù±¸´Ï
+-- ìž¥ë°”êµ¬ë‹ˆ
 CREATE TABLE `shoes_project`.`basket` (
-	`b_no`    INT(10)     NOT NULL COMMENT '¹øÈ£', -- ¹øÈ£
-	`d_no`    INT(10)     NULL     COMMENT '»óÇ°µðÅ×ÀÏ¹øÈ£', -- »óÇ°µðÅ×ÀÏ¹øÈ£
-	`b_id`    VARCHAR(20) NULL     COMMENT '¾ÆÀÌµð', -- ¾ÆÀÌµð
-	`b_count` INT(10)     NULL     COMMENT '¼ö·®' -- ¼ö·®
+	`b_no`    INT(10)     NOT NULL COMMENT 'ë²ˆí˜¸', -- ë²ˆí˜¸
+	`d_no`    INT(10)     NULL     COMMENT 'ìƒí’ˆë””í…Œì¼ë²ˆí˜¸', -- ìƒí’ˆë””í…Œì¼ë²ˆí˜¸
+	`b_id`    VARCHAR(20) NULL     COMMENT 'ì•„ì´ë””', -- ì•„ì´ë””
+	`b_count` INT(10)     NULL     COMMENT 'ìˆ˜ëŸ‰' -- ìˆ˜ëŸ‰
 )
-COMMENT 'Àå¹Ù±¸´Ï';
+COMMENT 'ìž¥ë°”êµ¬ë‹ˆ';
 
--- Àå¹Ù±¸´Ï
+-- ìž¥ë°”êµ¬ë‹ˆ
 ALTER TABLE `shoes_project`.`basket`
-	ADD CONSTRAINT `PK_basket` -- Àå¹Ù±¸´Ï ±âº»Å°
+	ADD CONSTRAINT `PK_basket` -- ìž¥ë°”êµ¬ë‹ˆ ê¸°ë³¸í‚¤
 		PRIMARY KEY (
-			`b_no` -- ¹øÈ£
+			`b_no` -- ë²ˆí˜¸
 		);
 
 ALTER TABLE `shoes_project`.`basket`
-	MODIFY COLUMN `b_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT '¹øÈ£';
+	MODIFY COLUMN `b_no` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'ë²ˆí˜¸';
 
--- ÁÖ¹®»óÇ°
-CREATE TABLE `shoes_project`.`order_basket` (
-	`ob_no` INT(10) NOT NULL COMMENT '¹øÈ£' -- ¹øÈ£
-)
-COMMENT 'ÁÖ¹®»óÇ°';
-
--- ÁÖ¹®»óÇ°
-ALTER TABLE `shoes_project`.`order_basket`
-	ADD CONSTRAINT `PK_order_basket` -- ÁÖ¹®»óÇ° ±âº»Å°
-		PRIMARY KEY (
-			`ob_no` -- ¹øÈ£
-		);
-
--- »óÇ°
+-- ìƒí’ˆ
 ALTER TABLE `shoes_project`.`product`
-	ADD CONSTRAINT `FK_brand_TO_product` -- ºê·£µå -> »óÇ°
+	ADD CONSTRAINT `FK_brand_TO_product` -- ë¸Œëžœë“œ -> ìƒí’ˆ
 		FOREIGN KEY (
-			`b_no` -- ºê·£µå¹øÈ£
+			`b_no` -- ë¸Œëžœë“œë²ˆí˜¸
 		)
-		REFERENCES `shoes_project`.`brand` ( -- ºê·£µå
-			`b_no` -- ¹øÈ£
+		REFERENCES `shoes_project`.`brand` ( -- ë¸Œëžœë“œ
+			`b_no` -- ë²ˆí˜¸
 		);
 
--- »óÇ°
+-- ìƒí’ˆ
 ALTER TABLE `shoes_project`.`product`
-	ADD CONSTRAINT `FK_category_TO_product` -- Ä«Å×°í¸® -> »óÇ°
+	ADD CONSTRAINT `FK_category_TO_product` -- ì¹´í…Œê³ ë¦¬ -> ìƒí’ˆ
 		FOREIGN KEY (
-			`c_no` -- Ä«Å×°í¸®¹øÈ£
+			`c_no` -- ì¹´í…Œê³ ë¦¬ë²ˆí˜¸
 		)
-		REFERENCES `shoes_project`.`category` ( -- Ä«Å×°í¸®
-			`c_no` -- ¹øÈ£
+		REFERENCES `shoes_project`.`category` ( -- ì¹´í…Œê³ ë¦¬
+			`c_no` -- ë²ˆí˜¸
 		);
 
--- »óÇ°µðÅ×ÀÏ
+-- ìƒí’ˆë””í…Œì¼
 ALTER TABLE `shoes_project`.`detail_product`
-	ADD CONSTRAINT `FK_product_TO_detail_product` -- »óÇ° -> »óÇ°µðÅ×ÀÏ
+	ADD CONSTRAINT `FK_product_TO_detail_product` -- ìƒí’ˆ -> ìƒí’ˆë””í…Œì¼
 		FOREIGN KEY (
-			`p_no` -- »óÇ°¹øÈ£
+			`p_no` -- ìƒí’ˆë²ˆí˜¸
 		)
-		REFERENCES `shoes_project`.`product` ( -- »óÇ°
-			`p_no` -- ¹øÈ£
+		REFERENCES `shoes_project`.`product` ( -- ìƒí’ˆ
+			`p_no` -- ë²ˆí˜¸
 		);
 
--- ÁÖ¹®
+-- ì£¼ë¬¸
 ALTER TABLE `shoes_project`.`order_product`
-	ADD CONSTRAINT `FK_detail_product_TO_order_product` -- »óÇ°µðÅ×ÀÏ -> ÁÖ¹®
+	ADD CONSTRAINT `FK_detail_product_TO_order_product` -- ìƒí’ˆë””í…Œì¼ -> ì£¼ë¬¸
 		FOREIGN KEY (
-			`d_no` -- »óÇ°¹øÈ£
+			`d_no` -- ìƒí’ˆë²ˆí˜¸
 		)
-		REFERENCES `shoes_project`.`detail_product` ( -- »óÇ°µðÅ×ÀÏ
-			`d_no` -- ¹øÈ£
+		REFERENCES `shoes_project`.`detail_product` ( -- ìƒí’ˆë””í…Œì¼
+			`d_no` -- ë²ˆí˜¸
 		);
 
--- »óÇ°ÈÄ±â
+-- ìƒí’ˆí›„ê¸°
 ALTER TABLE `shoes_project`.`reviews`
-	ADD CONSTRAINT `FK_detail_product_TO_reviews` -- »óÇ°µðÅ×ÀÏ -> »óÇ°ÈÄ±â
+	ADD CONSTRAINT `FK_detail_product_TO_reviews` -- ìƒí’ˆë””í…Œì¼ -> ìƒí’ˆí›„ê¸°
 		FOREIGN KEY (
-			`d_no` -- »óÇ°¹øÈ£
+			`d_no` -- ìƒí’ˆë²ˆí˜¸
 		)
-		REFERENCES `shoes_project`.`detail_product` ( -- »óÇ°µðÅ×ÀÏ
-			`d_no` -- ¹øÈ£
+		REFERENCES `shoes_project`.`detail_product` ( -- ìƒí’ˆë””í…Œì¼
+			`d_no` -- ë²ˆí˜¸
 		);
 
--- Áú¹®
-ALTER TABLE `shoes_project`.`questaion`
-	ADD CONSTRAINT `FK_coustomer_TO_questaion` -- °í°´ -> Áú¹®
-		FOREIGN KEY (
-			`c_id` -- ¾ÆÀÌµð
-		)
-		REFERENCES `shoes_project`.`coustomer` ( -- °í°´
-			`c_id` -- ¾ÆÀÌµð
-		);
-
--- Áú¹®
-ALTER TABLE `shoes_project`.`questaion`
-	ADD CONSTRAINT `FK_product_TO_questaion` -- »óÇ° -> Áú¹®
-		FOREIGN KEY (
-			`p_no` -- »óÇ°¹øÈ£
-		)
-		REFERENCES `shoes_project`.`product` ( -- »óÇ°
-			`p_no` -- ¹øÈ£
-		);
-
--- ´äº¯
-ALTER TABLE `shoes_project`.`answer`
-	ADD CONSTRAINT `FK_questaion_TO_answer` -- Áú¹® -> ´äº¯
-		FOREIGN KEY (
-			`q_no` -- ¹øÈ£
-		)
-		REFERENCES `shoes_project`.`questaion` ( -- Áú¹®
-			`q_no` -- ¹øÈ£
-		);
-
--- Àå¹Ù±¸´Ï
+-- ìž¥ë°”êµ¬ë‹ˆ
 ALTER TABLE `shoes_project`.`basket`
-	ADD CONSTRAINT `FK_detail_product_TO_basket` -- »óÇ°µðÅ×ÀÏ -> Àå¹Ù±¸´Ï
+	ADD CONSTRAINT `FK_detail_product_TO_basket` -- ìƒí’ˆë””í…Œì¼ -> ìž¥ë°”êµ¬ë‹ˆ
 		FOREIGN KEY (
-			`d_no` -- »óÇ°µðÅ×ÀÏ¹øÈ£
+			`d_no` -- ìƒí’ˆë””í…Œì¼ë²ˆí˜¸
 		)
-		REFERENCES `shoes_project`.`detail_product` ( -- »óÇ°µðÅ×ÀÏ
-			`d_no` -- ¹øÈ£
+		REFERENCES `shoes_project`.`detail_product` ( -- ìƒí’ˆë””í…Œì¼
+			`d_no` -- ë²ˆí˜¸
 		);

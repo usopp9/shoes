@@ -15,7 +15,8 @@
 	#headernavbar{
 		background-color: white !important; 
 		border: 1px solid white !important;
-	} 
+		width: 90% !important;     
+	}  
 	.nav_modal, .nav_img{   
 		color: #021C51 !important;    
 		font-weight: bold !important;         
@@ -243,8 +244,8 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary" id="main_login">로그인</button>
-          <button type="button" class="btn btn-success">네이버 로그인</button><br><br>
-          <span><a href="#">아이디 찾기</a></span> / <span><a href="#">비밀번호 찾기</a></span>
+         <!--  <button type="button" class="btn btn-success">네이버 로그인</button><br><br>
+          <span><a href="#">아이디 찾기</a></span> / <span><a href="#">비밀번호 찾기</a></span> -->     
         </div>
       </div>
     </div>

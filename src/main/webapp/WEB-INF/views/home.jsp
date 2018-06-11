@@ -100,7 +100,7 @@
 	          captions: true,
 	          pause: 2000,
 	          speend:1000,
-	          slideMargin:5,
+	          slideMargin:5,     
 	          maxSlides:5,  
 	          slideWidth: 200   
 	         });  
