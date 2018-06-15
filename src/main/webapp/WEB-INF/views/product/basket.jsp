@@ -226,7 +226,9 @@
 		/* 바로구매 */
 		$(".btnNow").click(function(){
 			var bNo = $(this).parent().parent().find(".hiddenBno").val();
-			location.href="${pageContext.request.contextPath}/product/orderNow?bNo="+bNo;
+			 location.href="${pageContext.request.contextPath}/product/orderNow?bNo="+bNo;
+			
+			
 			
 		})
 	})   
@@ -235,6 +237,7 @@
 		<div id="section_basket">
 			<h1 id="section_basket_h1">장바구니</h1>
 			<div id="section_basket_div">
+			
 				<table id="section_basket_table">
 					<tr>
 						<th><input type="checkbox" id="allChk"></th>
@@ -281,6 +284,9 @@
 						</c:forEach>	
 					</c:if>					
 				</table>
+				
+				<!-- <form action="orderNow" method="post" id="f1">
+				</form> -->
 				<div id="selectChb">
 					<input type="checkbox"><button type="button" class="btn btn-default" id="selectDeleteBtn">선택상품 삭제</button>
 				</div>
