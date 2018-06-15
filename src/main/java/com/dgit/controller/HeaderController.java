@@ -25,6 +25,7 @@ import com.dgit.domain.CategoryVO;
 import com.dgit.service.BrandService;
 import com.dgit.service.CategoryService;
 import com.dgit.service.CoustomerService;
+import com.dgit.service.OrderProductService;
 
 @RestController
 @RequestMapping("/header") 
@@ -41,6 +42,9 @@ public class HeaderController {
 	@Autowired 
 	CoustomerService coustomerService;
 
+	@Autowired
+	OrderProductService orderProductService;
+	
 	@ResponseBody
 	@RequestMapping(value = "")
 	public ResponseEntity<List<CategoryVO>> selectAllCategory() {
@@ -100,5 +104,28 @@ public class HeaderController {
 		}
 		return entity;
 	}
-
+	
+	@RequestMapping(value = "noneOrder",method=RequestMethod.POST)
+	public ResponseEntity<String> noneOrder(@RequestBody Map<String, Object> param) {
+		logger.info("noneOrder.............................................................");
+		logger.info("no : " + param.get("no"));
+		logger.info("password : " + param.get("pw")); 
+		ResponseEntity<String> entity = null;
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("num", param.get("no"));
+			map.put("pw", param.get("pw"));  
+			List<Integer> list = orderProductService.selectNoneMemberMypage(map);
+			logger.info("list : " +list); 
+			if(list.size()==0){
+				entity = new ResponseEntity<String>("fail", HttpStatus.OK);// 200
+			}else{
+				entity = new ResponseEntity<String>(String.valueOf(param.get("no")), HttpStatus.OK);// 200
+			}			
+		} catch (Exception e) { 
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);// 400
+		}
+		return entity;
+	}
 }

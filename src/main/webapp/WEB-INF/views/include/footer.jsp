@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 <style>
 	footer{
+		margin-top:50px;  
 		width: 100%;
 		height: 50px;
 		background-color: #C2B7F1;

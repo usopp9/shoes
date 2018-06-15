@@ -30,4 +30,17 @@
 		<association property="product" resultMap="com.dgit.mapper.ProductMapper.ProductResultAddBrandName"></association>
 	</resultMap>  
 	
+	
+	<select id="selectDetailOrderNow" resultMap="DetailProductAddProduct">
+		select d.d_no,d.d_color,d.d_size,d.d_stock,p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,br.b_name_eng from detail_product d
+		join product p on p.p_no=d.p_no 
+		join brand br on br.b_no=p.b_no
+		where d.d_no=#{dNo}
+	</select>  
+	
+	
+	<update id="discountDstock">
+		update detail_product set d_stock = (d_stock)-#{count} where d_no=#{dNo}
+	</update>
+	
 </mapper>

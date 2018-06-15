@@ -122,19 +122,19 @@
 					for(var i =0; i<sumlength;i++){
 						var price = $(".sumPrice").eq(i).html();
 						  
-						sum+=Number(price.replace(",",""));
+						sum+=Number(price.replace(",","").replace(",","").replace(",","").replace(",",""));
 					}
 					/* 배송비 결제 */
-					if(sum < 20000){
-						$("#deliveryPr").html(nc(2000));   
+					if(sum < 20000){  
+						$("#deliveryPr").html(nc(2000));     
 					}
 					$("#tPrice").html(nc(sum));  
 		            
 					var deliveryP = $("#deliveryPr").html();
-					var totalSum = sum+ Number(deliveryP.replace(",",""));
+					var totalSum = sum+ Number(deliveryP.replace(",","").replace(",","").replace(",","").replace(",",""));
 					$("#total_div_span_total").html(nc(totalSum)); 
 		}
-		  
+		       
 		
 		
 		/* 수량변경 */  
@@ -157,9 +157,9 @@
 		            	if(result=="success"){    
 		            		var cnt =$(".updateBasket").eq(index).parent().parent().find(".table_input").val();
 		            		var price =$(".updateBasket").eq(index).parent().parent().find(".totalPrice").html();		            		
-		            		var sum = Number(cnt)*Number(price.replace(",",""));
-		            		var point = (Number(cnt)*Number(price.replace(",",""))*0.01);
-		            		
+		            		var sum = Number(cnt)*Number(price.replace(",","").replace(",","").replace(",",""));
+		            		var point = (Number(cnt)*Number(price.replace(",","").replace(",","").replace(",",""))*0.01);
+		            		  
 		            		
 		            		$(".updateBasket").eq(index).parent().parent().find(".sumPrice").html(nc(sum)); 
 		            		$(".updateBasket").eq(index).parent().parent().find(".point").html(nc(point)); 
@@ -225,11 +225,59 @@
 		
 		/* 바로구매 */
 		$(".btnNow").click(function(){
+<<<<<<< HEAD
 			var bNo = $(this).parent().parent().find(".hiddenBno").val();
 			 location.href="${pageContext.request.contextPath}/product/orderNow?bNo="+bNo;
 			
 			
+=======
+					      
+			$("input[type='checkbox']").prop("checked", false);    	           
+			$(this).parent().parent().find(".selectChk").prop("checked",true);    
+>>>>>>> refs/remotes/origin/HEAD
 			
+			/* var length = $(".selectChk").length;       
+			
+			for(var i = 0; i<length;i++){
+				 var bNo = $(".selectChk:checked").eq(i).parent().parent().find(".hiddenBno").val();    
+				var input = "<input type='hidden' name='bNo' value='"+phone+"'>";  
+			  
+			}    */
+			var bNo = $(this).parent().parent().find(".hiddenBno").val();  
+			var input = "<input type='hidden' name='bNo' value='"+bNo+"'>";  
+			$("#f1").append(input);
+			$("#f1").attr("action","orderNow"); 
+			$("#f1").submit();
+			/* var bNo = $(this).parent().parent().find(".hiddenBno").val();  
+			location.href="${pageContext.request.contextPath}/product/orderNow?bNo="+bNo; */		
+		})
+		/* 전체상품구매 */
+		$("#allBtnOrder").click(function(){
+			var length = $(".selectChk").length;       
+			
+			for(var i = 0; i<length;i++){
+				 var bNo = $(".selectChk").eq(i).parent().parent().find(".hiddenBno").val();    
+				var input = "<input type='hidden' name='bNo' value='"+bNo+"'>";  	  
+				$("#f1").append(input);
+			}    
+			$("#f1").attr("action","orderNow"); 
+			$("#f1").submit();  
+		})   
+		
+		/* 선택상품구매 */
+		$("#slectbtnO").click(function(){
+			var length = $(".selectChk:checked").length;       
+			
+			for(var i = 0; i<length;i++){
+				 var bNo = $(".selectChk:checked").eq(i).parent().parent().find(".hiddenBno").val();    
+				var input = "<input type='hidden' name='bNo' value='"+bNo+"'>";  	  
+				$("#f1").append(input);  
+			}     
+			$("#f1").attr("action","orderNow"); 
+			$("#f1").submit();  
+		})
+		$("#shopping").click(function(){
+			location.href="${pageContext.request.contextPath}/";  
 		})
 	})   
 	</script>
@@ -272,7 +320,7 @@
 									<span class="basketPrice">${pPrice}</span>
 								</c:if>
 								</td>
-								<td><input type="number"  value="${item.bCount }" size="2" class="table_input" min="1"><button type="button" class="updateBasket">변경</button></td>
+								<td><input type="number"  value="${item.bCount }" size="2" class="table_input" min="1" max="10"><button type="button" class="updateBasket">변경</button></td>
 								<fmt:formatNumber value="${item.detailProduct.product.pTotalPrice * item.bCount }" type="number" var="pSum"/>
 								
 								<td><span class="sumPrice">${pSum}</span><br>  
@@ -294,12 +342,13 @@
 					<span>주문금액&nbsp;&nbsp; <span class="total_div_span" id="tPrice">100000</span>원</span>&nbsp;&nbsp;+&nbsp;&nbsp;<span>배송비&nbsp;&nbsp; <span class="total_div_span" id="deliveryPr">0</span>원</span>&nbsp;&nbsp;=&nbsp;&nbsp;<span>총 결제금액&nbsp;&nbsp; <span id="total_div_span_total">402414</span>원</span>	
 				</div>
 				<div id="selectOrder">
-					<button type="button" class="btn btn-default btnselOrder">계속 쇼핑</button>
+					<button type="button" class="btn btn-default btnselOrder" id="shopping">계속 쇼핑</button>
 					<button type="button" class="btn btn-default btnselOrder" id="slectbtnO">선택상품 주문하기</button>
-					<button type="button" class="btn btn-danger btnselOrder">전체상품 주문하기</button>
+					<button type="button" class="btn btn-danger btnselOrder" id="allBtnOrder">전체상품 주문하기</button>
 				</div>
 			</div>
-			
+			<form id="f1" method="post">
+			</form>
 		</div>
 	</section>
 	<%@ include file="../include/footer.jsp"%>

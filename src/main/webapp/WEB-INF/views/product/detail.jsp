@@ -15,11 +15,10 @@
 	#section_detail{
 		width:60%;
 		margin: 0 auto;  	
-		border: 1px solid red; 
-		overflow: hidden;   
-		min-height: 500px;   
-	}  
-	#section_detail_left{
+		overflow: hidden;       
+		min-height: 500px;      
+	}    
+	#section_detail_left{   
 		width: 48%;
 		height: 450px;
 		float: left;
@@ -263,32 +262,138 @@
 	#btnBasket{
 		border:1px solid #FF3636 !important;    
 	}
+		/* display: none; */
 	#section_detail_page{
 		width: 60%; 
 		margin: 0 auto; 
+		display: none;
 	}   
+
 	.detail_page{
 		width: 100%;  
+		
 	}
 	.btnColor:HOVER ,.btnSize,.deleteOrder,.btnPlus{
 		cursor: pointer;
 		/* background-color: rgba(0,0,0,0.3);    */  
 	}
-</style>
-</head>
+	#section_detail_select{
+		width: 30%;
+		margin:0 auto;       
+		height: 50px;   
+		margin-bottom: 50px;  
+	}
+
+	.section_detail_select_span{
+		display: inline-block;
+		width: 50%;
+		text-align: center;
+		line-height: 50px;
+		background-color: #C2B7F1;     
+		border: 1px solid white;   
+		color: white;  
+		font-size: 20px;    	
+	}  
+	.section_detail_select_span:HOVER {   
+		cursor: pointer;  
+	}
+			/* display: none; */
+	#section_detail_review{
+		width: 50%;
+		margin:0 auto; 
+		height: 600px;
+		border: 1px solid red ;
+		display: none;	
+	}
+	#section_detail_review_div{
+		width: 100%;
+		height: 50px;
+		border-bottom: 1px solid #C2B7F1; 
+		padding-bottom: 10px; 
+		text-align: center; 
+	}
+	#review_title{
+		width: 75%; 
+		height: 50px;
+		margin:0 auto;  
+		margin-top: 20px; 
+		background-color: rgba(0,0,0,0.2);    
+	}
+	.review_title_span{
+		text-align: center;
+		line-height: 50px;  
+		display: inline-block;
+		width: 120px;    
+		height: 50px;    
+		font-weight: bold;     
+	}
+	.span1{   
+		width: 300px;        	              		        
+	}    
+	.review_title_1{
+		width: 75%;
+		height: 40px;
+		margin:0 auto;  
+		border-bottom: 1px dotted gray;  
+		text-overflow: ellipsis;        
+		overflow: hidden;       
+		white-space: nowrap; 
+	}
+	.review_title_span1{
+		line-height: 40px;    
+		display: inline-block;
+		width: 120px;       
+		height: 40px;    	
+		 
+	}
+	.span11{
+		width: 300px;    
+		text-align: left; 
+		
+	}
+	.span11:HOVER{
+		display:inline-block;  
+		cursor: pointer;   
+		font-weight: bold; 
+	}
+	/* display: none; */
+	.review_content{
+		width: 75%;
+		min-height: 100px;
+		margin:0 auto;   
+		text-align: left;  
+		display: none;
+		border: 1px solid gray;
+		border-radius: 30px; 
+		margin-top: 5px;  
+		padding: 20px;      
+	}
+	.review_content_pic{ 
+		width: 150px;
+		height: 150px;    
+	}
+	#writerBtn{
+		margin-top:10px; 
+		text-align: center;  
+	} 
+	
+</style>   
+</head>  
 <body>
+	
 	<%@ include file="../include/header.jsp"%>
+	<!--  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>    -->  
 	<script type="text/javascript">
 		$(function(){  
 			/* 콤마 */
 			function nc(n) {  
 				return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");   
 			}
-			
+			  
 			/* 총가격 */
 			var totalSum=0;
 			
-			/* 사진이미지 */
+			/* 사진이미지 */ 
 			$(".smallPic").click(function(){
 				$("#section_detail_left_wrap").empty();    
 				$(".smallPic").css("border","1px solid white");    
@@ -312,7 +417,6 @@
 					url:"${pageContext.request.contextPath}/product/size?pNo="+${product.pNo}+"&color="+color,       
 					dataType:"json",     
 					success:function(result){			 
-		               console.log(result);  
 		               $("#section_datail_right_size_div2").empty(); 
 		               if(result.length>0){       
 		            	  $(result).each(function(i,obj){
@@ -325,10 +429,10 @@
 		                  })	
 		           		}
 					}
-				})		
-
+				})			
 				$("#section_datail_right_size").show();        
 			})
+				$(".btnColor").eq(0).trigger("click");       
 			/* 가격 */
 				var price = 0; 
 			/* 사이즈클릭 */
@@ -384,7 +488,9 @@
 			$(document).on("click",".btnPlus",function(){
 				var cnt = $(this).parent().find(".cntSize").html();
 				var sizeTotal = $(this).parent().find(".size_total").html(); 
-			
+					if(Number(cnt)== 10){     
+						  	return;    
+		 				}         
 				var sum = Number(sizeTotal.replace(",",""));    
 					sum += Number(price);    
 					
@@ -450,9 +556,117 @@
 							location.href="basket";
 						}
 			})
-		})    
-	</script>
-	<section>
+			/* 바로구매 */
+			$("#btnOrder").click(function(){
+				
+				var classLength= $(".section_datail_right_oder_span1").length; 
+				if(classLength==0){
+					alert("주문 수량이 없습니다.");
+					return; 
+				}
+				for(var i =0;i<classLength;i++){  
+					
+					var cnt =  $(".section_datail_right_oder_div1").eq(i).find(".cntSize").html(); 	
+					var dNo =  $(".section_datail_right_oder_div1").eq(i).find(".dNo").val(); 	
+					var input1 = "<input type='hidden' name='bNo' value='"+dNo+"'>";  	  
+					var input2 = "<input type='hidden' name='cnt' value='"+cnt+"'>";  
+					$("#f1").append(input1).append(input2); 
+				}
+				    
+				 
+				
+				$("#f1").attr("action","detailNowOrder"); 
+				$("#f1").submit();  		
+			})
+		   	/* 상품정보 */
+		   	$(".section_detail_select_span").eq(0).click(function(){
+		   		$("#section_detail_review").css("display","none");  
+		   		$("#section_detail_page").show();
+		   	})  
+		   	 	$(".section_detail_select_span").eq(1).click(function(){
+		   		$("#section_detail_page").css("display","none"); 
+		   		$("#section_detail_review").show();
+		   	})   
+		   		$(".section_detail_select_span").eq(1).trigger("click"); 
+			
+	
+			/* 내용보여주기 */
+			$(".span11").click(function(){
+				  
+				var index = $(".span11").index(this); 
+				$(".review_content").eq(index).slideToggle(100);        
+			})  
+			
+			/* 글쓰기 */
+			$("#rWriterBtn").click(function(){
+				/* var sendData = {rTitle:title, rContent:content,file;file};  */
+				
+				
+				var title =$("#rTitle").val();
+				
+				var content = $("#comment").val().replace(/(^\s*)|(\s*$)/gi, "");
+					if(title.lenth==0 ||content.length==0){
+						alert("내용을 입력해주세요.");
+						return false;
+					}
+				
+					
+			
+				var form = $("#reviewForm")[0];
+				var formDate = new FormData(form);
+					/* formDate.append("fileObj",$("#rPic")[0].files[0]);
+					formDate.append("rTitle",$("#rTitle").val());
+					formDate.append("rContent",$("#comment").val());
+					 */
+					$.ajax({         
+						type:"post",
+						url:"${pageContext.request.contextPath}/review/write",
+						data: formDate, //json 형태로 바꿔줌
+						dataType:"text",//xml,text,json   
+						/* headers:{"Content-Type":"application/json"},     */  
+						processData: false,  // file전송시 필수   
+ 	    	         	contentType: false,    
+						success:function(result){    
+							console.log(result);             
+				    		if(result=="success"){
+				    			$("#rTitle").val("");  
+				    			$("#comment").val("");  
+				    			$(".closeW").trigger("click"); 
+				    			location.href="detail?no=${dNo}";  
+				    		}   
+						}        
+					})	 
+			})
+		
+			/* 글쓰기취소 */
+			$("#cancelWBtn").click(function(){
+				$(".closeW").trigger("click"); 
+			})
+			/* 댓글삭제 */
+			$(".deleteReview").click(function(){
+				
+				var con = confirm("정말삭제하시겠습니까?");
+				if(con==false){     
+					return;    
+				}
+				var index = $(".deleteReview").index(this);
+				var rNo = $(".rNo").eq(index).val();
+				var rPic = $(".rPic").eq(index).val();
+				$.ajax({         
+					type:"get",
+					url:"${pageContext.request.contextPath}/review/deleteReview?rNo="+rNo+"&rPic="+rPic,
+					dataType:"text",//xml,text,json     
+					success:function(result){    
+						console.log(result);             
+			    		if(result=="success"){
+			    			$(".deleteReview").eq(index).parent().parent().remove();     
+			    		}
+					}        
+				})	  
+			})
+		})           
+	</script>      
+	<section>  
 		<div id="section_detail">
 			<div id="section_detail_left">
 				<div id="section_detail_left_wrap">
@@ -575,12 +789,108 @@
  				</div>				
 			</div>
 		</div>
-		
+		<div id="section_detail_select">
+			<span class="section_detail_select_span">상품 정보</span><span class="section_detail_select_span">상품 후기</span>
+		</div>
 		<!-- page -->
 		<div id="section_detail_page">
 			<img src="${pageContext.request.contextPath }/resources/page/${product.brand.bNameEng}_${product.pNameEng}_page.jpg" class="detail_page">
 		</div>
+		<div id="section_detail_review">
+			<div id="section_detail_review_div">
+				<h2>상품후기</h2>
+				<div id="review_title">
+					<span class="review_title_span span1">제목</span><span class="review_title_span">아이디</span><span class="review_title_span">날짜</span><span class="review_title_span">&nbsp;&nbsp;</span>
+				</div>   
+				
+				<c:forEach var="list" items="${reviews}">  
+				<div class="review_title_1">
+					<input type="hidden" value="${list.rNo}" class="rNo"> 
+					<input type="hidden" value="${list.rPic}" class="rPic">
+					<span class="review_title_span1 span11">${list.rTitle}</span><span class="review_title_span1">${list.rId}</span>
+					<fmt:formatDate value="${list.date  }" pattern="yyyy-MM-dd" var="date"/>
+					<span class="review_title_span1">${date}</span>
+					<span class="review_title_span1"> 
+						<button type="button" class="btn btn-warning">수정</button>   
+						<button type="button" class="btn btn-danger deleteReview">삭제</button>
+					</span>       
+				</div>        
+				<div class="review_content">
+					<img src="displayFile?filename=${list.rPic}" class="review_content_pic"><br>
+				       
+				
+					<%-- <img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br> --%>
+					<div>
+						<pre>${list.rContent}</pre>    
+					</div> 	
+				</div>
+				</c:forEach>
+				
+				<%-- <div class="review_title_1">
+					<span class="review_title_span1 span11">제목은제목이요</span><span class="review_title_span1">김매미</span><span class="review_title_span1">2016-08-08</span>
+					<span class="review_title_span1">
+						<button type="button" class="btn btn-warning">수정</button>   
+						<button type="button" class="btn btn-danger">삭제</button>
+					</span>  
+				</div>
+				<div class="review_content">
+					<img src="${pageContext.request.contextPath }/resources/pic/Adidas_ZX 8000_pic1.PNG" class="review_content_pic"><br>
+					<div>
+						dskdqlwd
+						dwqkd <br>
+						dwqkd <br>            
+						dwqkd <br>
+						dwqkd <br>
+						dwqkd <br>
+						wqd
+					</div> 	
+				</div> --%>
+		
+				<div id="writerBtn">
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myWriterModal">글쓰기</button>
+				</div>
+				
+				
+			</div>
+		
+		</div>
+					<!-- Modal -->
+			<div id="myWriterModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+			   
+			    <!-- Modal content-->    
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close closeW" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">후기 작성</h4>
+			      </div>   
+			      <div class="modal-body">
+				      	<form id="reviewForm" enctype="multipart/form-data">
+						  <div class="form-group"> 
+						    <label for="rTitle">제목</label>  
+						    <input type="text" class="form-control" id="rTitle" name="rTitle">
+						  </div>
+						   <div class="form-group">
+						    <label for="rPic">사진</label>
+						    <input type="file" class="form-control" id="rPic" name="file">
+						  </div>
+						 <div class="form-group">
+							  <label for="comment">내용</label>
+							   <textarea class="form-control" rows="5" id="comment" name="rContent"></textarea>
+							  <input type="hidden" value="${dNo }" name="detailNo">
+							  <input type="hidden" value="${id}" name="rId">
+							</div>  
+							<button type="button" class="btn btn-info" id="rWriterBtn">글작성</button>
+						  <button type="button" class="btn btn-default" id="cancelWBtn">취소</button>
+						</form>		       
+			      </div>	 
+			    </div>  
+			
+			  </div>
+			</div>
+		
 	</section>
+	
 	<%@ include file="../include/footer.jsp"%>
 </body>
 </html>

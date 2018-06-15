@@ -5,6 +5,19 @@ public class BasketVO {
 	private DetailProductVO detailProduct;
 	private String bId;
 	private int bCount;
+	
+	
+	
+	public BasketVO() {
+		super();
+	}
+	
+	
+	public BasketVO(int bNo) {
+		this.bNo = bNo;
+	}
+
+
 	public int getbNo() {
 		return bNo;
 	}

@@ -7,7 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>  
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 <style>
@@ -18,7 +19,7 @@
 	.nav_modal, .nav_img{   
 		color: #021C51 !important;    
 		font-weight: bold !important;         
-	}  
+	}   
 	header{   
 		width: 40%;
 		min-width:930px;            
@@ -182,16 +183,17 @@
     	 <c:choose>
     		<c:when test="${id != null }">
     			<li><a href="#" id="logout"><span class="glyphicon glyphicon-heart nav_img"></span><span class="nav_modal">[${name }님] 로그아웃</span></a></li>
-     			<li><a href="#"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
+     			<li><a href="${pageContext.request.contextPath}/product/mypage"><span class="glyphicon glyphicon-briefcase nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
     			<li><a href="${pageContext.request.contextPath}/product/basket"><span class="glyphicon glyphicon-shopping-cart nav_img"></span> <span class="nav_modal">장바구니</span></a></li>
     		</c:when>  
     		<c:otherwise> 
     			<li><a href="#"><span class="glyphicon glyphicon-log-in nav_img"></span> <span class="nav_modal" data-toggle="modal" data-target="#myModal">  로그인</span></a></li>
      			<li><a href="#" id="joingo"><span class="glyphicon glyphicon-user nav_img"></span> <span class="nav_modal">회원가입</span></a></li>
+     			<li><a href="${pageContext.request.contextPath}/product/nonmember"><span class="glyphicon glyphicon-briefcase nav_img"></span> <span class="nav_modal">마이페이지</span></a></li>
      			<li><a href="${pageContext.request.contextPath}/product/basket"><span class="glyphicon glyphicon-shopping-cart nav_img"></span> <span class="nav_modal">장바구니</span></a></li>
     		</c:otherwise>
     	</c:choose>            
-   		
+   		   
     </ul>   
   </div>     
 </nav>

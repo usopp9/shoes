@@ -28,4 +28,16 @@ public class DetailProductImpl implements DetailProductDAO {
 		return session.selectList(namespace+".selectDPNoneColor",map);
 	}
 
+	@Override
+	public void discountDstock(Map<String, Object> map) {
+		
+		session.update(namespace+".discountDstock",map);
+	}
+
+	@Override
+	public DetailProductVO selectDetailOrderNow(int dNo) {
+		
+		return session.selectOne(namespace+".selectDetailOrderNow",dNo);
+	}
+
 }

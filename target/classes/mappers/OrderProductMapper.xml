@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgit.mapper.OrderProductMapper">	
+	<resultMap type="OrderProductVO" id="OrderProductResult">
+		<id property="oNo" column="o_no"/>
+		<result property="oNum" column="o_num"/>
+		<result property="oId" column="o_id"/>
+		<result property="oName" column="o_name"/>
+		<result property="oPhone" column="o_phone"/>
+		<result property="oMail" column="o_mail"/>
+		<result property="oPassword" column="o_password"/>
+		<result property="oAddress" column="o_address"/>
+		<result property="oPrice" column="o_price"/>
+		<result property="oPoint" column="o_point"/>
+		<result property="oUpoint" column="o_upoint"/>	
+		<result property="oDate" column="o_date"/>		
+		<result property="oCount" column="o_count"/>		
+	</resultMap>
+	
+	<insert id="insertOrder" parameterType="OrderProductVO"> 
+		insert into order_product(o_num,d_no,o_id,o_name,o_phone,o_mail,o_password,o_address,o_price,o_point,o_upoint,o_date,o_count)
+		values(#{oNum},#{detailProductNo},#{oId},#{oName},#{oPhone},#{oMail},#{oPassword},#{oAddress},#{oPrice},#{oPoint},#{oUpoint},now(),#{oCount})
+	</insert>    
+	    
+	  <resultMap type="OrderProductVO" id="OrderProductMypageListResult">
+		<result property="oNum" column="o_num"/>
+		<result property="oPrice" column="o_price"/>
+		<result property="oDate" column="o_date"/>				
+	</resultMap>
+	 
+	 <select id="selectOnum" resultMap="OrderProductMypageListResult">
+	 	select distinct(o_num), o_date,o_price from order_product where o_id=#{oId} order by o_no desc
+	 </select>
+	 
+	
+	 
+	 
+	 <!-- <select id="selectOnumList" resultMap="OrderProductMypageListResult"> 
+	 	select o_num, o_date,o_price from order_product
+		where o_num = #{oNum}
+	 </select> -->
+	 
+	 <resultMap type="OrderProductVO" id="OrderProductMypageDetailResult">
+		<result property="oNum" column="o_num"/>
+		<result property="oPrice" column="o_price"/>
+		<result property="oDate" column="o_date"/>	
+		<result property="oPoint" column="o_point"/>
+		<result property="oUpoint" column="o_upoint"/>			
+		<result property="oCount" column="o_count"/>	
+		<result property="oPhone" column="o_phone"/>
+		<result property="oMail" column="o_mail"/>		
+		<result property="oAddress" column="o_address"/>
+		<result property="oName" column="o_name"/>
+		<association property="detail" resultMap="com.dgit.mapper.DetailProductMapper.DetailProductAddProduct"></association>
+	</resultMap>
+	  
+	
+	<select id="selectMypageDetail" resultMap="OrderProductMypageDetailResult">
+		select o.o_num,o.o_price,o.o_count,o.o_date,o.o_point,o.o_upoint,o.o_address,o.o_name,o.o_phone,o.o_mail,d.d_color,d.d_size,p.p_name_kor,p.p_name_eng,p.p_price,p.p_rate,p.p_total_price,b.b_name_eng from order_product o 
+		join detail_product d on o.d_no=d.d_no 
+		join product p on d.p_no=p.p_no
+		join brand b on b.b_no=p.b_no
+		where o_num = #{oNum}
+	</select>	      
+	 
+	 
+	 <select id="selectNoneMemberMypage" resultType="int">
+	 	select o_no from order_product
+		where o_num = #{num} and o_password=#{pw}
+	 </select>
+</mapper> 

@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.dgit.domain.ProductVO;
 import com.dgit.service.ProductService;
 
-/**
- * Handles requests for the application home page.
- */
+
 @Controller
 public class HomeController {
 	
