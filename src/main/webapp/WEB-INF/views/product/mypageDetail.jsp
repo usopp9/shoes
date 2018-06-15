@@ -76,6 +76,7 @@
 	<script type="text/javascript">
 		$(function(){
 			var add = "${detailList[0].oAddress}";
+			add= add.split(",");  
 			$("#add1").html(add[0]);
 			$("#add2").html(add[1]+" "+add[2]);    
 			$("#goMypage").click(function(){

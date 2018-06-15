@@ -247,8 +247,8 @@ private static final Logger logger = LoggerFactory.getLogger(ProductDetailContro
 		HttpSession session = request.getSession();
 		String id =(String) session.getAttribute("id");
 		long nowTime = System.currentTimeMillis();
-		vo.setoNum(-(int)nowTime); 
-		
+		/*vo.setoNum(-(int)nowTime); */
+		vo.setoNum((int)nowTime);   
 		if(id !=null){
 			vo.setoId(id);
 			coustomerService.updateCoustomerPoint(vo);
